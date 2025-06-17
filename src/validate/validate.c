@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:48:23 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/17 16:59:32 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/06/17 18:42:06 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int    validate_map_file(t_game *game, const char *map_file)
 	while (line)
 	{
 		if (is_alpha(line[0]))
-			parce_property(fd, line);
+			parce_property(game->map, line);
 		else if (ft_strchr(line, '0') || ft_strchr(line, '1'))
 			parse_map(game, fd, line);
 		else if (!empty_line(line))
@@ -42,4 +42,5 @@ int    validate_map_file(t_game *game, const char *map_file)
 		else
 			line = get_next_line(fd);
 	}
+	close(fd);
 }

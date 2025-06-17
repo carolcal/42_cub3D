@@ -13,15 +13,17 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <fcntl.h>
-# include <unistd.h>
 # include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <math.h>
-# include <sys/times.h>
+# include <stdint.h>
+# include <fcntl.h>
+// # include <unistd.h>
+// # include <stdlib.h>
+// # include <string.h>
+// # include <math.h>
+// # include <sys/time.h>
 # include "libft.h"
 
+# define INVALID_FILE "Error: Invalid File!\n"
 # define INVALID_MAP "Error: Invalid Map!\n"
 # define INVALID_TEXTURE "Error: Invalid Texture!\n"
 # define INVALID_COLOR "Error: Invalid Background Color!\n"
@@ -38,21 +40,22 @@ enum	e_side
 	WEST_EAST
 };
 
-
-enum	e_texture
+typedef struct s_texture
 {
-	NORTH,
-	SOUTH,
-	WEST,
-	EAST
-};
+	char	*noth;
+	char	*south;
+	char	*west;
+	char	*east;
+}	t_texture;
 
 typedef struct	s_map
 {
-	int textures[4];
-	int	**grid;
-	int	width;
-	int	height;
+	int			**grid;
+	int			width;
+	int			height;
+	uint32_t	ceiling;
+	uint32_t	floor;
+	t_texture	*texture;
 }	t_map;
 
 typedef struct	s_player
@@ -85,8 +88,10 @@ t_game	*init(const char *map_file);
 
 //Validate
 int		validate_map_file(t_game *game, const char *map_file);
+int		empty_line(char *line);
 void	parse_map(t_game *game, int fd, char *line);
 int		validate_player(t_player *player, int item, int x, int y);
+void    parse_property(t_map *map, char *line);
 
 //Game
 void	start_game(const char *map_file);

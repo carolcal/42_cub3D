@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:42:54 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/17 16:51:02 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/06/17 18:39:42 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,11 @@ void	parse_map(t_game *game, int fd, char *line)
 		height++;
 	}
 	game->map->height = height;
+	while (line)
+	{
+		if (!empty_line(line))
+			handle_error(INVALID_FILE);
+		line = get_next_line(fd);
+	}
 	validate_map(game);
 }
