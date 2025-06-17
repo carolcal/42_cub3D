@@ -12,23 +12,14 @@
 
 # include "cub3D.h"
 
-t_game *init(const char *map_file)
+void    handle_error(char *error)
 {
-    t_game *game;
-
-    
-    printf("Initializing with map: %s\n", map_file);
+    ft_printf_fd(2, error);
+    clear_mem();
+	exit(EXIT_FAILURE);
 }
 
-void    validate_map(const char *map_file)
-{
-    printf("Validating map: %s\n", map_file);
-}
 
-void    init_game(const char *map_file)
-{
-    printf("Initializing game with map: %s\n", map_file);
-}
 
 int    main(int argc, char **argv)
 {
@@ -41,8 +32,8 @@ int    main(int argc, char **argv)
     }
 
     game = init(argv[1]);
-    validate_map(argv[1]);
-    init_game(argv[1]);
+    validate_map_file(game, argv[1]);
+    start_game(argv[1]);
 
     return (EXIT_SUCCESS);
 }

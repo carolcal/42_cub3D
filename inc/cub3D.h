@@ -20,48 +20,78 @@
 # include <string.h>
 # include <math.h>
 # include <sys/times.h>
+# include "libft.h"
 
-enum e_direction
+# define INVALID_MAP "Error: Invalid Map!\n"
+# define INVALID_TEXTURE "Error: Invalid Texture!\n"
+# define INVALID_COLOR "Error: Invalid Background Color!\n"
+
+enum	e_direction
 {
-    RIGHT = 1;
-    LEFT = -1,
-}
+	RIGHT = 1,
+	LEFT = -1
+};
 
-enum    e_texture
+enum	e_side
 {
-    NORTH,
-    SOUTH,
-    WEST,
-    EAST
-}
+	NORTH_SOUTH,
+	WEST_EAST
+};
 
-typedef struct s_map
+
+enum	e_texture
 {
-    int textures[4];
+	NORTH,
+	SOUTH,
+	WEST,
+	EAST
+};
 
-} t_map;
-
-typedef struct s_player
+typedef struct	s_map
 {
-    double pos[2];
-    double dir[2];
-} t_player;
+	int textures[4];
+	int	**grid;
+	int	width;
+	int	height;
+}	t_map;
 
-typedef struct s_mlx
+typedef struct	s_player
 {
-    void *mlx_ptr;
-    void *win_ptr;
-    void *img_ptr;
-    int width;
-    int height;
-    char *img_data;
-} t_mlx;
+	double pos[2];
+	double dir[2];
+}	t_player;
 
-typedef struct s_game
+typedef struct	s_mlx
 {
-    t_map map;
-    t_player player;
-    t_mlx mlx;
-} t_game;
+	void *mlx_ptr;
+	void *win_ptr;
+	void *img_ptr;
+	int width;
+	int height;
+	char *img_data;
+}	t_mlx;
+
+typedef struct	s_game
+{
+	t_map *map;
+	t_player *player;
+	t_mlx *mlx;
+}	t_game;
+
+// Functions
+
+//Init
+t_game	*init(const char *map_file);
+
+//Validate
+int		validate_map_file(t_game *game, const char *map_file);
+void	parse_map(t_game *game, int fd, char *line);
+int		validate_player(t_player *player, int item, int x, int y);
+
+//Game
+void	start_game(const char *map_file);
+
+//Error
+void	handle_error(char *error);
 
 #endif

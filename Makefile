@@ -24,11 +24,13 @@ LIBFT = lib
 
 # Directories
 SRC_DIR = src/
+VAL_DIR = src/validate
 OBJ_DIR = obj/
 INCLUDES = -I inc/ -I $(LIBFT)
 
 # Source files and object files
-SRC = $(addprefix $(SRC_DIR), main.c) \
+SRC = $(addprefix $(SRC_DIR), init.c game.c main.c) \
+	$(addprefix $(VAL_DIR), validate.c validate_map.c validate_player.c) \
 
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
