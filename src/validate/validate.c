@@ -33,13 +33,14 @@ int    validate_map_file(t_game *game, const char *map_file)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (is_alpha(line[0]))
-			parce_property(fd, line);
-		else if (ft_strchr(line, '0') || ft_strchr(line, '1'))
+		// if (ft_isalpha(line[0]))
+			// parse_property(fd, line);
+		if (ft_strchr(line, '0') || ft_strchr(line, '1'))
 			parse_map(game, fd, line);
 		else if (!empty_line(line))
 			handle_error(INVALID_MAP);
 		else
 			line = get_next_line(fd);
 	}
+	return 0;
 }

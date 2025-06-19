@@ -20,16 +20,18 @@ CFLAGS = -Wall -Wextra -Werror
 LDFLAGS = -lreadline -lncurses
 
 # Library
-LIBFT = lib
+LIBFT = lib/
+MLX_DIR = minilibx-linux/
+LIBMLX	= -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
 
 # Directories
 SRC_DIR = src/
-VAL_DIR = src/validate
+VAL_DIR = src/validate/
 OBJ_DIR = obj/
 INCLUDES = -I inc/ -I $(LIBFT)
 
 # Source files and object files
-SRC = $(addprefix $(SRC_DIR), init.c game.c main.c) \
+SRC = $(addprefix $(SRC_DIR), main.c init.c game.c draw.c hooks.c) \
 	$(addprefix $(VAL_DIR), validate.c validate_map.c validate_player.c) \
 
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
@@ -65,11 +67,11 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 
 # Executable
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) -lft $(LDFLAGS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) $(LIBMLX) -lft $(LDFLAGS) -o $(NAME)
 	@echo "$(GREEN)Cub3D Compiled!$(END)"
 
 $(NAME_BONUS): $(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) -lft $(LDFLAGS) -o $(NAME_BONUS)
+	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) $(LIBMLX) -lft $(LDFLAGS) -o $(NAME_BONUS)
 	@echo "$(GREEN)Cub3D Compiled!$(END)"
 
 # Clean objects

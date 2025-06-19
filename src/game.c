@@ -12,8 +12,8 @@
 
 # include "cub3D.h"
 
-void    start_game(const char *map_file)
+void	start_game(const char *map_file)
 {
-   
-    printf("Initializing game with map: %s\n", map_file);
+	
+	printf("Initializing game with map: %s\n", map_file);
 }

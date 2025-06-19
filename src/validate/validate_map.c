@@ -31,7 +31,7 @@ void	validade_first_last_row(t_map *map, int y, int x)
 {
 	while (x < map->width && map->grid[y][x])
 	{
-		if (map->grid[y][x] == ' ' && !check_around_space(map, y, x))
+		if (map->grid[y][x] == ' ' && !validate_around_space(map, y, x))
 			handle_error(INVALID_MAP);
 		else if (map->grid[y][x] != '1')
 			handle_error(INVALID_MAP);
@@ -43,7 +43,7 @@ void	validate_middle_rows(t_player *player, t_map *map, int y, int x)
 {
 	while (x < map->width && map->grid[y][x])
 	{
-		if (map->grid[y][x] == ' ' && !check_around_space(map, y, x))
+		if (map->grid[y][x] == ' ' && !validate_around_space(map, y, x))
 			handle_error(INVALID_MAP);
 		else if (x == 0 || map->grid[x + 1] == NULL || x == map->width - 1)
 		{
