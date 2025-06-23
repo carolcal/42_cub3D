@@ -31,7 +31,7 @@ int	main(int argc, char **argv)
 
 	game = init(argv[1]);
 	// validate_map_file(game, argv[1]);
-	init_mlx(game);
+	// init_mlx(game);
 	render_img(game);
 	start_game(argv[1]);
 	mlx_hook(game->mlx->win_ptr, 2, 1L << 0, handle_keys, game);

@@ -21,7 +21,7 @@ LDFLAGS = -lreadline -lncurses
 
 # Library
 LIBFT = lib/
-MLX_DIR = minilibx-linux/
+MLX_DIR = minilibx-linux/ #MLX_DIR = usr/local/lib/
 LIBMLX	= -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
 
 # Directories
@@ -87,7 +87,7 @@ fclean: clean
 	@rm -f valgrind.log
 	@echo "$(GREEN)All!$(END)"
 
-#Valgrind
+# Valgrind
 val: re
 	@valgrind -q --suppressions=sup.sup \
 				--leak-check=full \

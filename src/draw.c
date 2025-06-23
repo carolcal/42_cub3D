@@ -23,38 +23,89 @@ void	put_pixel(t_game *game, int x, int y, int color)
 	*(unsigned int *)pixel = color;
 }
 
+t_texture	*get_wall_texture(t_game *game, t_ray *ray)
+{
+	if (ray->side == 0)
+	{
+		if (ray->ray_dir[X] > 0)
+			return (game->texture[EAST]);
+		return (game->texture[WEST]);
+	}
+	else
+	{
+		if (ray->ray_dir[Y] > 0)
+			return (game->texture[SOUTH]);
+		return (game->texture[NORTH]);
+	}
+}
+
+void	draw_textured_line(t_game *game, int x, t_ray *ray)
+{
+	t_texture	*tex = get_wall_texture(game, ray);
+	double		wall_x;
+	int			tex_x, tex_y;
+	double		step;
+	double		tex_pos;
+	int			y;
+
+	// encontrar posição x na textura
+	if (ray->side == 0)
+		wall_x = game->player->pos[1] + ray->wall_dist * ray->ray_dir[1];
+	else
+		wall_x = game->player->pos[0] + ray->wall_dist * ray->ray_dir[0];
+	wall_x -= floor(wall_x);
+	tex_x = (int)(wall_x * tex->width);
+	if ((ray->side == 0 && ray->ray_dir[0] > 0) ||
+		(ray->side == 1 && ray->ray_dir[1] < 0))
+		tex_x = tex->width - tex_x - 1;
+
+	// configurar step e tex_pos
+	step = 1.0 * tex->height / ray->line_height;
+	tex_pos = (ray->line_start - WIN_HEIGHT / 2 + ray->line_height / 2) * step;
+
+	y = ray->line_start;
+	while (y < ray->line_end)
+	{
+		tex_y = (int)tex_pos & (tex->height - 1);
+		tex_pos += step;
+		int color = *(int *)(tex->tex_addr + tex_y * tex->size_line + tex_x * (tex->bpp / 8));
+		put_pixel(game, x, y, color);
+		y++;
+	}
+}
+
 void	init_ray(t_ray *ray, int x, t_player *player)
 {
 	ray->camera_x = 2 * x / (double)WIN_WIDTH - 1;
-	ray->map_pos[0] = (int)player->pos[0];
-	ray->map_pos[1] = (int)player->pos[1];
-	ray->ray_dir[0] = player->dir[0] + player->plane[0] * ray->camera_x;
-	ray->ray_dir[1] = player->dir[1] + player->plane[1] * ray->camera_x;
-	ray->delta_dist[0] = fabs(1 / ray->ray_dir[0]);
-	ray->delta_dist[1] = fabs(1 / ray->ray_dir[1]);
-	if (ray->ray_dir[0] < 0)
+	ray->map_pos[X] = (int)player->pos[X];
+	ray->map_pos[Y] = (int)player->pos[Y];
+	ray->ray_dir[X] = player->dir[X] + player->plane[X] * ray->camera_x;
+	ray->ray_dir[Y] = player->dir[Y] + player->plane[Y] * ray->camera_x;
+	ray->delta_dist[X] = fabs(1 / ray->ray_dir[X]);
+	ray->delta_dist[Y] = fabs(1 / ray->ray_dir[Y]);
+	if (ray->ray_dir[X] < 0)
 	{
-		ray->step[0] = -1;
-		ray->side_dist[0] = (player->pos[0] - ray->map_pos[0])
-			* ray->delta_dist[0];
+		ray->step[X] = -1;
+		ray->side_dist[X] = (player->pos[X] - ray->map_pos[X])
+			* ray->delta_dist[X];
 	}
 	else
 	{
-		ray->step[0] = 1;
-		ray->side_dist[0] = (ray->map_pos[0] + 1 - player->pos[0])
-			* ray->delta_dist[0];
+		ray->step[X] = 1;
+		ray->side_dist[X] = (ray->map_pos[X] + 1 - player->pos[X])
+			* ray->delta_dist[X];
 	}
-	if (ray->ray_dir[1] < 0)
+	if (ray->ray_dir[Y] < 0)
 	{
-		ray->step[1] = -1;
-		ray->side_dist[1] = (player->pos[1] - ray->map_pos[1])
-			* ray->delta_dist[1];
+		ray->step[Y] = -1;
+		ray->side_dist[Y] = (player->pos[Y] - ray->map_pos[Y])
+			* ray->delta_dist[Y];
 	}
 	else
 	{
-		ray->step[1] = 1;
-		ray->side_dist[1] = (ray->map_pos[1] + 1 - player->pos[1])
-			* ray->delta_dist[1];
+		ray->step[Y] = 1;
+		ray->side_dist[Y] = (ray->map_pos[Y] + 1 - player->pos[Y])
+			* ray->delta_dist[Y];
 	}
 }
 
@@ -63,27 +114,27 @@ void	dda(t_ray *ray, t_game *game)
 	ray->hit = 0;
 	while (!ray->hit)
 	{
-		if (ray->side_dist[0] < ray->side_dist[1])
+		if (ray->side_dist[X] < ray->side_dist[Y])
 		{
-			ray->side_dist[0] += ray->delta_dist[0];
-			ray->map_pos[0] += ray->step[0];
+			ray->side_dist[X] += ray->delta_dist[X];
+			ray->map_pos[X] += ray->step[X];
 			ray->side = 0;
 		}
 		else
 		{
-			ray->side_dist[1] += ray->delta_dist[1];
-			ray->map_pos[1] += ray->step[1];
+			ray->side_dist[Y] += ray->delta_dist[Y];
+			ray->map_pos[Y] += ray->step[Y];
 			ray->side = 1;
 		}
-		if (game->map->grid[ray->map_pos[1]][ray->map_pos[0]] == 1)
+		if (game->map->grid[ray->map_pos[Y]][ray->map_pos[X]] == 1)
 			ray->hit = 1;
+		if (ray->side == 0)
+			ray->wall_dist = (ray->map_pos[X] - game->player->pos[X]
+					+ (1 - ray->step[X]) / 2) / ray->ray_dir[X];
+		else
+			ray->wall_dist = (ray->map_pos[Y] - game->player->pos[Y]
+					+ (1 - ray->step[Y]) / 2) / ray->ray_dir[Y];
 	}
-	if (ray->side == 0)
-		ray->wall_dist = (ray->map_pos[0] - game->player->pos[0]
-				+ (1 - ray->step[0]) / 2) / ray->ray_dir[0];
-	else
-		ray->wall_dist = (ray->map_pos[1] - game->player->pos[1]
-				+ (1 - ray->step[1]) / 2) / ray->ray_dir[1];
 }
 
 void	compute_line(t_ray *ray)
@@ -97,6 +148,7 @@ void	compute_line(t_ray *ray)
 		ray->line_end = WIN_HEIGHT - 1;
 }
 
+/*
 void	draw_line(t_game *game, int x, t_ray *ray)
 {
 	int	y = ray->line_start;
@@ -108,6 +160,7 @@ void	draw_line(t_game *game, int x, t_ray *ray)
 		y++;
 	}
 }
+*/
 
 void	draw_3d_map(t_game *game)
 {
@@ -120,7 +173,7 @@ void	draw_3d_map(t_game *game)
 		init_ray(&ray, x, game->player);
 		dda(&ray, game);
 		compute_line(&ray);
-		draw_line(game, x, &ray);
+		draw_textured_line(game, x, &ray);
 		x++;
 	}
 }
@@ -141,7 +194,7 @@ void	init_mlx(t_game *game)
 	if (!game->mlx->mlx_ptr)
 		handle_error("Error: Failed to initialize MLX.\n");
 	game->mlx->win_ptr = mlx_new_window(game->mlx->mlx_ptr,
-		WIN_WIDTH, WIN_HEIGHT, "Cub3D");
+		WIN_WIDTH, WIN_HEIGHT, "cub3D");
 	if (!game->mlx->win_ptr)
 		handle_error("Error: Failed to create MLX window.\n");
 	game->mlx->img_ptr = mlx_new_image(game->mlx->mlx_ptr,

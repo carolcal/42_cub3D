@@ -33,7 +33,7 @@
 
 # define FOV 60.0
 # define PI 3.14159265358979323846
-# define MOVE_SPEED 0.1
+# define MOVE_SPEED 0.05
 # define ROT_SPEED  0.05
 
 # define W_KEY 119
@@ -71,12 +71,38 @@ enum	e_texture
 	EAST
 };
 
+typedef struct s_ray
+{
+	double	camera_x;
+	double	wall_dist;
+	double	ray_dir[2];
+	double	delta_dist[2];
+	double	side_dist[2];
+	int		map_pos[2];
+	int		step[2];
+	int		hit;
+	int		side;
+	int		line_height;
+	int		line_start;
+	int		line_end;
+}	t_ray;
+
+typedef struct s_texture {
+	void	*tex_ptr;
+	char	*tex_addr;
+	int		width;
+	int		height;
+	int		bpp;
+	int		size_line;
+	int		endian;
+}	t_texture;
+
 typedef struct	s_map
 {
-	int	textures[4];
-	int	**grid;
-	int	width;
-	int	height;
+	char	*textures[4];
+	int		**grid;
+	int		width;
+	int		height;
 }	t_map;
 
 typedef struct	s_player
@@ -100,27 +126,12 @@ typedef struct	s_mlx
 	int		height;
 }	t_mlx;
 
-typedef struct s_ray
-{
-	double	camera_x;
-	double	wall_dist;
-	double	ray_dir[2];
-	double	delta_dist[2];
-	double	side_dist[2];
-	int		map_pos[2];
-	int		step[2];
-	int		hit;
-	int		side;
-	int		line_height;
-	int		line_start;
-	int		line_end;
-}	t_ray;
-
 typedef struct	s_game
 {
 	t_map		*map;
 	t_player	*player;
 	t_mlx 		*mlx;
+	t_texture	*texture[4];
 }	t_game;
 
 // Functions
