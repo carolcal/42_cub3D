@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validate_player.c                                  :+:      :+:    :+:   */
+/*   parse_player.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:45:08 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/17 15:45:23 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/06/23 10:11:29 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	validate_player(t_player *player, int item, int x, int y)
+int	parse_player(t_player *player, int item, int x, int y)
 {
 	if(player->pos[0])
 		return (0);

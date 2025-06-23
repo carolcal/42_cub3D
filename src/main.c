@@ -15,7 +15,7 @@
 void    handle_error(char *error)
 {
     ft_printf_fd(2, error);
-    clear_mem();
+    //clear_mem();
 	exit(EXIT_FAILURE);
 }
 
@@ -32,7 +32,7 @@ int    main(int argc, char **argv)
     }
 
     game = init(argv[1]);
-    validate_map_file(game, argv[1]);
+    parse_map_file(game, argv[1]);
     start_game(argv[1]);
 
     return (EXIT_SUCCESS);

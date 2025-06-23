@@ -27,6 +27,7 @@
 # define INVALID_MAP "Error: Invalid Map!\n"
 # define INVALID_TEXTURE "Error: Invalid Texture!\n"
 # define INVALID_COLOR "Error: Invalid Background Color!\n"
+# define MEMORY_ERROR "Error: When using malloc.\n"
 
 enum	e_direction
 {
@@ -40,22 +41,22 @@ enum	e_side
 	WEST_EAST
 };
 
-typedef struct s_texture
+enum	e_texture
 {
-	char	*noth;
-	char	*south;
-	char	*west;
-	char	*east;
-}	t_texture;
+	NORTH,
+	SOUTH,
+	WEST,
+	EAST
+};
 
 typedef struct	s_map
 {
+	char		*texture[4];
 	int			**grid;
 	int			width;
 	int			height;
 	uint32_t	ceiling;
 	uint32_t	floor;
-	t_texture	*texture;
 }	t_map;
 
 typedef struct	s_player
@@ -86,12 +87,15 @@ typedef struct	s_game
 //Init
 t_game	*init(const char *map_file);
 
-//Validate
-int		validate_map_file(t_game *game, const char *map_file);
+//Parse
+void	parse_map_file(t_game *game, const char *map_file);
 int		empty_line(char *line);
+int 	is_space_or_one(char c);
+int		line_len(char *str);
 void	parse_map(t_game *game, int fd, char *line);
-int		validate_player(t_player *player, int item, int x, int y);
+int		parse_player(t_player *player, int item, int x, int y);
 void    parse_property(t_map *map, char *line);
+void    parse_color(t_map *map, char *line);
 
 //Game
 void	start_game(const char *map_file);
