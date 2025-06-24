@@ -32,7 +32,7 @@ int    main(int argc, char **argv)
     }
 
     game = init(argv[1]);
-    validate_map_file(game, argv[1]);
+    parse_map_file(game, argv[1]);
     start_game(argv[1]);
 
     return (EXIT_SUCCESS);

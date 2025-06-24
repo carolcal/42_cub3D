@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "//wsl.localhost/Ubuntu/home/caroly/cub3D/src",
-      "program": "//wsl.localhost/Ubuntu/home/caroly/cub3D/src/build/Debug/outDebug",
+      "cwd": "//wsl.localhost/Ubuntu/home/caroly/cub3D/src/parse",
+      "program": "//wsl.localhost/Ubuntu/home/caroly/cub3D/src/parse/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

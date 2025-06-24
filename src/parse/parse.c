@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validate.c                                         :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:48:23 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/17 18:42:06 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/06/24 10:08:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	empty_line(char *line)
 	return (0);
 }
 
-int    validate_map_file(t_game *game, const char *map_file)
+int   parse_map_file(t_game *game, const char *map_file)
 {
 	int     fd;
 	char    *line;

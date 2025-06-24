@@ -87,10 +87,10 @@ typedef struct	s_game
 t_game	*init(const char *map_file);
 
 //Validate
-int		validate_map_file(t_game *game, const char *map_file);
+int		parse_map_file(t_game *game, const char *map_file);
 int		empty_line(char *line);
 void	parse_map(t_game *game, int fd, char *line);
-int		validate_player(t_player *player, int item, int x, int y);
+int		parse_player(t_player *player, int item, int x, int y);
 void    parse_property(t_map *map, char *line);
 
 //Game

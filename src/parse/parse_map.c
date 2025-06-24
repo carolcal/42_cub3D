@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validate_map.c                                     :+:      :+:    :+:   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:42:54 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/17 18:39:42 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:40:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	validate_middle_rows(t_player *player, t_map *map, int y, int x)
 		}
 		else
 		{
-			if (map->grid[y][x] != '0' || !validate_player(player, map->grid[y][x], x, y))
+			if (map->grid[y][x] != '0' || !parse_player(player, map->grid[y][x], x, y))
 				handle_error(INVALID_MAP);
 		}
 		x++;
