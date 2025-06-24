@@ -1,78 +1,65 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validate_property.c                                :+:      :+:    :+:   */
+/*   parse_property.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:59:43 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/17 18:46:34 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/06/24 10:11:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "cub3D.h"
 
-int validate_color_line(char *line)
+char	*validate_texture(char *line)
 {
-    int i;
-    
-    i = 1;
-    while (line[i] == ' ')
-        i++;
-    
-}
+	int		i;
+	int		fd;
+	int		path_len;
+	char	*path;
 
-uint32_t get_color(char *line)
-{
-    //get color
-}
-
-void    parse_color(t_map *map, char *line)
-{
-    uint32_t color;
-    
-    if (!validate_color_line(line))
-        handle_error(INVALID_COLOR);
-    color = get_color(line);
-    if (line[0] == 'F')
-        map->floor = color;
-    else
-        map->ceiling = color;
-}
-
-int     validate_texture_line(char *line)
-{
-    //validate texture line
-}
-
-char    *get_texture(char *line)
-{
-    //get texture
+	i = 2;
+	while (line[i] == ' ' || (line[i] >= 9 && line[i] <= 13))
+		i++;
+	path_len = line_len(line + i);
+	path = ft_substr(line + i, 0, path_len -1);
+	if (!path)
+		handle_error(INVALID_TEXTURE);
+	if (path_len < 5)
+		handle_error(INVALID_TEXTURE);
+	if (ft_strncmp(path + path_len - 5, ".png", 4) != 0 &&
+			ft_strncmp(path + path_len - 5, ".jpg", 4) != 0 &&
+			ft_strncmp(path + path_len - 6, ".jpeg", 5) != 0)
+		handle_error(INVALID_TEXTURE);
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		handle_error(INVALID_TEXTURE);
+	close(fd);
+	return (path);
 }
 
 void    parse_texture(t_map *map, char *line)
 {
     char    *texture;
-    
-    if (!validate_texture_line(line))
-        handle_error(INVALID_TEXTURE);
-    texture = get_texture(line);
-    if (ft_strncmp(line, "NO", 2))
-        map->texture->noth = texture;
-    else if (ft_strncmp(line, "SO", 2))
-        map->texture->south = texture;
-    else if (ft_strncmp(line, "WE", 2))
-        map->texture->west = texture;
+    printf("parse texture\n");
+    texture = validate_texture(line);
+    if (ft_strncmp(line, "NO", 2) == 0)
+        map->texture[NORTH] = texture;
+    else if (ft_strncmp(line, "SO", 2) == 0)
+        map->texture[SOUTH] = texture;
+    else if (ft_strncmp(line, "WE", 2) == 0)
+        map->texture[WEST] = texture;
     else
-        map->texture->east = texture;
+        map->texture[EAST] = texture;
 }
 
 void    parse_property(t_map *map, char *line)
 {
-    if (line[0] == 'F' || line[1] == 'C')
+    if (line[0] == 'F' || line[0] == 'C')
         parse_color(map, line);
-    else if (ft_strncmp(line, "NO", 2) || ft_strncmp(line, "SO", 2) ||
-            ft_strncmp(line, "WE", 2) || ft_strncmp(line, "EA", 2))
+    else if (ft_strncmp(line, "NO", 2) == 0 || ft_strncmp(line, "SO", 2) == 0 ||
+            ft_strncmp(line, "WE", 2) == 0 || ft_strncmp(line, "EA", 2) == 0)
         parse_texture(map, line);
     else
         handle_error(INVALID_FILE);

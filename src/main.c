@@ -15,7 +15,7 @@
 void    handle_error(char *error)
 {
     ft_printf_fd(2, error);
-    clear_mem();
+    //clear_mem();
 	exit(EXIT_FAILURE);
 }
 
