@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:42:54 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/24 10:11:02 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/24 10:45:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int check_around_space(t_map *map, int y, int x)
 {
+    //REVER FUNÇÃO!
 	if (map->grid[y][x])
 	{
 		if (!is_space_or_one(map->grid[y][x + 1]))
@@ -43,13 +44,14 @@ void	validade_first_last_row(t_map *map, int y)
 	x = 0;
 	while (x < map->width && map->grid[y][x] != '\0')
 	{
-		printf("%c\n", map->grid[y][x]);
+		printf("%c", map->grid[y][x]);
 		if (map->grid[y][x] == ' ' && !check_around_space(map, y, x))
 			handle_error("INVALID_MAP1\n");
 		else if (map->grid[y][x] != '1')
 			handle_error("INVALID_MAP2\n");
 		x++;
 	}
+    printf("\n");
 }
 
 void	validate_middle_rows(t_player *player, t_map *map, int y)
@@ -57,20 +59,20 @@ void	validate_middle_rows(t_player *player, t_map *map, int y)
 	int	x;
 
 	x = 0;
-	printf("middle y=%i", y);
+	printf("middle y=%i\n", y);
 	while (x < map->width && map->grid[y][x])
 	{
 		if (map->grid[y][x] == ' ' && !check_around_space(map, y, x))
-			handle_error("INVALID_MAP3");
+			handle_error("INVALID_MAP3\n");
 		else if (x == 0 || map->grid[x + 1] == NULL || x == map->width - 1)
 		{
 			if (map->grid[y][x] != '1')
-				handle_error("INVALID_MAP4");
+				handle_error("INVALID_MAP4\n");
 		}
 		else
 		{
 			if (map->grid[y][x] != '0' || !parse_player(player, map->grid[y][x], x, y))
-				handle_error(INVALID_MAP);
+				handle_error("INVALID_MAP5\n");
 		}
 		x++;
 	}
@@ -108,7 +110,6 @@ void	parse_map(t_game *game, int fd, char *line)
 		y++;
 		line = get_next_line(fd);
 	}
-	printf("parsed!\n");
 	while (line)
 	{
 		if (!empty_line(line))

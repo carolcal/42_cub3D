@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:47:57 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/23 19:03:53 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/06/24 10:36:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "cub3D.h"
 
-int static	is_line_map(char *line)
+static int	is_line_map(char *line)
 {
 	int	i;
 
@@ -25,7 +25,7 @@ int static	is_line_map(char *line)
 	return (0);
 }
 
-void static	get_map_dimensions(t_map *map, int fd)
+static void	get_map_dimensions(t_map *map, int fd)
 {
 	int	width;
 	int	height;
@@ -41,11 +41,8 @@ void static	get_map_dimensions(t_map *map, int fd)
 	}
 	while (line && is_line_map(line))
 	{
-		printf("linha: %s", line);
-		width = ft_strlen(line);
-		if (width > 0 && line[width - 1] == '\n')
-			width--;
-		printf("width: %i\n", width);
+        while (line[width] && line[width] != '\n' && line[width] != '\r')
+            width++;
 		if (map->width <= width)
 			map->width = width;
 		free(line);
@@ -56,7 +53,7 @@ void static	get_map_dimensions(t_map *map, int fd)
 	map->height = height;
 }
 
-void static	init_grid(t_map *map)
+static void	init_grid(t_map *map)
 {
 	int	i;
 

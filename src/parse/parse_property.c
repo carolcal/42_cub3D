@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:59:43 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/24 10:11:46 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/24 10:38:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ char	*validate_texture(char *line)
 void    parse_texture(t_map *map, char *line)
 {
     char    *texture;
-    printf("parse texture\n");
     texture = validate_texture(line);
     if (ft_strncmp(line, "NO", 2) == 0)
         map->texture[NORTH] = texture;

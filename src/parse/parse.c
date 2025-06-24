@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:48:23 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/24 10:10:21 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/24 10:23:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ int	empty_line(char *line)
 	int	i;
 
 	i = 0;
-	while (line[i] == ' ')
+	while (ft_isspace(line[i]))
 		i++;
-	if (line[i] == '\0')
-		return (0);
-	return (1);
+	if (line[i] == '\0' || line[i] == '\n')
+		return (1);
+	return (0);
 }
 
 void    parse_map_file(t_game *game, const char *map_file)

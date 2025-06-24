@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_color.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 11:12:41 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/23 15:37:28 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/06/24 10:38:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ char	*get_color(char *rgb, int *i)
 
 uint32_t validate_color(char *line)
 {
-	int			i;
-	uint32_t	r;
-	uint32_t	g;
-	uint32_t	b;
+	int	i;
+	int	r;
+	int	g;
+	int	b;
 
 	i = 1;
 	r = ft_atoi(get_color(line, &i));
@@ -57,9 +57,7 @@ uint32_t validate_color(char *line)
 void    parse_color(t_map *map, char *line)
 {
     uint32_t color;
-    printf("parse color\n");
     color = validate_color(line);
-	printf("color: %d\n", color);
     if (line[0] == 'F')
         map->floor = color;
     else
