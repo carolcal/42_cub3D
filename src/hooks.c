@@ -3,56 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/18 21:10:32 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/18 21:10:32 by marvin           ###   ########.fr       */
+/*   Created: 2025/06/25 17:17:15 by naharumi          #+#    #+#             */
+/*   Updated: 2025/06/25 17:17:15 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	move_forward_backward(t_player *p, t_map *map, int key)
+void move_forward_backward(t_player *p, t_map *map, int key)
 {
+	double	next[2];
+
+	next[X] = p->pos[X];
+	next[Y] = p->pos[Y];
 	if (key == W_KEY)
 	{
-		if (map->grid[(int)(p->pos[1])][(int)(p->pos[0] + p->dir[0] * MOVE_SPEED)] == 0)
-			p->pos[0] += p->dir[0] * MOVE_SPEED;
-		if (map->grid[(int)(p->pos[1] + p->dir[1] * MOVE_SPEED)][(int)(p->pos[0])] == 0)
-			p->pos[1] += p->dir[1] * MOVE_SPEED;
+		next[X] += p->dir[X] * (MOVE_SPEED + COLLISION_OFFSET);
+		next[Y] += p->dir[Y] * (MOVE_SPEED + COLLISION_OFFSET);
 	}
-	if (key == S_KEY)
+	else if (key == S_KEY)
 	{
-		if (map->grid[(int)(p->pos[1])][(int)(p->pos[0] - p->dir[0] * MOVE_SPEED)] == 0)
-			p->pos[0] -= p->dir[0] * MOVE_SPEED;
-		if (map->grid[(int)(p->pos[1] - p->dir[1] * MOVE_SPEED)][(int)(p->pos[0])] == 0)
-			p->pos[1] -= p->dir[1] * MOVE_SPEED;
+		next[X] -= p->dir[X] * (MOVE_SPEED + COLLISION_OFFSET);
+		next[Y] -= p->dir[Y] * (MOVE_SPEED + COLLISION_OFFSET);
 	}
+	if (map->grid[(int)p->pos[Y]][(int)(next[X])] == 0)
+		p->pos[X] = next[X];
+	if (map->grid[(int)(next[Y])][(int)p->pos[X]] == 0)
+		p->pos[Y] = next[Y];
 }
 
 void	move_left_right(t_player *p, t_map *map, int key)
 {
-	double	perp_x ;
-	double	perp_y;
+	double	next[2];
+	double	plane[2];
 
 	if (key == A_KEY)
 	{
-		perp_x = p->dir[1];
-		perp_y = -p->dir[0];
-		if (map->grid[(int)(p->pos[1])][(int)(p->pos[0] + perp_x * MOVE_SPEED)] == 0)
-			p->pos[0] += perp_x * MOVE_SPEED;
-		if (map->grid[(int)(p->pos[1] + perp_y * MOVE_SPEED)][(int)(p->pos[0])] == 0)
-			p->pos[1] += perp_y * MOVE_SPEED;
+		plane[X] = p->dir[Y];
+		plane[Y] = -p->dir[X];
 	}
-	if (key == D_KEY)
+	else if (key == D_KEY)
 	{
-		perp_x = -p->dir[1];
-		perp_y = p->dir[0];
-		if (map->grid[(int)(p->pos[1])][(int)(p->pos[0] + perp_x * MOVE_SPEED)] == 0)
-			p->pos[0] += perp_x * MOVE_SPEED;
-		if (map->grid[(int)(p->pos[1] + perp_y * MOVE_SPEED)][(int)(p->pos[0])] == 0)
-			p->pos[1] += perp_y * MOVE_SPEED;
+		plane[X] = -p->dir[Y];
+		plane[Y] = p->dir[X];
 	}
+	next[X] = p->pos[X] + plane[X] * (MOVE_SPEED + COLLISION_OFFSET);
+	next[Y] = p->pos[Y] + plane[Y] * (MOVE_SPEED + COLLISION_OFFSET);
+	if (map->grid[(int)p->pos[Y]][(int)(next[X])] == 0)
+		p->pos[X] = next[X];
+	if (map->grid[(int)(next[Y])][(int)p->pos[X]] == 0)
+		p->pos[Y] = next[Y];
 }
 
 void	rotate_direction(t_player *p, int key)
@@ -62,21 +64,21 @@ void	rotate_direction(t_player *p, int key)
 
 	if (key == LEFT_KEY)
 	{
-		old_dir_x = p->dir[0];
-		old_plane_x = p->plane[0];
-		p->dir[0] = p->dir[0] * cos(-ROT_SPEED) - p->dir[1] * sin(-ROT_SPEED);
-		p->dir[1] = old_dir_x * sin(-ROT_SPEED) + p->dir[1] * cos(-ROT_SPEED);
-		p->plane[0] = p->plane[0] * cos(-ROT_SPEED) - p->plane[1] * sin(-ROT_SPEED);
-		p->plane[1] = old_plane_x * sin(-ROT_SPEED) + p->plane[1] * cos(-ROT_SPEED);
+		old_dir_x = p->dir[X];
+		old_plane_x = p->plane[X];
+		p->dir[X] = p->dir[X] * cos(-ROT_SPEED) - p->dir[Y] * sin(-ROT_SPEED);
+		p->dir[Y] = old_dir_x * sin(-ROT_SPEED) + p->dir[Y] * cos(-ROT_SPEED);
+		p->plane[X] = p->plane[X] * cos(-ROT_SPEED) - p->plane[Y] * sin(-ROT_SPEED);
+		p->plane[Y] = old_plane_x * sin(-ROT_SPEED) + p->plane[Y] * cos(-ROT_SPEED);
 	}
 	if (key == RIGHT_KEY)
 	{
-		old_dir_x = p->dir[0];
-		old_plane_x = p->plane[0];
-		p->dir[0] = p->dir[0] * cos(ROT_SPEED) - p->dir[1] * sin(ROT_SPEED);
-		p->dir[1] = old_dir_x * sin(ROT_SPEED) + p->dir[1] * cos(ROT_SPEED);
-		p->plane[0] = p->plane[0] * cos(ROT_SPEED) - p->plane[1] * sin(ROT_SPEED);
-		p->plane[1] = old_plane_x * sin(ROT_SPEED) + p->plane[1] * cos(ROT_SPEED);
+		old_dir_x = p->dir[X];
+		old_plane_x = p->plane[X];
+		p->dir[X] = p->dir[X] * cos(ROT_SPEED) - p->dir[Y] * sin(ROT_SPEED);
+		p->dir[Y] = old_dir_x * sin(ROT_SPEED) + p->dir[Y] * cos(ROT_SPEED);
+		p->plane[X] = p->plane[X] * cos(ROT_SPEED) - p->plane[Y] * sin(ROT_SPEED);
+		p->plane[Y] = old_plane_x * sin(ROT_SPEED) + p->plane[Y] * cos(ROT_SPEED);
 	}
 }
 

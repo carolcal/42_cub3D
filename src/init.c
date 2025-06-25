@@ -58,6 +58,8 @@ void	manual_init(t_game *game)
 	game->player->plane[1] = 0;
 	
 	// texture
+	game->map->ceiling = 0x87CEEB;
+	game->map->floor = 0x8B4513; 
 	for (int k = 0; k < 4; k++) {
 		game->texture[k] = allocate_mem(1, sizeof(t_texture));
 	}
@@ -91,7 +93,7 @@ void	manual_init(t_game *game)
 	);
 	game->texture[2]->tex_ptr = mlx_xpm_file_to_image(
 		game->mlx->mlx_ptr,
-		"assets/textures/castle.xpm",
+		"assets/textures/grass.xpm",
 		&game->texture[2]->width,
 		&game->texture[2]->height
 	);
@@ -105,7 +107,7 @@ void	manual_init(t_game *game)
 	);
 	game->texture[3]->tex_ptr = mlx_xpm_file_to_image(
 		game->mlx->mlx_ptr,
-		"assets/textures/cake.xpm",
+		"assets/textures/choco.xpm",
 		&game->texture[3]->width,
 		&game->texture[3]->height
 	);
@@ -128,7 +130,7 @@ t_game	*init(const char *map_file)
 	game->map = allocate_mem(1, sizeof(t_map));
 	game->player = allocate_mem(1, sizeof(t_player));
 	game->mlx = allocate_mem(1, sizeof(t_mlx));
-	init_mlx(game);
+	init_mlx(game); // apagar depois 
 	manual_init(game);  // TESTE
 	return (game);
 }

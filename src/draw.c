@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/18 17:24:33 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/18 17:24:33 by marvin           ###   ########.fr       */
+/*   Created: 2025/06/25 17:17:26 by naharumi          #+#    #+#             */
+/*   Updated: 2025/06/25 17:17:26 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,23 @@ void	put_pixel(t_game *game, int x, int y, int color)
 	pixel = game->mlx->img_addr + (y * game->mlx->size_line
 			+ x * (game->mlx->bpp / 8));
 	*(unsigned int *)pixel = color;
+}
+
+uint32_t	interpolate_color(uint32_t color1, uint32_t color2, double factor)
+{
+	uint8_t	r1 = (color1 >> 16) & 0xFF;
+	uint8_t	g1 = (color1 >> 8) & 0xFF;
+	uint8_t	b1 = color1 & 0xFF;
+
+	uint8_t	r2 = (color2 >> 16) & 0xFF;
+	uint8_t	g2 = (color2 >> 8) & 0xFF;
+	uint8_t	b2 = color2 & 0xFF;
+
+	uint8_t	r = (uint8_t)(r1 + (r2 - r1) * factor);
+	uint8_t	g = (uint8_t)(g1 + (g2 - g1) * factor);
+	uint8_t	b = (uint8_t)(b1 + (b2 - b1) * factor);
+
+	return (r << 16 | g << 8 | b);
 }
 
 t_texture	*get_wall_texture(t_game *game, t_ray *ray)
@@ -41,14 +58,14 @@ t_texture	*get_wall_texture(t_game *game, t_ray *ray)
 
 void	draw_textured_line(t_game *game, int x, t_ray *ray)
 {
-	t_texture	*tex = get_wall_texture(game, ray);
+	t_texture	*tex;
 	double		wall_x;
 	int			tex_x, tex_y;
 	double		step;
 	double		tex_pos;
 	int			y;
 
-	// encontrar posição x na textura
+	tex = get_wall_texture(game, ray);
 	if (ray->side == 0)
 		wall_x = game->player->pos[1] + ray->wall_dist * ray->ray_dir[1];
 	else
@@ -58,17 +75,41 @@ void	draw_textured_line(t_game *game, int x, t_ray *ray)
 	if ((ray->side == 0 && ray->ray_dir[0] > 0) ||
 		(ray->side == 1 && ray->ray_dir[1] < 0))
 		tex_x = tex->width - tex_x - 1;
-
-	// configurar step e tex_pos
 	step = 1.0 * tex->height / ray->line_height;
 	tex_pos = (ray->line_start - WIN_HEIGHT / 2 + ray->line_height / 2) * step;
-
 	y = ray->line_start;
 	while (y < ray->line_end)
 	{
 		tex_y = (int)tex_pos & (tex->height - 1);
 		tex_pos += step;
 		int color = *(int *)(tex->tex_addr + tex_y * tex->size_line + tex_x * (tex->bpp / 8));
+		put_pixel(game, x, y, color);
+		y++;
+	}
+}
+
+void	draw_ceiling_and_floor(t_game *game, int x, t_ray *ray)
+{
+	int			y;
+	uint32_t	color;
+	double		factor;
+
+	y = 0;
+	while (y < ray->line_start)
+	{
+		factor = y / (double)(WIN_HEIGHT / 2);
+		color = interpolate_color(game->map->ceiling, 0x000000, factor);
+		put_pixel(game, x, y, color);
+		y++;
+	}
+	y = ray->line_end;
+	while (y < WIN_HEIGHT)
+	{
+		double current_dist = WIN_HEIGHT / (2.0 * y - WIN_HEIGHT);
+		factor = current_dist / 10.0;
+		if (factor > 1.0)
+			factor = 1.0;
+		color = interpolate_color(game->map->floor, 0x000000, factor);
 		put_pixel(game, x, y, color);
 		y++;
 	}
@@ -128,13 +169,15 @@ void	dda(t_ray *ray, t_game *game)
 		}
 		if (game->map->grid[ray->map_pos[Y]][ray->map_pos[X]] == 1)
 			ray->hit = 1;
-		if (ray->side == 0)
-			ray->wall_dist = (ray->map_pos[X] - game->player->pos[X]
-					+ (1 - ray->step[X]) / 2) / ray->ray_dir[X];
-		else
-			ray->wall_dist = (ray->map_pos[Y] - game->player->pos[Y]
-					+ (1 - ray->step[Y]) / 2) / ray->ray_dir[Y];
 	}
+	if (ray->side == 0)
+		ray->wall_dist = (ray->side_dist[X] - ray->delta_dist[X]);
+		// ray->wall_dist = (ray->map_pos[X] - game->player->pos[X]
+		// 			+ (1 - ray->step[X]) / 2) / ray->ray_dir[X];
+	else
+		ray->wall_dist = (ray->side_dist[Y] - ray->delta_dist[Y]);
+		// ray->wall_dist = (ray->map_pos[Y] - game->player->pos[Y]
+		// 			+ (1 - ray->step[Y]) / 2) / ray->ray_dir[Y];
 }
 
 void	compute_line(t_ray *ray)
@@ -148,20 +191,6 @@ void	compute_line(t_ray *ray)
 		ray->line_end = WIN_HEIGHT - 1;
 }
 
-/*
-void	draw_line(t_game *game, int x, t_ray *ray)
-{
-	int	y = ray->line_start;
-	int	color = (ray->side == 1) ? 0xAAAAAA : 0xFFFFFF;
-
-	while (y < ray->line_end)
-	{
-		put_pixel(game, x, y, color);
-		y++;
-	}
-}
-*/
-
 void	draw_3d_map(t_game *game)
 {
 	int		x;
@@ -173,6 +202,7 @@ void	draw_3d_map(t_game *game)
 		init_ray(&ray, x, game->player);
 		dda(&ray, game);
 		compute_line(&ray);
+		draw_ceiling_and_floor(game, x, &ray);
 		draw_textured_line(game, x, &ray);
 		x++;
 	}

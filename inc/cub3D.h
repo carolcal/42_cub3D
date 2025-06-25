@@ -16,6 +16,7 @@
 # include "../minilibx-linux/mlx.h" // # include <mlx.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <stdint.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -32,17 +33,20 @@
 # define TILE_SIZE 64
 
 # define FOV 60.0
-# define PI 3.14159265358979323846
 # define MOVE_SPEED 0.05
 # define ROT_SPEED  0.05
+# define COLLISION_OFFSET 0.1
 
 # define W_KEY 119
 # define S_KEY 115
 # define A_KEY 97
 # define D_KEY 100
-# define ESC_KEY 65307
 # define LEFT_KEY 65361
 # define RIGHT_KEY 65363
+# define UP_KEY 65362
+# define DOWN_KEY 65364
+# define ESC_KEY 65307
+# define SPACE_KEY
 
 enum	e_axis
 {
@@ -99,10 +103,12 @@ typedef struct s_texture {
 
 typedef struct	s_map
 {
-	char	*textures[4];
-	int		**grid;
-	int		width;
-	int		height;
+	char		*textures[4];
+	int			**grid;
+	int			width;
+	int			height;
+	uint32_t	ceiling;
+	uint32_t	floor;
 }	t_map;
 
 typedef struct	s_player
