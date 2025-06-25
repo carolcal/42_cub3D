@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:42:54 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/25 18:31:11 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/06/25 19:40:34 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,12 @@ void	parse_map(t_game *game, int fd, char *line)
 			x++;
 		}
 		y++;
-		free(line);
 		line = get_next_line(fd);
 	}
 	while (line)
 	{
 		if (!is_empty_line(line))
 			handle_error(INVALID_LINE, line);
-		free(line);
 		line = get_next_line(fd);
 	}
 }
