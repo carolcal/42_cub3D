@@ -3,65 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:48:23 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/24 10:23:28 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/25 16:54:25 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "cub3D.h"
 
-int is_space_or_one(char c)
-{
-	if (ft_isspace(c) || c == '1')
-		return (1);
-	return (0);
-}
 
-int	line_len(char *str)
-{
-	int	i;
 
-	i = 0;
-	while (str[i] != '\0' && str[i] != '\n')
-		i++;
-	return (i);
-}
-
-int	empty_line(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (ft_isspace(line[i]))
-		i++;
-	if (line[i] == '\0' || line[i] == '\n')
-		return (1);
-	return (0);
-}
-
-void    parse_map_file(t_game *game, const char *map_file)
+void    parse_file(t_game *game, const char *map_file)
 {
 	int     fd;
 	char    *line;
 
 	fd = open(map_file, O_RDONLY);
+	if (fd < 0)
+		handle_error(INVALID_FILE, (char *)map_file);
 	line = get_next_line(fd);
+	if (!line)
+		handle_error(EMPTY_FILE, NULL);
 	while (line)
 	{
-		if (ft_isalpha(line[0]))
+		if (!is_valid_line(line))
+			handle_error(INVALID_LINE, line);
+		if (is_texture_line(line))
+			parse_textures(game->map, line);
+		else if (is_color_line(line))
+			parse_color(game->map, line);
+		else if (is_map_line(line))
 		{
-			parse_property(game->map, line);
-			line = get_next_line(fd);
-		}
-		else if (ft_strchr(line, '0') || ft_strchr(line, '1'))
 			parse_map(game, fd, line);
-		else if (!empty_line(line))
-			handle_error(INVALID_FILE);
-		else
-			line = get_next_line(fd);
+			break ;
+		}
+		free(line);
+		line = get_next_line(fd);
 	}
-	free(line);
+	validate(game);
+	get_next_line(-42);
 	close(fd);
 }

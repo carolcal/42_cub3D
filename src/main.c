@@ -12,14 +12,28 @@
 
 # include "cub3D.h"
 
-void    handle_error(char *error)
+void    handle_error(char *error, char *str)
 {
     ft_printf_fd(2, error);
+    if (str)
+    {
+        ft_printf_fd(2, ": ");
+        ft_printf_fd(2, str);
+    }
+    ft_printf_fd(2, "\n");
     //clear_mem();
 	exit(EXIT_FAILURE);
 }
 
+void    validate_file(char *file_name)
+{
+    int len;
 
+    len = ft_strlen(file_name);
+    if (ft_strncmp(file_name + len - 4, ".cub", 4) != 0)
+        handle_error(INVALID_FORMAT, file_name);
+
+}
 
 int    main(int argc, char **argv)
 {
@@ -30,9 +44,10 @@ int    main(int argc, char **argv)
         fprintf(stderr, "Usage: %s <map_file>\n", argv[0]);
         return (EXIT_FAILURE);
     }
-
+    validate_file(argv[1]);
     game = init(argv[1]);
-    parse_map_file(game, argv[1]);
+    parse_file(game, argv[1]);
+    printf("Parsed and validated map!\n");
     start_game(argv[1]);
 
     return (EXIT_SUCCESS);

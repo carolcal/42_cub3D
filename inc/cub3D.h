@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <stdint.h>
 # include <fcntl.h>
+# include <stdbool.h>
 // # include <unistd.h>
 // # include <stdlib.h>
 // # include <string.h>
@@ -23,11 +24,27 @@
 // # include <sys/time.h>
 # include "libft.h"
 
-# define INVALID_FILE "Error: Invalid File!\n"
-# define INVALID_MAP "Error: Invalid Map!\n"
-# define INVALID_TEXTURE "Error: Invalid Texture!\n"
-# define INVALID_COLOR "Error: Invalid Background Color!\n"
-# define MEMORY_ERROR "Error: When using malloc.\n"
+# define EMPTY_FILE "Error: Empty File"
+# define INVALID_FORMAT "Error: Invalid Format File"
+# define INVALID_FILE "Error: Invalid File"
+# define INVALID_LINE "Error: Invalid Line"
+# define INVALID_MAP "Error: Invalid Map"
+# define INVALID_PLAYER "Error: Invalid Player Position"
+# define INVALID_TEXTURE "Error: Invalid Texture"
+# define INVALID_COLOR "Error: Invalid Background Color"
+# define MEMORY_ERROR "Error: When using malloc"
+# define DUPLICATE_TEXTURE "Error: Duplicate Texture"
+# define DUPLICATE_PLAYER "Error: Duplicate Player on the Map"
+# define MISSING_TEXTURE "Error: Missing one or more Textures"
+# define MISSING_COLOR "Error: Missing one or more Colors"
+# define MISSING_MAP "Error: Missing Map in File"
+# define MISSING_PLAYER "Error: Missing Player in Map"
+
+enum	e_coordinates
+{
+	X = 0,
+	Y = 1
+};
 
 enum	e_direction
 {
@@ -49,6 +66,13 @@ enum	e_texture
 	EAST
 };
 
+enum	e_map_elements
+{
+	EMPTY = 0,
+	WALL = 1,
+	VOID = 2,
+};
+
 typedef struct	s_map
 {
 	char		*texture[4];
@@ -61,8 +85,9 @@ typedef struct	s_map
 
 typedef struct	s_player
 {
-	double pos[2];
-	double dir[2];
+	double	pos[2];
+	double	dir[2];
+	int		player_num;
 }	t_player;
 
 typedef struct	s_mlx
@@ -88,19 +113,31 @@ typedef struct	s_game
 t_game	*init(const char *map_file);
 
 //Parse
-void	parse_map_file(t_game *game, const char *map_file);
-int		empty_line(char *line);
-int 	is_space_or_one(char c);
-int		line_len(char *str);
-void	parse_map(t_game *game, int fd, char *line);
-int		parse_player(t_player *player, int item, int x, int y);
-void    parse_property(t_map *map, char *line);
+bool 	is_valid_line(char *line);
+bool 	is_texture_line(char *line);
+bool 	is_color_line(char *line);
+bool 	is_map_line(char *line);
+bool 	is_empty_line(char *line);
+void    parse_textures(t_map *map, char *line);
 void    parse_color(t_map *map, char *line);
+void	parse_map(t_game *game, int fd, char *line);
+void	parse_player(t_player *player, char c, int x, int y);
+void	parse_file(t_game *game, const char *map_file);
+
+//Validdation
+bool 	is_void_or_wall(int curr);
+bool	is_empty_or_wall(int curr);
+bool	check_around_space(t_map *map, int y, int x);
+void	validate_textures(char *texture[4]);
+void	validate_colors(t_map *map);
+void	validate_map(t_game *game);
+void	validate_player(t_game *game);
+void	validate(t_game *game);
 
 //Game
 void	start_game(const char *map_file);
 
 //Error
-void	handle_error(char *error);
+void	handle_error(char *error, char *str);
 
 #endif

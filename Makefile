@@ -17,21 +17,21 @@ NAME_BONUS = cub3D_bonus
 # Compilers and flags
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-LDFLAGS = -lreadline -lncurses
 
 # Library
 LIBFT = lib
 
 # Directories
 SRC_DIR = src/
-VAL_DIR = src/parse/
+PAR_DIR = src/parsing/
+VAL_DIR = src/validation/
 OBJ_DIR = obj/
 INCLUDES = -I inc/ -I $(LIBFT)
 
 # Source files and object files
-SRC = $(addprefix $(SRC_DIR), init.c game.c main.c) \
-	$(addprefix $(VAL_DIR), parse_map.c parse_player.c parse_property.c parse_color.c parse.c) \
-
+SRC = $(addprefix $(SRC_DIR), game.c main.c) \
+	$(addprefix $(PAR_DIR), parse_utils.c parse_init.c parse_properties.c parse_map.c parse.c) \
+	$(addprefix $(VAL_DIR), validate_utils.c validate_map.c validate.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 # Style

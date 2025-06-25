@@ -1,10 +1,10 @@
-NO assets/texture.png
-SO assets/texture.png
-WE assets/texture.png
-EA assets/texture.png
+NO assets/texture.xpm
+SO assets/texture.xpm
+WE assets/texture.xpm
+EA assets/texture.xpm
 
-F 0,0,0
-C 0,0,0
+F 32,24,85
+C 85,24,32
 
 1111111111
 1000000001
