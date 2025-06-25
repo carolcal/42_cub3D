@@ -15,14 +15,13 @@
 
 # include "../minilibx-linux/mlx.h" // # include <mlx.h>
 # include <fcntl.h>
-# include <unistd.h>
+# include <math.h>
+# include <stdbool.h>
 # include <stdint.h>
 # include <stdio.h>
-# include <stdbool.h>
-// # include <unistd.h>
 // # include <stdlib.h>
 // # include <string.h>
-# include <math.h>
+# include <unistd.h>
 // # include <sys/time.h>
 # include "libft.h"
 
@@ -88,6 +87,13 @@ enum	e_texture
 	EAST
 };
 
+enum	e_map_elements
+{
+	EMPTY = 0,
+	WALL = 1,
+	VOID = 2,
+};
+
 typedef struct s_ray
 {
 	double	camera_x;
@@ -103,23 +109,6 @@ typedef struct s_ray
 	int		line_start;
 	int		line_end;
 }	t_ray;
-
-typedef struct s_texture {
-	void	*tex_ptr;
-	char	*tex_addr;
-	int		width;
-	int		height;
-	int		bpp;
-	int		size_line;
-	int		endian;
-}	t_texture;
-
-enum	e_map_elements
-{
-	EMPTY = 0,
-	WALL = 1,
-	VOID = 2,
-};
 
 typedef struct	s_map
 {
@@ -151,6 +140,16 @@ typedef struct	s_mlx
 	int		width;
 	int		height;
 }	t_mlx;
+
+typedef struct s_texture {
+	void	*tex_ptr;
+	char	*tex_addr;
+	int		width;
+	int		height;
+	int		bpp;
+	int		size_line;
+	int		endian;
+}	t_texture;
 
 typedef struct	s_game
 {
