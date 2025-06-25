@@ -18,15 +18,29 @@
 # include <unistd.h>
 # include <stdint.h>
 # include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
+# include <stdbool.h>
+// # include <unistd.h>
+// # include <stdlib.h>
+// # include <string.h>
 # include <math.h>
-# include <sys/times.h>
+// # include <sys/time.h>
 # include "libft.h"
 
-# define INVALID_MAP "Error: Invalid Map!\n"
-# define INVALID_TEXTURE "Error: Invalid Texture!\n"
-# define INVALID_COLOR "Error: Invalid Background Color!\n"
+# define EMPTY_FILE "Error: Empty File"
+# define INVALID_FORMAT "Error: Invalid Format File"
+# define INVALID_FILE "Error: Invalid File"
+# define INVALID_LINE "Error: Invalid Line"
+# define INVALID_MAP "Error: Invalid Map"
+# define INVALID_PLAYER "Error: Invalid Player Position"
+# define INVALID_TEXTURE "Error: Invalid Texture"
+# define INVALID_COLOR "Error: Invalid Background Color"
+# define MEMORY_ERROR "Error: When using malloc"
+# define DUPLICATE_TEXTURE "Error: Duplicate Texture"
+# define DUPLICATE_PLAYER "Error: Duplicate Player on the Map"
+# define MISSING_TEXTURE "Error: Missing one or more Textures"
+# define MISSING_COLOR "Error: Missing one or more Colors"
+# define MISSING_MAP "Error: Missing Map in File"
+# define MISSING_PLAYER "Error: Missing Player in Map"
 
 # define WIN_WIDTH 960
 # define WIN_HEIGHT 512
@@ -35,7 +49,7 @@
 # define FOV 60.0
 # define MOVE_SPEED 0.05
 # define ROT_SPEED  0.05
-# define COLLISION_OFFSET 0.1
+# define COLLISION_OFFSET 0.5
 
 # define W_KEY 119
 # define S_KEY 115
@@ -65,7 +79,6 @@ enum	e_side
 	NORTH_SOUTH,
 	WEST_EAST
 };
-
 
 enum	e_texture
 {
@@ -101,9 +114,16 @@ typedef struct s_texture {
 	int		endian;
 }	t_texture;
 
+enum	e_map_elements
+{
+	EMPTY = 0,
+	WALL = 1,
+	VOID = 2,
+};
+
 typedef struct	s_map
 {
-	char		*textures[4];
+	char		*tex_path[4];
 	int			**grid;
 	int			width;
 	int			height;
@@ -113,10 +133,10 @@ typedef struct	s_map
 
 typedef struct	s_player
 {
-	char	initial_dir;	// 'N', 'S', 'E', 'W'
 	double	pos[2];
 	double	dir[2];
 	double	plane[2];
+	int		player_num;
 }	t_player;
 
 typedef struct	s_mlx
@@ -145,10 +165,27 @@ typedef struct	s_game
 //Init
 t_game	*init(const char *map_file);
 
-//Validate
-int		validate_map_file(t_game *game, const char *map_file);
+//Parse
+bool 	is_valid_line(char *line);
+bool 	is_texture_line(char *line);
+bool 	is_color_line(char *line);
+bool 	is_map_line(char *line);
+bool 	is_empty_line(char *line);
+void    parse_textures(t_map *map, char *line);
+void    parse_color(t_map *map, char *line);
 void	parse_map(t_game *game, int fd, char *line);
-int		validate_player(t_player *player, int item, int x, int y);
+void	parse_player(t_player *player, char c, int x, int y);
+void	parse_file(t_game *game, const char *map_file);
+
+//Validdation
+bool 	is_void_or_wall(int curr);
+bool	is_empty_or_wall(int curr);
+bool	check_around_space(t_map *map, int y, int x);
+void	validate_textures(char *texture[4]);
+void	validate_colors(t_map *map);
+void	validate_map(t_game *game);
+void	validate_player(t_game *game);
+void	validate(t_game *game);
 
 // draw
 void	init_mlx(t_game *game);
@@ -160,6 +197,6 @@ int		handle_keys(int key, t_game *game);
 void	start_game(const char *map_file);
 
 //Error
-void	handle_error(char *error);
+void	handle_error(char *error, char *str);
 
 #endif

@@ -222,19 +222,19 @@ void	init_mlx(t_game *game)
 {
 	game->mlx->mlx_ptr = mlx_init();
 	if (!game->mlx->mlx_ptr)
-		handle_error("Error: Failed to initialize MLX.\n");
+		handle_error("Error: Failed to initialize MLX.\n", NULL);
 	game->mlx->win_ptr = mlx_new_window(game->mlx->mlx_ptr,
 		WIN_WIDTH, WIN_HEIGHT, "cub3D");
 	if (!game->mlx->win_ptr)
-		handle_error("Error: Failed to create MLX window.\n");
+		handle_error("Error: Failed to create MLX window.\n", NULL);
 	game->mlx->img_ptr = mlx_new_image(game->mlx->mlx_ptr,
 		WIN_WIDTH, WIN_HEIGHT);
 	if (!game->mlx->img_ptr)
-		handle_error("Error: Failed to create image.\n");
+		handle_error("Error: Failed to create image.\n", NULL);
 	game->mlx->img_addr = mlx_get_data_addr(game->mlx->img_ptr,
 		&game->mlx->bpp, &game->mlx->size_line, &game->mlx->endian);
 	if (!game->mlx->img_addr)
-		handle_error("Error: Failed to get image address.\n");
+		handle_error("Error: Failed to get image address.\n", NULL);
 	return ;
 }
 

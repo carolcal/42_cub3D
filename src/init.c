@@ -59,7 +59,7 @@ void	manual_init(t_game *game)
 	
 	// texture
 	game->map->ceiling = 0x87CEEB;
-	game->map->floor = 0x8B4513; 
+	game->map->floor = 0x8B4513;
 	for (int k = 0; k < 4; k++) {
 		game->texture[k] = allocate_mem(1, sizeof(t_texture));
 	}

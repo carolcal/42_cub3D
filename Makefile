@@ -17,7 +17,6 @@ NAME_BONUS = cub3D_bonus
 # Compilers and flags
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-LDFLAGS = -lreadline -lncurses
 
 # Library
 LIBFT = lib/
@@ -26,14 +25,15 @@ LIBMLX	= -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
 
 # Directories
 SRC_DIR = src/
-VAL_DIR = src/validate/
+PAR_DIR = src/parsing/
+VAL_DIR = src/validation/
 OBJ_DIR = obj/
 INCLUDES = -I inc/ -I $(LIBFT)
 
 # Source files and object files
-SRC = $(addprefix $(SRC_DIR), main.c init.c game.c draw.c hooks.c) \
-	$(addprefix $(VAL_DIR), validate.c validate_map.c validate_player.c) \
-
+SRC = $(addprefix $(SRC_DIR), game.c main.c draw.c hooks.c) \
+	$(addprefix $(PAR_DIR), parse_utils.c parse_init.c parse_properties.c parse_map.c parse.c) \
+	$(addprefix $(VAL_DIR), validate_utils.c validate_map.c validate.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 # Style
