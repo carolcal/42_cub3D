@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:47:57 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/25 18:37:27 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/06/25 19:41:03 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ static void	get_map_dimensions(t_map *map, const char *map_file)
 		handle_error(INVALID_FILE, (char *)map_file);
 	line = get_next_line(fd);
 	while (line && !is_map_line(line))
-	{
-		free(line);
 		line = get_next_line(fd);
-	}
 	while (line && is_map_line(line))
 	{
 		width = 0;
@@ -36,12 +33,10 @@ static void	get_map_dimensions(t_map *map, const char *map_file)
             width++;
 		if (map->width <= width)
 			map->width = width;
-		free(line);
 		line = get_next_line(fd);
 		height++;
 	}
 	map->height = height;
-	free(line);
 	get_next_line(-42);
 	close(fd);
 }
