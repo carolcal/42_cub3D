@@ -20,7 +20,8 @@ CFLAGS = -Wall -Wextra -Werror
 
 # Library
 LIBFT = lib/
-MLX_DIR = minilibx-linux/ #MLX_DIR = usr/local/lib/
+#MLX_DIR = minilibx-linux/ #
+MLX_DIR = usr/local/lib/
 LIBMLX	= -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
 
 # Directories
@@ -37,7 +38,7 @@ SRC = $(addprefix $(SRC_DIR), main.c init.c mlx.c) \
 	$(addprefix $(PAR_DIR), parse_utils.c parse_properties.c parse_map.c parse.c) \
 	$(addprefix $(VAL_DIR), validate_utils.c validate_map.c validate.c) \
 	$(addprefix $(DRAW_DIR), draw.c draw_line.c raycasting.c) \
-	$(addprefix $(ACT_DIR), hooks.c hooks_keys.c)
+	$(addprefix $(ACT_DIR), hooks.c action_move.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 # Style

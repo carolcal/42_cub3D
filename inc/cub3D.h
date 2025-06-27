@@ -13,7 +13,8 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "../minilibx-linux/mlx.h" // # include <mlx.h>
+// # include "../minilibx-linux/mlx.h" // 
+# include <mlx.h>
 # include <fcntl.h>
 # include <math.h>
 # include <stdbool.h>
@@ -42,10 +43,11 @@
 # define WIN_HEIGHT 512
 # define TILE_SIZE 64
 
-# define FOV 60.0
-# define MOVE_SPEED 0.0001
-# define ROT_SPEED  0.05
+# define FOV 60.0 // não estou usando por enquanto
+# define MOVE_SPEED 0.05
+# define ROT_SPEED  0.01
 # define COLLISION_OFFSET 0.5
+# define MOUSE_SENSITIVITY 0.002 // BONUS
 
 # define W_KEY 119
 # define S_KEY 115
@@ -56,7 +58,7 @@
 # define UP_KEY 65362
 # define DOWN_KEY 65364
 # define ESC_KEY 65307
-# define SPACE_KEY
+# define SPACE_KEY // BONUS
 
 enum	e_axis
 {
@@ -166,6 +168,8 @@ typedef struct s_game
 	t_mlx		*mlx;
 	t_texture	*texture[4];
 	t_keyboard	keys;
+	int			mouse_x;
+	int			mouse_pressed;
 }	t_game;
 
 // Functions
@@ -196,7 +200,7 @@ void	validate(t_game *game);
 
 //MLX
 void	init_mlx(t_game *game);
-void	parse_mlx(t_game *game);
+void	init_textures(t_game *game);
 int		close_window(t_game *game);
 
 // draw
@@ -214,8 +218,12 @@ int		close_window(t_game *game);
 int		key_press(int key, t_game *game);
 int		key_release(int key, t_game *game);
 void	set_hooks(t_game *game);
-void	move_forward_backward(t_player *p, t_map *map, int key);
-void	move_left_right(t_player *p, t_map *map, int key);
+void	move_forward(t_player *p, t_map *map);
+void	move_backward(t_player *p, t_map *map);
+void	strafe_left(t_player *p, t_map *map);
+void	strafe_right(t_player *p, t_map *map);
+// void	move_forward_backward(t_player *p, t_map *map, int key);
+// void	move_left_right(t_player *p, t_map *map, int key);
 void	rotate_direction(t_player *p, int key);
 
 //Game

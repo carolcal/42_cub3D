@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 14:38:10 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/27 15:09:43 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:00:36 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	init_mlx(t_game *game)
 	return ;
 }
 
-void	parse_mlx(t_game *game)
+void	init_textures(t_game *game)
 {
 	int	i;
 
@@ -45,12 +45,16 @@ void	parse_mlx(t_game *game)
 				&game->texture[i]->width,
 				&game->texture[i]->height
 				);
+		if (!game->texture[i]->tex_ptr)
+			handle_error("Error: Failed to load texture file.\n", NULL);
 		game->texture[i]->tex_addr = mlx_get_data_addr(
 				game->texture[i]->tex_ptr,
 				&game->texture[i]->bpp,
 				&game->texture[i]->size_line,
 				&game->texture[i]->endian
 				);
+		if (!game->texture[i]->tex_addr)
+			handle_error("Error: Failed to get texture data.\n", NULL);
 		i++;
 	}
 }
