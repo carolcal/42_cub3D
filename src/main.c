@@ -47,10 +47,7 @@ int	main(int argc, char **argv)
 	game = init(argv[1]);
 	parse_file(game, argv[1]);
 	render_img(game);
-	mlx_hook(game->mlx->win_ptr, 2, 1L << 0, handle_keys, game);
-	mlx_hook(game->mlx->win_ptr, 17, 0, close_window, game);
-	mlx_loop_hook(game->mlx->mlx_ptr, render_img, game);
-	mlx_loop(game->mlx->mlx_ptr);
+	set_hooks(game);
 	clear_mem();
 	return (EXIT_SUCCESS);
 }

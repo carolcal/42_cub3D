@@ -27,13 +27,17 @@ LIBMLX	= -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
 SRC_DIR = src/
 PAR_DIR = src/parsing/
 VAL_DIR = src/validation/
+DRAW_DIR = src/draw/
+ACT_DIR = src/actions/
 OBJ_DIR = obj/
 INCLUDES = -I inc/ -I $(LIBFT)
 
 # Source files and object files
-SRC = $(addprefix $(SRC_DIR), main.c draw.c hooks.c) \
+SRC = $(addprefix $(SRC_DIR), main.c) \
 	$(addprefix $(PAR_DIR), parse_utils.c parse_init.c parse_properties.c parse_map.c parse.c) \
-	$(addprefix $(VAL_DIR), validate_utils.c validate_map.c validate.c)
+	$(addprefix $(VAL_DIR), validate_utils.c validate_map.c validate.c) \
+	$(addprefix $(DRAW_DIR), draw.c draw_line.c raycasting.c) \
+	$(addprefix $(ACT_DIR), hooks.c hooks_keys.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 # Style

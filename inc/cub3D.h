@@ -19,10 +19,7 @@
 # include <stdbool.h>
 # include <stdint.h>
 # include <stdio.h>
-// # include <stdlib.h>
-// # include <string.h>
 # include <unistd.h>
-// # include <sys/time.h>
 # include "libft.h"
 
 # define EMPTY_FILE "Error: Empty File"
@@ -46,7 +43,7 @@
 # define TILE_SIZE 64
 
 # define FOV 60.0
-# define MOVE_SPEED 0.05
+# define MOVE_SPEED 0.0001
 # define ROT_SPEED  0.05
 # define COLLISION_OFFSET 0.5
 
@@ -93,6 +90,16 @@ enum	e_map_elements
 	WALL = 1,
 	VOID = 2
 };
+
+typedef struct s_keyboard
+{
+	bool	w;
+	bool	a;
+	bool	s;
+	bool	d;
+	bool	left;
+	bool	right;
+}	t_keyboard;
 
 typedef struct s_ray
 {
@@ -158,6 +165,7 @@ typedef struct s_game
 	t_player	*player;
 	t_mlx		*mlx;
 	t_texture	*texture[4];
+	t_keyboard	keys;
 }	t_game;
 
 // Functions
@@ -188,10 +196,19 @@ void	validate(t_game *game);
 
 // draw
 int		render_img(t_game *game);
-int		close_window(t_game *game);
-int		handle_keys(int key, t_game *game);
+void	put_pixel(t_game *game, int x, int y, int color);
+void	init_ray(t_player *player, t_ray *ray, int x);
+void	dda(t_game *game, t_ray *ray);
+void	compute_line(t_ray *ray);
+void	draw_texture(t_game *game, t_ray *ray, int x);
+void	draw_ceiling_and_floor(t_game *game, t_ray *ray, int x);
+uint32_t	interpolate_color(uint32_t color1, uint32_t color2, double factor);
 
 // hooks
+int		close_window(t_game *game);
+int		key_press(int key, t_game *game);
+int		key_release(int key, t_game *game);
+void	set_hooks(t_game *game);
 void	move_forward_backward(t_player *p, t_map *map, int key);
 void	move_left_right(t_player *p, t_map *map, int key);
 void	rotate_direction(t_player *p, int key);

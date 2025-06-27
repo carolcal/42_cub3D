@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:47:57 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/26 22:58:01 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/27 15:04:24 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,12 @@ t_game	*init(const char *map_file)
 		game->texture[i] = allocate_mem(1, sizeof(t_texture));
 		i++;
 	}
+	game->keys.w = false;
+	game->keys.a = false;
+	game->keys.s = false;
+	game->keys.d = false;
+	game->keys.left = false;
+	game->keys.right = false;
 	init_grid(game->map);
 	init_mlx(game);
 	return (game);
