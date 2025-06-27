@@ -12,7 +12,7 @@
 
 #include "cub3D.h"
 
-void move_forward_backward(t_player *p, t_map *map, int key)
+voidmove_forward_backward(t_player *p, t_map *map, int key)
 {
 	double	next[2];
 

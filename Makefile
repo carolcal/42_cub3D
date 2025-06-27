@@ -67,11 +67,11 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 
 # Executable
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) $(LIBMLX) -lft $(LDFLAGS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) $(LIBMLX) -lft -o $(NAME)
 	@echo "$(GREEN)Cub3D Compiled!$(END)"
 
 $(NAME_BONUS): $(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) $(LIBMLX) -lft $(LDFLAGS) -o $(NAME_BONUS)
+	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) $(LIBMLX) -lft -o $(NAME_BONUS)
 	@echo "$(GREEN)Cub3D Compiled!$(END)"
 
 # Clean objects

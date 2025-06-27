@@ -88,6 +88,13 @@ enum	e_texture
 	EAST
 };
 
+enum	e_map_elements
+{
+	EMPTY = 0,
+	WALL = 1,
+	VOID = 2
+};
+
 typedef struct s_ray
 {
 	double	camera_x;
@@ -104,7 +111,8 @@ typedef struct s_ray
 	int		line_end;
 }	t_ray;
 
-typedef struct s_texture {
+typedef struct s_texture
+{
 	void	*tex_ptr;
 	char	*tex_addr;
 	int		width;
@@ -114,14 +122,7 @@ typedef struct s_texture {
 	int		endian;
 }	t_texture;
 
-enum	e_map_elements
-{
-	EMPTY = 0,
-	WALL = 1,
-	VOID = 2,
-};
-
-typedef struct	s_map
+typedef struct s_map
 {
 	char		*tex_path[4];
 	int			**grid;
@@ -131,7 +132,7 @@ typedef struct	s_map
 	uint32_t	floor;
 }	t_map;
 
-typedef struct	s_player
+typedef struct s_player
 {
 	double	pos[2];
 	double	dir[2];
@@ -139,7 +140,7 @@ typedef struct	s_player
 	int		player_num;
 }	t_player;
 
-typedef struct	s_mlx
+typedef struct s_mlx
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
@@ -152,11 +153,11 @@ typedef struct	s_mlx
 	int		height;
 }	t_mlx;
 
-typedef struct	s_game
+typedef struct s_game
 {
 	t_map		*map;
 	t_player	*player;
-	t_mlx 		*mlx;
+	t_mlx		*mlx;
 	t_texture	*texture[4];
 }	t_game;
 
@@ -166,19 +167,19 @@ typedef struct	s_game
 t_game	*init(const char *map_file);
 
 //Parse
-bool 	is_valid_line(char *line);
-bool 	is_texture_line(char *line);
-bool 	is_color_line(char *line);
-bool 	is_map_line(char *line);
-bool 	is_empty_line(char *line);
-void    parse_textures(t_map *map, char *line);
-void    parse_color(t_map *map, char *line);
+bool	is_valid_line(char *line);
+bool	is_texture_line(char *line);
+bool	is_color_line(char *line);
+bool	is_map_line(char *line);
+bool	is_empty_line(char *line);
+void	parse_textures(t_map *map, char *line);
+void	parse_color(t_map *map, char *line);
 void	parse_map(t_game *game, int fd, char *line);
 void	parse_player(t_player *player, char c, int x, int y);
 void	parse_file(t_game *game, const char *map_file);
 
 //Validdation
-bool 	is_void_or_wall(int curr);
+bool	is_void_or_wall(int curr);
 bool	is_empty_or_wall(int curr);
 bool	check_around_space(t_map *map, int y, int x);
 void	validate_textures(char *texture[4]);
@@ -188,7 +189,6 @@ void	validate_player(t_game *game);
 void	validate(t_game *game);
 
 // draw
-void	init_mlx(t_game *game);
 int		render_img(t_game *game);
 int		close_window(t_game *game);
 int		handle_keys(int key, t_game *game);
