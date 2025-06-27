@@ -177,7 +177,7 @@ void	parse_color(t_map *map, char *line);
 void	parse_map(t_game *game, int fd, char *line);
 void	parse_file(t_game *game, const char *map_file);
 
-//Validdation
+//Validation
 bool	is_void_or_wall(int curr);
 bool	is_empty_or_wall(int curr);
 bool	check_around_space(t_map *map, int y, int x);
@@ -186,6 +186,11 @@ void	validate_colors(t_map *map);
 void	validate_map(t_game *game);
 void	validate_player(t_game *game);
 void	validate(t_game *game);
+
+//MLX
+void	init_mlx(t_game *game);
+void	parse_mlx(t_game *game);
+int		close_window(t_game *game);
 
 // draw
 int		render_img(t_game *game);

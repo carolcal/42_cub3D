@@ -3,36 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:48:23 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/26 11:46:38 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/27 14:40:03 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-static void	parse_mlx(t_game *game)
-{
-	int	i;
-
-	i = 0;
-	while (i < 4)
-	{
-		game->texture[i]->tex_ptr = mlx_xpm_file_to_image(
-				game->mlx->mlx_ptr,
-				game->map->tex_path[i],
-				&game->texture[i]->width,
-				&game->texture[i]->height
-				);
-		game->texture[i]->tex_addr = mlx_get_data_addr(
-				game->texture[i]->tex_ptr,
-				&game->texture[i]->bpp,
-				&game->texture[i]->size_line,
-				&game->texture[i]->endian
-				);
-	}
-}
 
 static int	exec_parse(t_game *game, char *line, int fd)
 {
@@ -67,8 +45,9 @@ void	parse_file(t_game *game, const char *map_file)
 			break ;
 		line = get_next_line(fd);
 	}
-	validate(game);
-	parse_mlx(game);
 	get_next_line(-42);
+	validate(game);
+	init_mlx(game);
+	parse_mlx(game);
 	close(fd);
 }

@@ -218,15 +218,4 @@ int	render_img(t_game *game)
 	return (0);
 }
 
-int	close_window(t_game *game)
-{
-	if (game->mlx->img_ptr)
-		mlx_destroy_image(game->mlx->mlx_ptr, game->mlx->img_ptr);
-	if (game->mlx->win_ptr)
-		mlx_destroy_window(game->mlx->mlx_ptr, game->mlx->win_ptr);
-	if (game->mlx->mlx_ptr)
-		mlx_destroy_display(game->mlx->mlx_ptr);
-	clear_mem();
-	exit(EXIT_SUCCESS);
-	return (0);
-}
+

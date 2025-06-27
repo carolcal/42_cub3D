@@ -15,7 +15,7 @@ NAME = cub3D
 NAME_BONUS = cub3D_bonus
 
 # Compilers and flags
-CC = cc
+CC = gcc -g3
 CFLAGS = -Wall -Wextra -Werror
 
 # Library
@@ -31,8 +31,8 @@ OBJ_DIR = obj/
 INCLUDES = -I inc/ -I $(LIBFT)
 
 # Source files and object files
-SRC = $(addprefix $(SRC_DIR), main.c draw.c hooks.c) \
-	$(addprefix $(PAR_DIR), parse_utils.c parse_init.c parse_properties.c parse_map.c parse.c) \
+SRC = $(addprefix $(SRC_DIR), main.c init.c mlx.c draw.c hooks.c) \
+	$(addprefix $(PAR_DIR), parse_utils.c parse_properties.c parse_map.c parse.c) \
 	$(addprefix $(VAL_DIR), validate_utils.c validate_map.c validate.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
@@ -89,8 +89,7 @@ fclean: clean
 
 # Valgrind
 val: re
-	@valgrind -q --suppressions=sup.sup \
-				--leak-check=full \
+	@valgrind -q --leak-check=full \
 				--show-leak-kinds=all \
 				--track-origins=yes \
 				./${NAME}

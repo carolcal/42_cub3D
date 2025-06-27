@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/nfs/homes/cayamash/2_formacao/milestone4/cub3D_git/src/parse",
-      "program": "/nfs/homes/cayamash/2_formacao/milestone4/cub3D_git/src/parse/build/Debug/outDebug",
+      "cwd": "/nfs/homes/cayamash/2_formacao/milestone4/cub3D_git/src/parsing",
+      "program": "/nfs/homes/cayamash/2_formacao/milestone4/cub3D_git/src/parsing/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

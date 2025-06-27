@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_init.c                                       :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:47:57 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/26 22:58:01 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/27 14:39:52 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,26 +77,6 @@ static void	init_grid(t_map *map)
 	fill_grid(map);
 }
 
-static void	init_mlx(t_game *game)
-{
-	game->mlx->mlx_ptr = mlx_init();
-	if (!game->mlx->mlx_ptr)
-		handle_error("Error: Failed to initialize MLX.\n", NULL);
-	game->mlx->win_ptr = mlx_new_window(game->mlx->mlx_ptr,
-			WIN_WIDTH, WIN_HEIGHT, "cub3D");
-	if (!game->mlx->win_ptr)
-		handle_error("Error: Failed to create MLX window.\n", NULL);
-	game->mlx->img_ptr = mlx_new_image(game->mlx->mlx_ptr,
-			WIN_WIDTH, WIN_HEIGHT);
-	if (!game->mlx->img_ptr)
-		handle_error("Error: Failed to create image.\n", NULL);
-	game->mlx->img_addr = mlx_get_data_addr(game->mlx->img_ptr,
-			&game->mlx->bpp, &game->mlx->size_line, &game->mlx->endian);
-	if (!game->mlx->img_addr)
-		handle_error("Error: Failed to get image address.\n", NULL);
-	return ;
-}
-
 t_game	*init(const char *map_file)
 {
 	int		i;
@@ -117,6 +97,5 @@ t_game	*init(const char *map_file)
 		i++;
 	}
 	init_grid(game->map);
-	init_mlx(game);
 	return (game);
 }

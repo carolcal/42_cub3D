@@ -20,7 +20,6 @@ void	handle_error(char *error, char *str)
 		ft_printf_fd(2, ": ");
 		ft_printf_fd(2, str);
 	}
-	ft_printf_fd(2, "\n");
 	clear_mem();
 	exit(EXIT_FAILURE);
 }
