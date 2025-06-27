@@ -1,7 +1,7 @@
 NAME		=	libft.a
 LIB			=	ar rcs
 RM			=	rm -f
-CC			=	cc
+CC			=	gcc -g3
 CFLAGS		=	-Wall -Wextra -Werror
 
 SRCS		=	ft_arrlen.c \
