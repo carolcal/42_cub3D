@@ -171,57 +171,57 @@ typedef struct s_game
 // Functions
 
 //Init
-t_game	*init(const char *map_file);
+t_game		*init(const char *map_file);
 
 //Parse
-bool	is_valid_line(char *line);
-bool	is_texture_line(char *line);
-bool	is_color_line(char *line);
-bool	is_map_line(char *line);
-bool	is_empty_line(char *line);
-void	parse_textures(t_map *map, char *line);
-void	parse_color(t_map *map, char *line);
-void	parse_map(t_game *game, int fd, char *line);
-void	parse_file(t_game *game, const char *map_file);
+bool		is_valid_line(char *line);
+bool		is_texture_line(char *line);
+bool		is_color_line(char *line);
+bool		is_map_line(char *line);
+bool		is_empty_line(char *line);
+void		parse_textures(t_map *map, char *line);
+void		parse_color(t_map *map, char *line);
+void		parse_map(t_game *game, int fd, char *line);
+void		parse_file(t_game *game, const char *map_file);
 
 //Validation
-bool	is_void_or_wall(int curr);
-bool	is_empty_or_wall(int curr);
-bool	check_around_space(t_map *map, int y, int x);
-void	validate_textures(char *texture[4]);
-void	validate_colors(t_map *map);
-void	validate_map(t_game *game);
-void	validate_player(t_game *game);
-void	validate(t_game *game);
+bool		is_void_or_wall(int curr);
+bool		is_empty_or_wall(int curr);
+bool		check_around_space(t_map *map, int y, int x);
+void		validate_textures(char *texture[4]);
+void		validate_colors(t_map *map);
+void		validate_map(t_game *game);
+void		validate_player(t_game *game);
+void		validate(t_game *game);
 
 //MLX
-void	init_mlx(t_game *game);
-void	parse_mlx(t_game *game);
-int		close_window(t_game *game);
+void		init_mlx(t_game *game);
+void		parse_mlx(t_game *game);
+int			close_window(t_game *game);
 
 // draw
-int		render_img(t_game *game);
-void	put_pixel(t_game *game, int x, int y, int color);
-void	init_ray(t_player *player, t_ray *ray, int x);
-void	dda(t_game *game, t_ray *ray);
-void	compute_line(t_ray *ray);
-void	draw_texture(t_game *game, t_ray *ray, int x);
-void	draw_ceiling_and_floor(t_game *game, t_ray *ray, int x);
+int			render_img(t_game *game);
+void		put_pixel(t_game *game, int x, int y, int color);
+void		init_ray(t_player *player, t_ray *ray, int x);
+void		dda(t_game *game, t_ray *ray);
+void		compute_line(t_ray *ray);
+void		draw_texture(t_game *game, t_ray *ray, int x);
+void		draw_ceiling_and_floor(t_game *game, t_ray *ray, int x);
 uint32_t	interpolate_color(uint32_t color1, uint32_t color2, double factor);
 
 // hooks
-int		close_window(t_game *game);
-int		key_press(int key, t_game *game);
-int		key_release(int key, t_game *game);
-void	set_hooks(t_game *game);
-void	move_forward_backward(t_player *p, t_map *map, int key);
-void	move_left_right(t_player *p, t_map *map, int key);
-void	rotate_direction(t_player *p, int key);
+int			close_window(t_game *game);
+int			key_press(int key, t_game *game);
+int			key_release(int key, t_game *game);
+void		set_hooks(t_game *game);
+void		move_forward_backward(t_player *p, t_map *map, int key);
+void		move_left_right(t_player *p, t_map *map, int key);
+void		rotate_direction(t_player *p, int key);
 
 //Game
-void	start_game(const char *map_file);
+void		start_game(const char *map_file);
 
 //Error
-void	handle_error(char *error, char *str);
+void		handle_error(char *error, char *str);
 
 #endif
