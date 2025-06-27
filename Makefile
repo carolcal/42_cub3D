@@ -31,7 +31,7 @@ OBJ_DIR = obj/
 INCLUDES = -I inc/ -I $(LIBFT)
 
 # Source files and object files
-SRC = $(addprefix $(SRC_DIR), game.c main.c draw.c hooks.c) \
+SRC = $(addprefix $(SRC_DIR), main.c draw.c hooks.c) \
 	$(addprefix $(PAR_DIR), parse_utils.c parse_init.c parse_properties.c parse_map.c parse.c) \
 	$(addprefix $(VAL_DIR), validate_utils.c validate_map.c validate.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
@@ -67,11 +67,11 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 
 # Executable
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) $(LIBMLX) -lft $(LDFLAGS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) $(LIBMLX) -lft -o $(NAME)
 	@echo "$(GREEN)Cub3D Compiled!$(END)"
 
 $(NAME_BONUS): $(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) $(LIBMLX) -lft $(LDFLAGS) -o $(NAME_BONUS)
+	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) $(LIBMLX) -lft -o $(NAME_BONUS)
 	@echo "$(GREEN)Cub3D Compiled!$(END)"
 
 # Clean objects

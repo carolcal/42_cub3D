@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:57:57 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/25 17:35:28 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/06/26 11:53:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "cub3D.h"
-
-
+#include "cub3D.h"
 
 static void	validade_first_last_row(t_map *map, int y)
 {
@@ -32,9 +30,9 @@ static void	validade_first_last_row(t_map *map, int y)
 	}
 }
 
-static void    jump_void(t_map *map, int y, int *x)
+static void	jump_void(t_map *map, int y, int *x)
 {
-    while (*x < map->width && map->grid[y][*x] == VOID)
+	while (*x < map->width && map->grid[y][*x] == VOID)
 	{
 		if (!check_around_space(map, y, *x))
 			handle_error(INVALID_MAP, NULL);
@@ -67,9 +65,9 @@ static void	validate_middle_rows(t_map *map, int y)
 	}
 }
 
-void validate_map(t_game *game)
+void	validate_map(t_game *game)
 {
-	int y;
+	int	y;
 
 	y = 0;
 	if (!game->map->width || !game->map->height)
