@@ -15,21 +15,29 @@ NAME = cub3D
 NAME_BONUS = cub3D_bonus
 
 # Compilers and flags
-CC = cc
+CC = gcc -g3
 CFLAGS = -Wall -Wextra -Werror
-LDFLAGS = -lreadline -lncurses
 
 # Library
-LIBFT = lib
+LIBFT = lib/
+MLX_DIR = minilibx-linux/ #MLX_DIR = usr/local/lib/
+LIBMLX	= -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
 
 # Directories
 SRC_DIR = src/
+PAR_DIR = src/parsing/
+VAL_DIR = src/validation/
+DRAW_DIR = src/draw/
+ACT_DIR = src/actions/
 OBJ_DIR = obj/
 INCLUDES = -I inc/ -I $(LIBFT)
 
 # Source files and object files
-SRC = $(addprefix $(SRC_DIR), main.c) \
-
+SRC = $(addprefix $(SRC_DIR), main.c init.c mlx.c) \
+	$(addprefix $(PAR_DIR), parse_utils.c parse_properties.c parse_map.c parse.c) \
+	$(addprefix $(VAL_DIR), validate_utils.c validate_map.c validate.c) \
+	$(addprefix $(DRAW_DIR), draw.c draw_line.c raycasting.c) \
+	$(addprefix $(ACT_DIR), hooks.c hooks_keys.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 # Style
@@ -63,11 +71,11 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 
 # Executable
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) -lft $(LDFLAGS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) $(LIBMLX) -lft -o $(NAME)
 	@echo "$(GREEN)Cub3D Compiled!$(END)"
 
 $(NAME_BONUS): $(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) -lft $(LDFLAGS) -o $(NAME_BONUS)
+	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) $(LIBMLX) -lft -o $(NAME_BONUS)
 	@echo "$(GREEN)Cub3D Compiled!$(END)"
 
 # Clean objects
@@ -83,10 +91,9 @@ fclean: clean
 	@rm -f valgrind.log
 	@echo "$(GREEN)All!$(END)"
 
-#Valgrind
+# Valgrind
 val: re
-	@valgrind -q --suppressions=sup.sup \
-				--leak-check=full \
+	@valgrind -q --leak-check=full \
 				--show-leak-kinds=all \
 				--track-origins=yes \
 				./${NAME}

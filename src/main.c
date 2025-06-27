@@ -10,28 +10,43 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "cub3D.h"
+#include "cub3D.h"
 
-void    validate_map(const char *map_file)
+void	handle_error(char *error, char *str)
 {
-    printf("Validating map: %s\n", map_file);
+	ft_printf_fd(2, error);
+	if (str)
+	{
+		ft_printf_fd(2, ": ");
+		ft_printf_fd(2, str);
+	}
+	clear_mem();
+	exit(EXIT_FAILURE);
 }
 
-void    init_game(const char *map_file)
+void	validate_file(char *file_name)
 {
-    printf("Initializing game with map: %s\n", map_file);
+	int	len;
+
+	len = ft_strlen(file_name);
+	if (ft_strncmp(file_name + len - 4, ".cub", 4) != 0)
+		handle_error(INVALID_FORMAT, file_name);
 }
 
-int    main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-    if (argc != 2)
-    {
-        fprintf(stderr, "Usage: %s <map_file>\n", argv[0]);
-        return (EXIT_FAILURE);
-    }
+	t_game	*game;
 
-    validate_map(argv[1]);
-    init_game(argv[1]);
-
-    return (EXIT_SUCCESS);
+	if (argc != 2)
+	{
+		fprintf(stderr, "Usage: %s <map_file>\n", argv[0]);
+		return (EXIT_FAILURE);
+	}
+	validate_file(argv[1]);
+	game = init(argv[1]);
+	parse_file(game, argv[1]);
+	render_img(game);
+	set_hooks(game);
+	clear_mem();
+	return (EXIT_SUCCESS);
 }
