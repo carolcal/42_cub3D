@@ -175,7 +175,6 @@ bool	is_empty_line(char *line);
 void	parse_textures(t_map *map, char *line);
 void	parse_color(t_map *map, char *line);
 void	parse_map(t_game *game, int fd, char *line);
-void	parse_player(t_player *player, char c, int x, int y);
 void	parse_file(t_game *game, const char *map_file);
 
 //Validdation
