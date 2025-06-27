@@ -20,13 +20,13 @@ void	move_forward_backward(t_player *p, t_map *map, int key)
 	next[Y] = p->pos[Y];
 	if (key == W_KEY || key == UP_KEY)
 	{
-		next[X] += p->dir[X] * (MOVE_SPEED + COLLISION_OFFSET);
-		next[Y] += p->dir[Y] * (MOVE_SPEED + COLLISION_OFFSET);
+		next[X] += p->dir[X] * (MOVE_SPEED);
+		next[Y] += p->dir[Y] * (MOVE_SPEED);
 	}
 	else if (key == S_KEY || key == DOWN_KEY)
 	{
-		next[X] -= p->dir[X] * (MOVE_SPEED + COLLISION_OFFSET);
-		next[Y] -= p->dir[Y] * (MOVE_SPEED + COLLISION_OFFSET);
+		next[X] -= p->dir[X] * (MOVE_SPEED);
+		next[Y] -= p->dir[Y] * (MOVE_SPEED);
 	}
 	if (map->grid[(int)p->pos[Y]][(int)(next[X])] == 0)
 		p->pos[X] = next[X];
@@ -49,8 +49,8 @@ void	move_left_right(t_player *p, t_map *map, int key)
 		plane[X] = -p->dir[Y];
 		plane[Y] = p->dir[X];
 	}
-	next[X] = p->pos[X] + plane[X] * (MOVE_SPEED + COLLISION_OFFSET);
-	next[Y] = p->pos[Y] + plane[Y] * (MOVE_SPEED + COLLISION_OFFSET);
+	next[X] = p->pos[X] + plane[X] * (MOVE_SPEED);
+	next[Y] = p->pos[Y] + plane[Y] * (MOVE_SPEED);
 	if (map->grid[(int)p->pos[Y]][(int)(next[X])] == 0)
 		p->pos[X] = next[X];
 	if (map->grid[(int)(next[Y])][(int)p->pos[X]] == 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:47:57 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/27 15:25:11 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:17:02 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ t_game	*init(const char *map_file)
 	get_map_dimensions(game->map, map_file);
 	game->map->ceiling = 422;
 	game->map->floor = 422;
+	game->map->door_tex_path = ft_strdup("assets/door.xpm");
+	game->map->sprite_tex_path = ft_strdup("assets/enemy.xpm");
 	game->player = allocate_mem(1, sizeof(t_player));
 	game->player->player_num = 0;
 	game->mlx = allocate_mem(1, sizeof(t_mlx));

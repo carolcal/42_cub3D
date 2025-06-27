@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:42:54 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/27 09:58:18 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:21:11 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,10 @@ static void	parse_map_char(t_game *game, char c, int y, int x)
 		game->map->grid[y][x] = EMPTY;
 	else if (c == ' ')
 		game->map->grid[y][x] = VOID;
+	else if (c == 'D')
+		game->map->grid[y][x] = DOOR;
+	else if (c == 'P')
+		game->map->grid[y][x] = SPRITE;
 	else if (ft_strchr("NSEW", c))
 	{
 		game->map->grid[y][x] = EMPTY;

@@ -43,8 +43,8 @@
 # define TILE_SIZE 64
 
 # define FOV 60.0
-# define MOVE_SPEED 0.0001
-# define ROT_SPEED  0.05
+# define MOVE_SPEED 0.01
+# define ROT_SPEED  0.005
 # define COLLISION_OFFSET 0.5
 
 # define W_KEY 119
@@ -81,14 +81,17 @@ enum	e_texture
 	NORTH,
 	SOUTH,
 	WEST,
-	EAST
+	EAST,
+	DOOR
 };
 
 enum	e_map_elements
 {
 	EMPTY = 0,
 	WALL = 1,
-	VOID = 2
+	VOID = 2,
+	DOOR_OPEN = 3, //BONUS
+	DOOR_CLOSE = 4 //BONUS
 };
 
 typedef struct s_keyboard
@@ -119,7 +122,9 @@ typedef struct s_ray
 
 typedef struct s_map
 {
-	char		*tex_path[4];
+	char		*tex_path[5];
+	char		*door_tex_path; //BONUS
+	char		*sprite_tex_path; //BONUS
 	int			**grid;
 	int			width;
 	int			height;
@@ -134,6 +139,14 @@ typedef struct s_player
 	double	plane[2];
 	int		player_num;
 }	t_player;
+
+typedef struct s_sprite
+{
+	t_texture	*texture[2];
+	double		pos[2];
+	int			width;
+	int			height;
+}	t_sprite;
 
 typedef struct s_mlx
 {
@@ -163,6 +176,7 @@ typedef struct s_game
 {
 	t_map		*map;
 	t_player	*player;
+	t_sprite	*sprite;
 	t_mlx		*mlx;
 	t_texture	*texture[4];
 	t_keyboard	keys;
