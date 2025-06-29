@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   validate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:53:51 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/25 18:18:57 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/06/26 11:54:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void validate(t_game *game)
+void	validate(t_game *game)
 {
-    validate_textures(game->map->tex_path);
+	validate_textures(game->map->tex_path);
 	validate_colors(game->map);
 	validate_map(game);
 	validate_player(game);
 }
 
-void validate_textures(char *texture[4])
+void	validate_textures(char *texture[4])
 {
 	int	i;
 	int	fd;
 	int	len;
 
 	i = 0;
-	while(i < 4)
+	while (i < 4)
 	{
 		if (!texture[i])
 			handle_error(MISSING_TEXTURE, NULL);
@@ -44,7 +44,7 @@ void validate_textures(char *texture[4])
 	}
 }
 
-void validate_colors(t_map *map)
+void	validate_colors(t_map *map)
 {
 	if (map->ceiling == 422)
 		handle_error(MISSING_COLOR, "ceiling");

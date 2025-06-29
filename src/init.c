@@ -3,134 +3,107 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
+/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:47:57 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/17 10:28:18 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/06/27 18:49:28 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "cub3D.h"
+#include "cub3D.h"
 
-// t_map *init_map(const char *map_file)
-// {
-//     t_map *map;
-	
-//     map = allocate_mem(1, sizeof(t_map));
-//     return (map);
-// }
-// t_player *init_player()
-
-
-// PARA TESTE
-void	manual_init(t_game *game)
+static void	get_map_dimensions(t_map *map, const char *map_file)
 {
-	// map
-	game->map->height = 6;
-	game->map->width = 10;
-	game->map->grid = allocate_mem(game->map->height, sizeof(int *));
+	int		width;
+	int		height;
+	int		fd;
+	char	*line;
 
-	for (int i = 0; i < game->map->height; i++) {
-		game->map->grid[i] = allocate_mem(game->map->width, sizeof(int));
+	height = 0;
+	fd = open(map_file, O_RDONLY);
+	if (fd < 0)
+		handle_error(INVALID_FILE, (char *)map_file);
+	line = get_next_line(fd);
+	while (line && !is_map_line(line))
+		line = get_next_line(fd);
+	while (line && is_map_line(line))
+	{
+		width = 0;
+		while (line[width] && line[width] != '\n' && !ft_isspace(line[width]))
+			width++;
+		if (map->width <= width)
+			map->width = width;
+		line = get_next_line(fd);
+		height++;
 	}
-	int row0[10] = {' ',' ',1,1,1,1,1,1,1,1};
-	int row1[10] = {1,1,1,0,1,1,0,0,1,1};
-	int row2[10] = {1,0,0,0,0,0,0,0,0,1};
-	int row3[10] = {1,0,0,0,0,0,0,0,0,1};
-	int row4[10] = {1,0,0,0,0,0,0,0,0,1};
-	int row5[10] = {1,1,1,1,1,1,1,1,1,1};
+	map->height = height;
+	get_next_line(-42);
+	close(fd);
+}
 
-	for (int j = 0; j < game->map->width; j++) {
-		game->map->grid[0][j] = row0[j];
-		game->map->grid[1][j] = row1[j];
-		game->map->grid[2][j] = row2[j];
-		game->map->grid[3][j] = row3[j];
-		game->map->grid[4][j] = row4[j];
-		game->map->grid[5][j] = row5[j];
+static void	fill_grid(t_map *map)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (y < map->height)
+	{
+		x = 0;
+		while (x < map->width)
+		{
+			map->grid[y][x] = VOID;
+			x++;
+		}
+		y++;
 	}
-	
-	// player
-	game->player->pos[0] = 1.5;
-	game->player->pos[1] = 4.5;
-	game->player->dir[0] = 0;
-	game->player->dir[1] = -1;
-	game->player->plane[0] = 0.66;
-	game->player->plane[1] = 0;
-	
-	// texture
-	game->map->ceiling = 0x87CEEB;
-	game->map->floor = 0x8B4513;
-	for (int k = 0; k < 4; k++) {
-		game->texture[k] = allocate_mem(1, sizeof(t_texture));
+}
+
+static void	init_grid(t_map *map)
+{
+	int	i;
+
+	i = 0;
+	map->grid = allocate_mem(sizeof(int *), map->height + 1);
+	if (!map->grid)
+		handle_error(MEMORY_ERROR, NULL);
+	while (i < map->height)
+	{
+		map->grid[i] = allocate_mem(sizeof(int), map->width + 1);
+		if (!map->grid[i])
+			handle_error(MEMORY_ERROR, NULL);
+		i++;
 	}
-	game->texture[0]->tex_ptr = mlx_xpm_file_to_image(
-		game->mlx->mlx_ptr,
-		"assets/textures/castle.xpm",
-		&game->texture[0]->width,
-		&game->texture[0]->height
-	);
-	if (!game->texture[0]->tex_ptr)
-		handle_error("Failed to load texture.\n");
-	game->texture[0]->tex_addr = mlx_get_data_addr(
-		game->texture[0]->tex_ptr,
-		&game->texture[0]->bpp,
-		&game->texture[0]->size_line,
-		&game->texture[0]->endian
-	);
-	game->texture[1]->tex_ptr = mlx_xpm_file_to_image(
-		game->mlx->mlx_ptr,
-		"assets/textures/cake.xpm",
-		&game->texture[1]->width,
-		&game->texture[1]->height
-	);
-	if (!game->texture[1]->tex_ptr)
-		handle_error("Failed to load texture.\n");
-	game->texture[1]->tex_addr = mlx_get_data_addr(
-		game->texture[1]->tex_ptr,
-		&game->texture[1]->bpp,
-		&game->texture[1]->size_line,
-		&game->texture[1]->endian
-	);
-	game->texture[2]->tex_ptr = mlx_xpm_file_to_image(
-		game->mlx->mlx_ptr,
-		"assets/textures/grass.xpm",
-		&game->texture[2]->width,
-		&game->texture[2]->height
-	);
-	if (!game->texture[2]->tex_ptr)
-		handle_error("Failed to load texture.\n");
-	game->texture[2]->tex_addr = mlx_get_data_addr(
-		game->texture[2]->tex_ptr,
-		&game->texture[2]->bpp,
-		&game->texture[2]->size_line,
-		&game->texture[2]->endian
-	);
-	game->texture[3]->tex_ptr = mlx_xpm_file_to_image(
-		game->mlx->mlx_ptr,
-		"assets/textures/choco.xpm",
-		&game->texture[3]->width,
-		&game->texture[3]->height
-	);
-	if (!game->texture[3]->tex_ptr)
-		handle_error("Failed to load texture.\n");
-	game->texture[3]->tex_addr = mlx_get_data_addr(
-		game->texture[3]->tex_ptr,
-		&game->texture[3]->bpp,
-		&game->texture[3]->size_line,
-		&game->texture[3]->endian
-	);
+	fill_grid(map);
 }
 
 t_game	*init(const char *map_file)
 {
+	int		i;
 	t_game	*game;
 
-	(void) map_file;
+	i = 0;
 	game = allocate_mem(1, sizeof(t_game));
 	game->map = allocate_mem(1, sizeof(t_map));
+	get_map_dimensions(game->map, map_file);
+	game->map->ceiling = 422;
+	game->map->floor = 422;
 	game->player = allocate_mem(1, sizeof(t_player));
+	game->player->player_num = 0;
 	game->mlx = allocate_mem(1, sizeof(t_mlx));
-	init_mlx(game); // apagar depois 
-	manual_init(game);  // TESTE
+	while (i < 4)
+	{
+		game->texture[i] = allocate_mem(1, sizeof(t_texture));
+		i++;
+	}
+	game->keys.w = false;
+	game->keys.a = false;
+	game->keys.s = false;
+	game->keys.d = false;
+	game->keys.left = false;
+	game->keys.right = false;
+	game->mouse_x = -1;
+	game->mouse_pressed = 0;
+	init_grid(game->map);
 	return (game);
 }

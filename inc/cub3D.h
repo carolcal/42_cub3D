@@ -13,16 +13,14 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "../minilibx-linux/mlx.h" // # include <mlx.h>
+// # include "../minilibx-linux/mlx.h" // 
+# include <mlx.h>
 # include <fcntl.h>
 # include <math.h>
 # include <stdbool.h>
 # include <stdint.h>
 # include <stdio.h>
-// # include <stdlib.h>
-// # include <string.h>
 # include <unistd.h>
-// # include <sys/time.h>
 # include "libft.h"
 
 # define EMPTY_FILE "Error: Empty File"
@@ -45,10 +43,11 @@
 # define WIN_HEIGHT 512
 # define TILE_SIZE 64
 
-# define FOV 60.0
+# define FOV 60.0 // não estou usando por enquanto
 # define MOVE_SPEED 0.05
-# define ROT_SPEED  0.05
+# define ROT_SPEED  0.01
 # define COLLISION_OFFSET 0.5
+# define MOUSE_SENSITIVITY 0.002 // BONUS
 
 # define W_KEY 119
 # define S_KEY 115
@@ -59,7 +58,7 @@
 # define UP_KEY 65362
 # define DOWN_KEY 65364
 # define ESC_KEY 65307
-# define SPACE_KEY
+# define SPACE_KEY // BONUS
 
 enum	e_axis
 {
@@ -91,8 +90,18 @@ enum	e_map_elements
 {
 	EMPTY = 0,
 	WALL = 1,
-	VOID = 2,
+	VOID = 2
 };
+
+typedef struct s_keyboard
+{
+	bool	w;
+	bool	a;
+	bool	s;
+	bool	d;
+	bool	left;
+	bool	right;
+}	t_keyboard;
 
 typedef struct s_ray
 {
@@ -110,7 +119,7 @@ typedef struct s_ray
 	int		line_end;
 }	t_ray;
 
-typedef struct	s_map
+typedef struct s_map
 {
 	char		*tex_path[4];
 	int			**grid;
@@ -120,7 +129,7 @@ typedef struct	s_map
 	uint32_t	floor;
 }	t_map;
 
-typedef struct	s_player
+typedef struct s_player
 {
 	double	pos[2];
 	double	dir[2];
@@ -128,7 +137,7 @@ typedef struct	s_player
 	int		player_num;
 }	t_player;
 
-typedef struct	s_mlx
+typedef struct s_mlx
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
@@ -141,7 +150,8 @@ typedef struct	s_mlx
 	int		height;
 }	t_mlx;
 
-typedef struct s_texture {
+typedef struct s_texture
+{
 	void	*tex_ptr;
 	char	*tex_addr;
 	int		width;
@@ -151,12 +161,15 @@ typedef struct s_texture {
 	int		endian;
 }	t_texture;
 
-typedef struct	s_game
+typedef struct s_game
 {
 	t_map		*map;
 	t_player	*player;
-	t_mlx 		*mlx;
+	t_mlx		*mlx;
 	t_texture	*texture[4];
+	t_keyboard	keys;
+	int			mouse_x;
+	int			mouse_pressed;
 }	t_game;
 
 // Functions
@@ -165,19 +178,18 @@ typedef struct	s_game
 t_game	*init(const char *map_file);
 
 //Parse
-bool 	is_valid_line(char *line);
-bool 	is_texture_line(char *line);
-bool 	is_color_line(char *line);
-bool 	is_map_line(char *line);
-bool 	is_empty_line(char *line);
-void    parse_textures(t_map *map, char *line);
-void    parse_color(t_map *map, char *line);
+bool	is_valid_line(char *line);
+bool	is_texture_line(char *line);
+bool	is_color_line(char *line);
+bool	is_map_line(char *line);
+bool	is_empty_line(char *line);
+void	parse_textures(t_map *map, char *line);
+void	parse_color(t_map *map, char *line);
 void	parse_map(t_game *game, int fd, char *line);
-void	parse_player(t_player *player, char c, int x, int y);
 void	parse_file(t_game *game, const char *map_file);
 
-//Validdation
-bool 	is_void_or_wall(int curr);
+//Validation
+bool	is_void_or_wall(int curr);
 bool	is_empty_or_wall(int curr);
 bool	check_around_space(t_map *map, int y, int x);
 void	validate_textures(char *texture[4]);
@@ -186,11 +198,33 @@ void	validate_map(t_game *game);
 void	validate_player(t_game *game);
 void	validate(t_game *game);
 
-// draw
+//MLX
 void	init_mlx(t_game *game);
-int		render_img(t_game *game);
+void	init_textures(t_game *game);
 int		close_window(t_game *game);
-int		handle_keys(int key, t_game *game);
+
+// draw
+int		render_img(t_game *game);
+void	put_pixel(t_game *game, int x, int y, int color);
+void	init_ray(t_player *player, t_ray *ray, int x);
+void	dda(t_game *game, t_ray *ray);
+void	compute_line(t_ray *ray);
+void	draw_texture(t_game *game, t_ray *ray, int x);
+void	draw_ceiling_and_floor(t_game *game, t_ray *ray, int x);
+uint32_t	interpolate_color(uint32_t color1, uint32_t color2, double factor);
+
+// hooks
+int		close_window(t_game *game);
+int		key_press(int key, t_game *game);
+int		key_release(int key, t_game *game);
+void	set_hooks(t_game *game);
+void	move_forward(t_player *p, t_map *map);
+void	move_backward(t_player *p, t_map *map);
+void	strafe_left(t_player *p, t_map *map);
+void	strafe_right(t_player *p, t_map *map);
+// void	move_forward_backward(t_player *p, t_map *map, int key);
+// void	move_left_right(t_player *p, t_map *map, int key);
+void	rotate_direction(t_player *p, int key);
 
 //Game
 void	start_game(const char *map_file);
