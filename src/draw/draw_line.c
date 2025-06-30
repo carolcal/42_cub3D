@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 10:29:04 by naharumi          #+#    #+#             */
-/*   Updated: 2025/06/27 11:44:42 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:58:56 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	calc_tex_x(t_player *p, t_ray *r, t_texture *t)
 	wall_x -= floor(wall_x);
 	tex_x = (int)(wall_x * t->width);
 	if ((r->side == 0 && r->ray_dir[X] > 0)
-			|| (r->side == 1 && r->ray_dir[Y] < 0))
+		|| (r->side == 1 && r->ray_dir[Y] < 0))
 		tex_x = t->width - tex_x - 1;
 	return (tex_x);
 }

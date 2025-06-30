@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:47:57 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/27 15:25:11 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/06/27 18:49:28 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ t_game	*init(const char *map_file)
 	game->keys.d = false;
 	game->keys.left = false;
 	game->keys.right = false;
+	game->mouse_x = -1;
+	game->mouse_pressed = 0;
 	init_grid(game->map);
 	return (game);
 }

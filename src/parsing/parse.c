@@ -6,7 +6,7 @@
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:48:23 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/27 15:26:35 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:59:32 by naharumi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,6 @@ void	parse_file(t_game *game, const char *map_file)
 	get_next_line(-42);
 	validate(game);
 	init_mlx(game);
-	parse_mlx(game);
+	init_textures(game);
 	close(fd);
 }

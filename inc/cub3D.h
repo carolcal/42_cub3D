@@ -22,30 +22,37 @@
 # include <unistd.h>
 # include "libft.h"
 
-# define EMPTY_FILE "Error: Empty File"
-# define INVALID_FORMAT "Error: Invalid Format File"
-# define INVALID_FILE "Error: Invalid File"
-# define INVALID_LINE "Error: Invalid Line"
-# define INVALID_MAP "Error: Invalid Map"
-# define INVALID_PLAYER "Error: Invalid Player Position"
-# define INVALID_TEXTURE "Error: Invalid Texture"
-# define INVALID_COLOR "Error: Invalid Background Color"
+# define EMPTY_FILE "Error: Empty file\n"
+# define INVALID_FORMAT "Error: Invalid file format\n"
+# define INVALID_FILE "Error: Invalid file\n"
+# define INVALID_LINE "Error: Invalid line\n"
+# define INVALID_MAP "Error: Invalid map\n"
+# define INVALID_PLAYER "Error: Invalid player position\n"
+# define INVALID_TEXTURE "Error: Invalid texture\n"
+# define INVALID_COLOR "Error: Invalid background color\n"
 # define MEMORY_ERROR "Error: When using malloc"
-# define DUPLICATE_TEXTURE "Error: Duplicate Texture"
-# define DUPLICATE_PLAYER "Error: Duplicate Player on the Map"
-# define MISSING_TEXTURE "Error: Missing one or more Textures"
-# define MISSING_COLOR "Error: Missing one or more Colors"
-# define MISSING_MAP "Error: Missing Map in File"
-# define MISSING_PLAYER "Error: Missing Player in Map"
+# define DUPLICATE_TEXTURE "Error: Duplicate texture\n"
+# define DUPLICATE_PLAYER "Error: Duplicate player on the map\n"
+# define MISSING_TEXTURE "Error: Missing one or more textures\n"
+# define MISSING_COLOR "Error: Missing one or more colors\n"
+# define MISSING_MAP "Error: Missing map in file\n"
+# define MISSING_PLAYER "Error: Missing player in map\n"
+# define MLX_INIT "Error: Failed to initialize MLX.\n"
+# define MLX_WIN "Error: Failed to create MLX window.\n"
+# define MLX_IMG "Error: Failed to create MLX image.\n"
+# define MLX_ADDR "Error: Failed to get MLX image address.\n"
+# define MLX_TEX_INIT "Error: Failed to load texture file.\n"
+# define MLX_TEX_ADDR "Error: Failed to get texture data.\n"
 
 # define WIN_WIDTH 960
 # define WIN_HEIGHT 512
 # define TILE_SIZE 64
 
-# define FOV 60.0
-# define MOVE_SPEED 0.0001
-# define ROT_SPEED  0.05
+# define FOV 60.0 // não estou usando por enquanto
+# define MOVE_SPEED 0.05
+# define ROT_SPEED  0.01
 # define COLLISION_OFFSET 0.5
+# define MOUSE_SENSITIVITY 0.002 // BONUS
 
 # define W_KEY 119
 # define S_KEY 115
@@ -56,7 +63,7 @@
 # define UP_KEY 65362
 # define DOWN_KEY 65364
 # define ESC_KEY 65307
-# define SPACE_KEY
+# define SPACE_KEY // BONUS
 
 enum	e_axis
 {
@@ -166,6 +173,8 @@ typedef struct s_game
 	t_mlx		*mlx;
 	t_texture	*texture[4];
 	t_keyboard	keys;
+	int			mouse_x;
+	int			mouse_pressed;
 }	t_game;
 
 // Functions
@@ -196,7 +205,7 @@ void	validate(t_game *game);
 
 //MLX
 void	init_mlx(t_game *game);
-void	parse_mlx(t_game *game);
+void	init_textures(t_game *game);
 int		close_window(t_game *game);
 
 // draw
@@ -214,9 +223,11 @@ int		close_window(t_game *game);
 int		key_press(int key, t_game *game);
 int		key_release(int key, t_game *game);
 void	set_hooks(t_game *game);
-void	move_forward_backward(t_player *p, t_map *map, int key);
-void	move_left_right(t_player *p, t_map *map, int key);
-void	rotate_direction(t_player *p, int key);
+void	move_forward(t_player *p, t_map *map);
+void	move_backward(t_player *p, t_map *map);
+void	strafe_left(t_player *p, t_map *map);
+void	strafe_right(t_player *p, t_map *map);
+void	rotate_direction(t_player *p, double rot_speed);
 
 //Game
 void	start_game(const char *map_file);
