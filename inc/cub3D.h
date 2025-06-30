@@ -89,7 +89,7 @@ enum	e_texture
 	SOUTH,
 	WEST,
 	EAST,
-	DOOR
+	DOOR,
 };
 
 enum	e_map_elements
@@ -145,7 +145,19 @@ typedef struct s_player
 	double	dir[2];
 	double	plane[2];
 	int		player_num;
+    char    start_dir;
 }	t_player;
+
+typedef struct s_texture
+{
+	void	*tex_ptr;
+	char	*tex_addr;
+	int		width;
+	int		height;
+	int		bpp;
+	int		size_line;
+	int		endian;
+}	t_texture;
 
 typedef struct s_sprite
 {
@@ -167,17 +179,6 @@ typedef struct s_mlx
 	int		width;
 	int		height;
 }	t_mlx;
-
-typedef struct s_texture
-{
-	void	*tex_ptr;
-	char	*tex_addr;
-	int		width;
-	int		height;
-	int		bpp;
-	int		size_line;
-	int		endian;
-}	t_texture;
 
 typedef struct s_game
 {
@@ -219,7 +220,7 @@ void		validate(t_game *game);
 
 //MLX
 void		init_mlx(t_game *game);
-void		parse_mlx(t_game *game);
+void	    init_textures(t_game *game);
 int			close_window(t_game *game);
 
 // draw
@@ -233,7 +234,6 @@ void		draw_ceiling_and_floor(t_game *game, t_ray *ray, int x);
 uint32_t	interpolate_color(uint32_t color1, uint32_t color2, double factor);
 
 // hooks
-int			close_window(t_game *game);
 int			key_press(int key, t_game *game);
 int			key_release(int key, t_game *game);
 void		set_hooks(t_game *game);

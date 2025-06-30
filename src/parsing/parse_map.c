@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:42:54 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/30 10:50:11 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/30 12:24:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ static void	parse_map_char(t_game *game, char c, int y, int x)
 		game->map->grid[y][x] = VOID;
 	else if (c == 'D')
 		game->map->grid[y][x] = DOOR;
-	else if (c == 'P')
-		game->map->grid[y][x] = SPRITE;
+	//else if (c == 'P')
+	//	game->map->grid[y][x] = SPRITE;
 	else if (ft_strchr("NSEW", c))
 	{
 		game->map->grid[y][x] = EMPTY;
