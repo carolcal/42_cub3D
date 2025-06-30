@@ -13,19 +13,6 @@
 #include "cub3D.h"
 
 // handle mouse -- BONUS
-void	rotate_player_mouse(t_player *p, double rot_speed)
-{
-	double	old_dir_x;
-	double	old_plane_x;
-
-	old_dir_x = p->dir[X];
-	old_plane_x = p->plane[X];
-	p->dir[X] = p->dir[X] * cos(rot_speed) - p->dir[Y] * sin(rot_speed);
-	p->dir[Y] = old_dir_x * sin(rot_speed) + p->dir[Y] * cos(rot_speed);
-	p->plane[X] = p->plane[X] * cos(rot_speed) - p->plane[Y] * sin(rot_speed);
-	p->plane[Y] = old_plane_x * sin(rot_speed) + p->plane[Y] * cos(rot_speed);
-}
-
 int	mouse_press(int button, int x, int y, t_game *game)
 {
 	if (button == 1)
@@ -48,29 +35,26 @@ int	mouse_release(int button, int x, int y, t_game *game)
 
 int	mouse_move(int x, int y, t_game *game)
 {
-	int delta_x;
+	int	delta_x;
 
+	(void)y;
 	if (!game->mouse_pressed)
 		return (0);
-
 	delta_x = x - game->mouse_x;
-
 	if (delta_x != 0)
-		rotate_player_mouse(game->player, delta_x * MOUSE_SENSITIVITY);
-
+		rotate_direction(game->player, delta_x * MOUSE_SENSITIVITY);
 	game->mouse_x = x;
-	(void)y;
 	return (0);
 }
 
 // handle keys
 int	key_press(int key, t_game *game)
 {
-	if (key == W_KEY || key == UP_KEY)
+	if (key == W_KEY)
 		game->keys.w = true;
 	else if (key == A_KEY)
 		game->keys.a = true;
-	else if (key == S_KEY || key == DOWN_KEY)
+	else if (key == S_KEY)
 		game->keys.s = true;
 	else if (key == D_KEY)
 		game->keys.d = true;
@@ -85,11 +69,11 @@ int	key_press(int key, t_game *game)
 
 int	key_release(int key, t_game *game)
 {
-	if (key == W_KEY || key == UP_KEY)
+	if (key == W_KEY)
 		game->keys.w = false;
 	else if (key == A_KEY)
 		game->keys.a = false;
-	else if (key == S_KEY || key == DOWN_KEY)
+	else if (key == S_KEY)
 		game->keys.s = false;
 	else if (key == D_KEY)
 		game->keys.d = false;
@@ -111,9 +95,9 @@ static int	handle_keys(t_game *game)
 	if (game->keys.d)
 		strafe_right(game->player, game->map);
 	if (game->keys.left)
-		rotate_direction(game->player, LEFT_KEY);
+		rotate_direction(game->player, -ROT_SPEED);
 	if (game->keys.right)
-		rotate_direction(game->player, RIGHT_KEY);
+		rotate_direction(game->player, ROT_SPEED);
 	return (0);
 }
 

@@ -20,8 +20,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 # Library
 LIBFT = lib/
-#MLX_DIR = minilibx-linux/ #
-MLX_DIR = usr/local/lib/
+MLX_DIR = minilibx-linux/ #MLX_DIR = usr/local/lib/
 LIBMLX	= -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
 
 # Directories

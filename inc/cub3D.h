@@ -13,8 +13,7 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-// # include "../minilibx-linux/mlx.h" // 
-# include <mlx.h>
+# include "../minilibx-linux/mlx.h" // # include <mlx.h>
 # include <fcntl.h>
 # include <math.h>
 # include <stdbool.h>
@@ -23,21 +22,27 @@
 # include <unistd.h>
 # include "libft.h"
 
-# define EMPTY_FILE "Error: Empty File"
-# define INVALID_FORMAT "Error: Invalid Format File"
-# define INVALID_FILE "Error: Invalid File"
-# define INVALID_LINE "Error: Invalid Line"
-# define INVALID_MAP "Error: Invalid Map"
-# define INVALID_PLAYER "Error: Invalid Player Position"
-# define INVALID_TEXTURE "Error: Invalid Texture"
-# define INVALID_COLOR "Error: Invalid Background Color"
+# define EMPTY_FILE "Error: Empty file\n"
+# define INVALID_FORMAT "Error: Invalid file format\n"
+# define INVALID_FILE "Error: Invalid file\n"
+# define INVALID_LINE "Error: Invalid line\n"
+# define INVALID_MAP "Error: Invalid map\n"
+# define INVALID_PLAYER "Error: Invalid player position\n"
+# define INVALID_TEXTURE "Error: Invalid texture\n"
+# define INVALID_COLOR "Error: Invalid background color\n"
 # define MEMORY_ERROR "Error: When using malloc"
-# define DUPLICATE_TEXTURE "Error: Duplicate Texture"
-# define DUPLICATE_PLAYER "Error: Duplicate Player on the Map"
-# define MISSING_TEXTURE "Error: Missing one or more Textures"
-# define MISSING_COLOR "Error: Missing one or more Colors"
-# define MISSING_MAP "Error: Missing Map in File"
-# define MISSING_PLAYER "Error: Missing Player in Map"
+# define DUPLICATE_TEXTURE "Error: Duplicate texture\n"
+# define DUPLICATE_PLAYER "Error: Duplicate player on the map\n"
+# define MISSING_TEXTURE "Error: Missing one or more textures\n"
+# define MISSING_COLOR "Error: Missing one or more colors\n"
+# define MISSING_MAP "Error: Missing map in file\n"
+# define MISSING_PLAYER "Error: Missing player in map\n"
+# define MLX_INIT "Error: Failed to initialize MLX.\n"
+# define MLX_WIN "Error: Failed to create MLX window.\n"
+# define MLX_IMG "Error: Failed to create MLX image.\n"
+# define MLX_ADDR "Error: Failed to get MLX image address.\n"
+# define MLX_TEX_INIT "Error: Failed to load texture file.\n"
+# define MLX_TEX_ADDR "Error: Failed to get texture data.\n"
 
 # define WIN_WIDTH 960
 # define WIN_HEIGHT 512
@@ -222,9 +227,7 @@ void	move_forward(t_player *p, t_map *map);
 void	move_backward(t_player *p, t_map *map);
 void	strafe_left(t_player *p, t_map *map);
 void	strafe_right(t_player *p, t_map *map);
-// void	move_forward_backward(t_player *p, t_map *map, int key);
-// void	move_left_right(t_player *p, t_map *map, int key);
-void	rotate_direction(t_player *p, int key);
+void	rotate_direction(t_player *p, double rot_speed);
 
 //Game
 void	start_game(const char *map_file);

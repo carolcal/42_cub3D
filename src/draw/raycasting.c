@@ -47,8 +47,14 @@ void	init_ray(t_player *player, t_ray *ray, int x)
 	ray->map_pos[Y] = (int)player->pos[Y];
 	ray->ray_dir[X] = player->dir[X] + player->plane[X] * ray->camera_x;
 	ray->ray_dir[Y] = player->dir[Y] + player->plane[Y] * ray->camera_x;
-	ray->delta_dist[X] = fabs(1 / ray->ray_dir[X]);
-	ray->delta_dist[Y] = fabs(1 / ray->ray_dir[Y]);
+	if (ray->ray_dir[X] == 0)
+		ray->delta_dist[X] = 1e30;
+	else
+		ray->delta_dist[X] = fabs(1 / ray->ray_dir[X]);
+	if (ray->ray_dir[Y] == 0)
+		ray->delta_dist[Y] = 1e30;
+	else
+		ray->delta_dist[Y] = fabs(1 / ray->ray_dir[Y]);
 	init_side_step(ray, player);
 }
 
@@ -72,14 +78,14 @@ void	dda(t_game *game, t_ray *ray)
 		if (game->map->grid[ray->map_pos[Y]][ray->map_pos[X]] == 1)
 			ray->hit = 1;
 	}
-	if (ray->side == 0)
-		ray->wall_dist = (ray->side_dist[X] - ray->delta_dist[X]);
-	else
-		ray->wall_dist = (ray->side_dist[Y] - ray->delta_dist[Y]);
 }
 
 void	compute_line(t_ray *ray)
 {
+	if (ray->side == 0)
+		ray->wall_dist = ray->side_dist[X] - ray->delta_dist[X];
+	else
+		ray->wall_dist = ray->side_dist[Y] - ray->delta_dist[Y];
 	ray->line_height = (int)(WIN_HEIGHT / ray->wall_dist);
 	ray->line_start = -ray->line_height / 2 + WIN_HEIGHT / 2;
 	if (ray->line_start < 0)
