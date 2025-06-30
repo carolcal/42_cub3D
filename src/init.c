@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:47:57 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/27 18:49:28 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/06/30 10:48:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ t_game	*init(const char *map_file)
 	get_map_dimensions(game->map, map_file);
 	game->map->ceiling = 422;
 	game->map->floor = 422;
+	game->map->door_tex_path = ft_strdup("assets/door.xpm");
+	game->map->sprite_tex_path = ft_strdup("assets/enemy.xpm");
 	game->player = allocate_mem(1, sizeof(t_player));
 	game->player->player_num = 0;
 	game->mlx = allocate_mem(1, sizeof(t_mlx));
@@ -102,8 +104,6 @@ t_game	*init(const char *map_file)
 	game->keys.d = false;
 	game->keys.left = false;
 	game->keys.right = false;
-	game->mouse_x = -1;
-	game->mouse_pressed = 0;
 	init_grid(game->map);
 	return (game);
 }
