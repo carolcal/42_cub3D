@@ -132,6 +132,8 @@ typedef struct s_map
 	char		*tex_path[5];
 	char		*door_tex_path; //BONUS
 	char		*sprite_tex_path; //BONUS
+    t_sprite	*sprites;
+	int			num_sprites;
 	int			**grid;
 	int			width;
 	int			height;
@@ -164,6 +166,9 @@ typedef struct s_sprite
 {
 	char		*tex_path[2];
 	double		pos[2];
+	double		relative_pos[2];
+	double		draw_start[2];
+	double		draw_end[2];
 	int			width;
 	int			height;
 }	t_sprite;
@@ -192,6 +197,7 @@ typedef struct s_game
 	t_keyboard	keys;
 	int			mouse_x;
 	int			mouse_pressed;
+	int			z_buffer[WIN_WIDTH];
 }	t_game;
 
 // Functions
