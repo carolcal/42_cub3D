@@ -89,7 +89,7 @@ enum	e_texture
 	SOUTH,
 	WEST,
 	EAST,
-	DOOR,
+	DOOR, //BONUS
 };
 
 enum	e_map_elements
@@ -159,9 +159,10 @@ typedef struct s_texture
 	int		endian;
 }	t_texture;
 
+//sprite - BONUS
 typedef struct s_sprite
 {
-	t_texture	*texture[2];
+	char		*tex_path[2];
 	double		pos[2];
 	int			width;
 	int			height;
@@ -186,7 +187,8 @@ typedef struct s_game
 	t_player	*player;
 	t_sprite	*sprite;
 	t_mlx		*mlx;
-	t_texture	*texture[4];
+	t_texture	*texture[4]; //BONUS: texture[5] (door)
+    t_texture   *sprite_texture[2]; //BONUS
 	t_keyboard	keys;
 	int			mouse_x;
 	int			mouse_pressed;
@@ -237,9 +239,13 @@ uint32_t	interpolate_color(uint32_t color1, uint32_t color2, double factor);
 int			key_press(int key, t_game *game);
 int			key_release(int key, t_game *game);
 void		set_hooks(t_game *game);
+void		move_forward(t_player *p, t_map *map);
+void		move_backward(t_player *p, t_map *map);
+void		strafe_left(t_player *p, t_map *map);
+void		strafe_right(t_player *p, t_map *map);
 void		move_forward_backward(t_player *p, t_map *map, int key);
 void		move_left_right(t_player *p, t_map *map, int key);
-void		rotate_direction(t_player *p, int key);
+void	    rotate_direction(t_player *p, double rot_speed);
 
 //Game
 void		start_game(const char *map_file);
