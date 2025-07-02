@@ -102,8 +102,8 @@ t_game	*init(const char *map_file)
 	game->keys.d = false;
 	game->keys.left = false;
 	game->keys.right = false;
-	game->mouse_x = -1;
-	game->mouse_pressed = 0;
+	game->mouse_x = -1;			// BONUS
+	game->mouse_pressed = 0;	// BONUS
 	init_grid(game->map);
 	return (game);
 }

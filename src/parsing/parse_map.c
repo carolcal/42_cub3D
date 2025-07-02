@@ -12,51 +12,45 @@
 
 #include "cub3D.h"
 
-static void	parse_player_north_south(t_player *player, char c)
+static void parse_player_direction(t_player *player)
 {
-	player->dir[X] = NORTH_SOUTH;
-	if (c == 'N')
+	if (player->start_dir == 'W')
 	{
-		player->dir[Y] = LEFT;
-		player->plane[X] = 0.66;
-		player->plane[Y] = 0;
-	}
-	else
-	{
-		player->dir[Y] = RIGHT;
-		player->plane[X] = -0.66;
-		player->plane[Y] = 0;
-	}
-}
-
-static void	parse_player_west_east(t_player *player, char c)
-{
-	player->dir[Y] = WEST_EAST;
-	if (c == 'W')
-	{
-		player->dir[X] = LEFT;
+		player->dir[X] = -1;
 		player->plane[Y] = -0.66;
-		player->plane[X] = 0;
+	}
+	else if (player->start_dir == 'E')
+	{
+		player->dir[X] = 1;
+		player->plane[Y] = 0.66;
+	}
+	else if (player->start_dir == 'S')
+	{
+		player->dir[Y] = 1;
+		player->plane[X] = -0.66;
+	}
+	else if (player->start_dir == 'N')
+	{
+		player->dir[Y] = -1;
+		player->plane[X] = 0.66;
 	}
 	else
-	{
-		player->dir[X] = RIGHT;
-		player->plane[Y] = 0.66;
-		player->plane[X] = 0;
-	}
+	handle_error(INVALID_PLAYER, NULL);
 }
 
-static void	parse_player(t_player *player, char c, int x, int y)
+static void    parse_player(t_player *player, char c, int x, int y)
 {
 	if (player->player_num > 0)
 		handle_error(DUPLICATE_PLAYER, NULL);
 	player->player_num = 1;
+	player->start_dir = c;
 	player->pos[X] = x;
 	player->pos[Y] = y;
-	if (c == 'N' || c == 'S')
-		parse_player_north_south(player, c);
-	else
-		parse_player_west_east(player, c);
+	player->dir[X] = 0;
+	player->dir[y] = 0;
+	player->plane[X] = 0;
+	player->plane[Y] = 0;
+	parse_player_direction(player);
 }
 
 static void	parse_map_char(t_game *game, char c, int y, int x)
@@ -67,6 +61,8 @@ static void	parse_map_char(t_game *game, char c, int y, int x)
 		game->map->grid[y][x] = EMPTY;
 	else if (c == ' ')
 		game->map->grid[y][x] = VOID;
+	else if (c == 'D')							// BONUS
+		game->map->grid[y][x] = DOOR_CLOSE;
 	else if (ft_strchr("NSEW", c))
 	{
 		game->map->grid[y][x] = EMPTY;

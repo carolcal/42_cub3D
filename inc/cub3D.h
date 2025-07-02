@@ -52,7 +52,7 @@
 # define MOVE_SPEED 0.05
 # define ROT_SPEED  0.01
 # define COLLISION_OFFSET 0.5
-# define MOUSE_SENSITIVITY 0.002 // BONUS
+# define MOUSE_SENSITIVITY 0.002	// BONUS
 
 # define W_KEY 119
 # define S_KEY 115
@@ -63,7 +63,7 @@
 # define UP_KEY 65362
 # define DOWN_KEY 65364
 # define ESC_KEY 65307
-# define SPACE_KEY // BONUS
+# define SPACE_KEY		// BONUS
 
 enum	e_axis
 {
@@ -88,14 +88,17 @@ enum	e_texture
 	NORTH,
 	SOUTH,
 	WEST,
-	EAST
+	EAST,
+	DOOR, //BONUS
 };
 
 enum	e_map_elements
 {
 	EMPTY = 0,
 	WALL = 1,
-	VOID = 2
+	VOID = 2,
+	DOOR_OPEN = 3,		//BONUS
+	DOOR_CLOSE = 4		//BONUS
 };
 
 typedef struct s_keyboard
@@ -122,11 +125,14 @@ typedef struct s_ray
 	int		line_height;
 	int		line_start;
 	int		line_end;
+	int		hit_type;				// BONUS
 }	t_ray;
 
 typedef struct s_map
 {
-	char		*tex_path[4];
+	char		*tex_path[5];
+	char		*door_tex_path;		// BONUS
+	char		*sprite_tex_path;	// BONUS
 	int			**grid;
 	int			width;
 	int			height;
@@ -140,6 +146,7 @@ typedef struct s_player
 	double	dir[2];
 	double	plane[2];
 	int		player_num;
+	char    start_dir;
 }	t_player;
 
 typedef struct s_mlx
@@ -171,7 +178,8 @@ typedef struct s_game
 	t_map		*map;
 	t_player	*player;
 	t_mlx		*mlx;
-	t_texture	*texture[4];
+	t_texture	*texture[5];			//BONUS: texture[5] (door)
+    t_texture   *sprite_texture[2];		//BONUS
 	t_keyboard	keys;
 	int			mouse_x;
 	int			mouse_pressed;

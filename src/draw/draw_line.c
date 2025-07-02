@@ -14,6 +14,8 @@
 
 static t_texture	*get_wall_texture(t_game *game, t_ray *ray)
 {
+	if (ray->hit_type == DOOR_CLOSE)	// BONUS
+		return (game->texture[DOOR]);
 	if (ray->side == 0)
 	{
 		if (ray->ray_dir[X] > 0)
