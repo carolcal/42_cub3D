@@ -1,7 +1,7 @@
-NO ./assets/texture.xpm
-SO ./assets/texture.xpm
-WE ./assets/texture.xpm
-EA ./assets/texture.xpm
+NO ./assets/textures/cake.xpm
+SO ./assets/textures/castle.xpm
+WE ./assets/textures/choco.xpm
+EA ./assets/textures/snow.xpm
 
 F 220,100,0
 C 225,30,0
