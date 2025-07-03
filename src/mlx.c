@@ -69,7 +69,7 @@ void	init_sprite_textures(t_game *game)
 	{
 		game->sprite_texture[i]->tex_ptr = mlx_xpm_file_to_image(
 				game->mlx->mlx_ptr,
-				game->sprites[0].tex_path[i],
+				game->sprite_tex_path[i],
 				&game->sprite_texture[i]->width,
 				&game->sprite_texture[i]->height
 				);
@@ -103,12 +103,12 @@ static void	free_textures(t_game *game)
 		}
 		i++;
 	}
-	while (j < 4)
+	while (j < 2)
 	{
-		if (game->texture[j] && game->texture[j]->tex_ptr)
+		if (game->sprite_texture[j] && game->sprite_texture[j]->tex_ptr)
 		{
-			mlx_destroy_image(game->mlx->mlx_ptr, game->texture[j]->tex_ptr);
-			game->texture[j]->tex_ptr = NULL;
+			mlx_destroy_image(game->mlx->mlx_ptr, game->sprite_texture[j]->tex_ptr);
+			game->sprite_texture[j]->tex_ptr = NULL;
 		}
 		j++;
 	}

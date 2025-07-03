@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 10:07:37 by cayamash          #+#    #+#             */
-/*   Updated: 2025/07/03 12:07:05 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/07/03 14:55:51 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,11 @@ void	update_sprites(t_game *game)
 	while (i < game->num_sprites)
 	{
 		sprite = &game->sprites[i];
+		if (sprite->enemy == false)
+		{
+			i++;
+			continue;
+		}
 		next[X] = sprite->pos[X] + sprite->dir[X] * speed;
 		next[Y] = sprite->pos[Y] + sprite->dir[Y] * speed;
 		check_colision_x(sprite, next, game->map);
@@ -76,7 +81,7 @@ void	update_sprites(t_game *game)
 	}
 }
 
-bool	player_touch_sprite(t_game *game)
+int	player_touch_sprite(t_game *game)
 {
 	int		i;
 	double	d[2];
@@ -91,8 +96,13 @@ bool	player_touch_sprite(t_game *game)
 		distance = sqrt(d[X] * d[X] + d[Y] * d[Y]);
 		collision_radius = 1;
 		if (distance < collision_radius)
-			return (true);
+		{
+			if (game->sprites[i].enemy)
+				return (1);
+			else
+				return (2);
+		}
 		i++;
 	}
-	return (false);
+	return (0);
 }

@@ -52,23 +52,28 @@ static void draw_sprite_y(t_game *game, t_sprite *sprite, int x, int tex_x)
 	int	d;
 	int	tex_y;
 	int	color;
+	t_texture	*texture;
 
+	if (sprite->enemy)
+			texture = game->sprite_texture[0];
+		else
+			texture = game->sprite_texture[1];
 	y = sprite->draw_start[Y];
 	while (y < sprite->draw_end[Y])
 	{
 		d = y * 256 - WIN_HEIGHT * 128 + sprite->height * 128;
-		tex_y = (d * game->sprite_texture[0]->height) / sprite->height / 256;
+		tex_y = (d * texture->height) / sprite->height / 256;
 
-		color = *(int *)(game->sprite_texture[0]->tex_addr +
-			tex_y * game->sprite_texture[0]->size_line +
-			tex_x * (game->sprite_texture[0]->bpp / 8));
+		color = *(int *)(texture->tex_addr +
+			tex_y * texture->size_line +
+			tex_x * (texture->bpp / 8));
 		if ((color & 0x00FFFFFF) != 0)
 			put_pixel(game, x, y, color);
 		y++;
 	}
 }
 
-static void draw_sprite_x(t_game *game, t_sprite *sprite)
+static void draw_sprite_x(t_game *game, t_sprite *sprite, t_texture *texture)
 {
 	int	x;
 	int	tex_x;
@@ -77,7 +82,7 @@ static void draw_sprite_x(t_game *game, t_sprite *sprite)
 	while (x < sprite->draw_end[X])
 	{
 		tex_x = (int)((x - (-sprite->width / 2 + sprite->screen_x)) * 
-			game->sprite_texture[0]->width / sprite->width);
+			texture->width / sprite->width);
 
 		if (x > 0 && x < WIN_WIDTH)
 		{
@@ -93,8 +98,8 @@ static void draw_sprite_x(t_game *game, t_sprite *sprite)
 
 void    draw_sprites(t_game *game)
 {
-    int i;
-
+    int 		i;
+	t_texture	*texture;
     i = 0;
     while (i < game->num_sprites)
     {
@@ -104,7 +109,11 @@ void    draw_sprites(t_game *game)
 			continue;
 		}
 		get_sprite_coordinates(&game->sprites[i]);
-		draw_sprite_x(game, &game->sprites[i]);
+		if (game->sprites[i].enemy)
+			texture = game->sprite_texture[0];
+		else
+			texture = game->sprite_texture[1];
+		draw_sprite_x(game, &game->sprites[i], texture);
         i++;
     }
 }

@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:47:57 by cayamash          #+#    #+#             */
-/*   Updated: 2025/07/03 12:15:59 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/07/03 16:54:12 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	get_map_dimensions(t_map *map, const char *map_file)
 		width = 0;
 		while (line[width] && line[width] != '\n' && line[width] != '\r')
         {
-            if (line[width] == 'P')
+            if (line[width] == 'P' || line[width] == 'G')
                 num_sprites++;
 			width++;
         }
@@ -97,11 +97,12 @@ t_game	*init(const char *map_file)
     //BONUS (sprites);
     game->num_sprites = get_map_dimensions(game->map, map_file);
     game->sprites = allocate_mem(game->num_sprites, sizeof(t_sprite));
+	game->sprite_tex_path[0] = ft_strdup(TEX_ENEMY);
+	game->sprite_tex_path[1] = ft_strdup(TEX_GOAL);
     game->map->parsed_sprites = 0;
 	game->map->ceiling = 422;
 	game->map->floor = 422;
 	game->map->door_tex_path = ft_strdup("assets/door.xpm");
-	game->map->sprite_tex_path = ft_strdup("assets/enemy.xpm");
 	game->player = allocate_mem(1, sizeof(t_player));
 	game->player->player_num = 0;
 	game->mlx = allocate_mem(1, sizeof(t_mlx));

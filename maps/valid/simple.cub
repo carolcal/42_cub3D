@@ -1,10 +1,10 @@
-NO assets/texture.xpm
-SO assets/texture.xpm
-WE assets/texture.xpm
-EA assets/texture.xpm
+NO assets/astronaut1.xpm
+SO assets/astronaut1.xpm
+WE assets/astronaut1.xpm
+EA assets/astronaut1.xpm
 
-F 32,24,85
-C 85,24,32
+F 47,58,175
+C 23,19,60
 
 1111111111
 10P0000001
@@ -13,6 +13,6 @@ C 85,24,32
 1000000001
 1000N00001
 1000000001
+100G000001
 1000000001
-100P000001
 1111111111

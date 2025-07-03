@@ -65,6 +65,9 @@
 # define ESC_KEY 65307
 # define SPACE_KEY // BONUS
 
+# define TEX_ENEMY "assets/flaviano_1.xpm"
+# define TEX_GOAL "assets/cordao.xpm"
+
 enum	e_axis
 {
 	X,
@@ -131,7 +134,6 @@ typedef struct s_map
 {
 	char		*tex_path[5];
 	char		*door_tex_path; //BONUS
-	char		*sprite_tex_path; //BONUS
 	int			parsed_sprites;
 	int			**grid;
 	int			width;
@@ -163,7 +165,6 @@ typedef struct s_texture
 //sprite - BONUS
 typedef struct s_sprite
 {
-	char		*tex_path[2];
 	double		pos[2];
 	double		relative_pos[2];
 	double		transform[2];
@@ -174,6 +175,7 @@ typedef struct s_sprite
 	int			width;
 	int			height;
 	int			dir[2];
+	bool		enemy;
 }	t_sprite;
 
 typedef struct s_mlx
@@ -198,6 +200,7 @@ typedef struct s_game
 	t_mlx		*mlx;
 	t_texture	*texture[4]; //BONUS: texture[5] (door)
 	t_texture	*sprite_texture[2]; //BONUS
+	char		*sprite_tex_path[2]; //BONUS
 	t_keyboard	keys;
 	int			mouse_x;
 	int			mouse_pressed;
@@ -259,7 +262,7 @@ void		move_forward_backward(t_player *p, t_map *map, int key);
 void		move_left_right(t_player *p, t_map *map, int key);
 void		rotate_direction(t_player *p, double rot_speed);
 void		update_sprites(t_game *game);
-bool		player_touch_sprite(t_game *game);
+int			player_touch_sprite(t_game *game);
 
 //Error
 void		handle_error(char *error, char *str);
