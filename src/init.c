@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:47:57 by cayamash          #+#    #+#             */
-/*   Updated: 2025/07/02 16:22:52 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/03 12:17:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,18 @@ static void	init_grid(t_map *map)
 	fill_grid(map);
 }
 
+static void	init_buttons(t_game *game)
+{
+	game->keys.w = false;
+	game->keys.a = false;
+	game->keys.s = false;
+	game->keys.d = false;
+	game->keys.left = false;
+	game->keys.right = false;
+	game->mouse_x = -1;			// BONUS
+	game->mouse_pressed = 0;	// BONUS
+}
+
 t_game	*init(const char *map_file)
 {
 	int		i;
@@ -99,14 +111,7 @@ t_game	*init(const char *map_file)
 		game->texture[i] = allocate_mem(1, sizeof(t_texture));
 		i++;
 	}
-	game->keys.w = false;
-	game->keys.a = false;
-	game->keys.s = false;
-	game->keys.d = false;
-	game->keys.left = false;
-	game->keys.right = false;
-	game->mouse_x = -1;			// BONUS
-	game->mouse_pressed = 0;	// BONUS
+	init_buttons(game);
 	init_grid(game->map);
 	return (game);
 }

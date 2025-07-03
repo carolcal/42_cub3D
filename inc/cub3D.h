@@ -49,9 +49,14 @@
 # define WIN_WIDTH 960
 # define WIN_HEIGHT 512
 # define TILE_SIZE 64
+# define MINIMAP_MARGIN 10			// BONUS
+# define MINIMAP_WIDTH 150			// BONUS
+# define MINIMAP_HEIGHT 80			// BONUS
+# define MINIMAP_TILE 8				// BONUS
+# define PLAYER_DOT_SIZE 2			// BONUS
 
-# define MOVE_SPEED 0.01
-# define ROT_SPEED  0.005
+# define MOVE_SPEED 0.05
+# define ROT_SPEED  0.01
 # define COLLISION_OFFSET 0.3
 # define MOUSE_SENSITIVITY 0.002	// BONUS
 
@@ -99,7 +104,7 @@ enum	e_map_elements
 	EMPTY = 0,
 	WALL = 1,
 	DOOR_CLOSE = 2,		// BONUS
-	VOID = 3
+	VOID = 4
 };
 
 typedef struct s_keyboard
@@ -241,6 +246,10 @@ void		dda(t_game *game, t_ray *ray);
 void		compute_line(t_ray *ray);
 void		draw_texture(t_game *game, t_ray *ray, int x);
 void		draw_ceiling_and_floor(t_game *game, t_ray *ray, int x);
+void		draw_minimap_bg(t_game *g);											// BONUS
+void		draw_minimap_tiles(t_game *g, int start_pos[2]);					// BONUS
+void		draw_player_dot(t_game *g, int dot_pos[2], int radius, int color);	// BONUS
+void		draw_player_line(t_game *g, int start[2], int end[2], int color);	// BONUS
 uint32_t	interpolate_color(uint32_t color1, uint32_t color2, double factor);
 
 /* ******************************** Actions ********************************* */

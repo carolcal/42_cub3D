@@ -36,7 +36,7 @@ INCLUDES = -I inc/ -I $(LIBFT)
 SRC = $(addprefix $(SRC_DIR), main.c init.c mlx.c) \
 	$(addprefix $(PAR_DIR), parse.c parse_map.c parse_properties.c parse_utils.c) \
 	$(addprefix $(VAL_DIR), validate.c validate_map.c validate_utils.c) \
-	$(addprefix $(DRAW_DIR), draw.c draw_line.c raycasting.c) \
+	$(addprefix $(DRAW_DIR), draw.c raycasting.c draw_ray.c draw_minimap.c draw_utils.c) \
 	$(addprefix $(ACT_DIR), hooks.c handle_keys.c handle_mouse.c actions.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
