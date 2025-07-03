@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:42:54 by cayamash          #+#    #+#             */
-/*   Updated: 2025/07/02 17:34:47 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/03 12:24:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ static void    parse_player(t_player *player, char c, int x, int y)
 		handle_error(DUPLICATE_PLAYER, NULL);
 	player->player_num = 1;
 	player->start_dir = c;
-	player->pos[X] = x;
-	player->pos[Y] = y;
+	player->pos[X] = x + 0.5;
+	player->pos[Y] = y + 0.5;
 	player->dir[X] = 0;
 	player->dir[y] = 0;
 	player->plane[X] = 0;
