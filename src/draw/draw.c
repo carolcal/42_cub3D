@@ -54,7 +54,7 @@ void	draw_3d_map(t_game *game)
 		compute_line(&ray);
 		draw_ceiling_and_floor(game, &ray, x);
 		draw_texture(game, &ray, x);
-        gane->z_buffer[x] = ray.wall_dist;
+        game->z_buffer[x] = ray.wall_dist;
 		x++;
 	}
 }
@@ -64,8 +64,7 @@ int	render_img(t_game *game)
     ft_bzero(game->mlx->img_addr, WIN_WIDTH * WIN_HEIGHT
 		* (game->mlx->bpp / 8));
     draw_3d_map(game);
-    draw_sprites(game, &ray, x);
-
+    draw_sprites(game);
 	mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win_ptr,
 		game->mlx->img_ptr, 0, 0);
 	return (0);

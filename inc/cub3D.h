@@ -132,8 +132,7 @@ typedef struct s_map
 	char		*tex_path[5];
 	char		*door_tex_path; //BONUS
 	char		*sprite_tex_path; //BONUS
-    t_sprite	*sprites;
-	int			num_sprites;
+	int			parsed_sprites;
 	int			**grid;
 	int			width;
 	int			height;
@@ -167,8 +166,10 @@ typedef struct s_sprite
 	char		*tex_path[2];
 	double		pos[2];
 	double		relative_pos[2];
+	double		transform[2];
 	double		draw_start[2];
 	double		draw_end[2];
+	int			screen_x;
 	int			width;
 	int			height;
 }	t_sprite;
@@ -190,7 +191,8 @@ typedef struct s_game
 {
 	t_map		*map;
 	t_player	*player;
-	t_sprite	*sprite;
+	t_sprite	*sprites; //BONUS
+	int			num_sprites; //BONUS
 	t_mlx		*mlx;
 	t_texture	*texture[4]; //BONUS: texture[5] (door)
     t_texture   *sprite_texture[2]; //BONUS
@@ -240,6 +242,7 @@ void		compute_line(t_ray *ray);
 void		draw_texture(t_game *game, t_ray *ray, int x);
 void		draw_ceiling_and_floor(t_game *game, t_ray *ray, int x);
 uint32_t	interpolate_color(uint32_t color1, uint32_t color2, double factor);
+void		draw_sprites(t_game *game); //BONUS
 
 // hooks
 int			key_press(int key, t_game *game);

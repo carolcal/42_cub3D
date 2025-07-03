@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:42:54 by cayamash          #+#    #+#             */
-/*   Updated: 2025/07/02 11:44:08 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/02 16:28:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void parse_player_direction(t_player *player)
 		player->plane[X] = 0.66;
 	}
 	else
-	handle_error(INVALID_PLAYER, NULL);
+		handle_error(INVALID_PLAYER, NULL);
 }
 
 static void    parse_player(t_player *player, char c, int x, int y)
@@ -76,7 +76,8 @@ static void	parse_map_char(t_game *game, char c, int y, int x)
 	else if (c == 'P')
     {
 		game->map->grid[y][x] = EMPTY;
-        parse_sprite(game->sprite, x, y);
+		game->map->parsed_sprites++;
+        parse_sprite(&game->sprites[game->map->parsed_sprites], x, y);
     }
 	else if (ft_strchr("NSEW", c))
 	{

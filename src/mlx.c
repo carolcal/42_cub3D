@@ -59,6 +59,34 @@ void	init_textures(t_game *game)
 	}
 }
 
+//BONUS
+void	init_sprite_textures(t_game *game)
+{
+    int	i;
+
+	i = 0;
+	while (i < 2)
+	{
+		game->sprite_texture[i]->tex_ptr = mlx_xpm_file_to_image(
+				game->mlx->mlx_ptr,
+				game->sprites[0].tex_path[i],
+				&game->sprite_texture[i]->width,
+				&game->sprite_texture[i]->height
+				);
+		if (!game->sprite_texture[i]->tex_ptr)
+			handle_error(MLX_TEX_INIT, NULL);
+		game->sprite_texture[i]->tex_addr = mlx_get_data_addr(
+				game->sprite_texture[i]->tex_ptr,
+				&game->sprite_texture[i]->bpp,
+				&game->sprite_texture[i]->size_line,
+				&game->sprite_texture[i]->endian
+				);
+		if (!game->sprite_texture[i]->tex_addr)
+			handle_error(MLX_TEX_ADDR, NULL);
+		i++;
+	}
+}
+
 static void	free_textures(t_game *game)
 {
 	int	i;
