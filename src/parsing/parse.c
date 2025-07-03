@@ -48,6 +48,5 @@ void	parse_file(t_game *game, const char *map_file)
 	validate(game);
 	init_mlx(game);
 	init_textures(game);
-	init_sprite_textures(game);
 	close(fd);
 }

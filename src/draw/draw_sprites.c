@@ -44,8 +44,10 @@ static void	get_sprite_coordinates(t_sprite *sprite)
 	sprite->draw_end[X] = sprite->width / 2 + sprite->screen_x;
 	if (sprite->draw_end[X] >= WIN_WIDTH) 
 		sprite->draw_end[X] = WIN_WIDTH - 1;
-
 }
+
+//static t_texture get_texture()
+
 static void draw_sprite_y(t_game *game, t_sprite *sprite, int x, int tex_x)
 {
 	int	y;
@@ -55,9 +57,9 @@ static void draw_sprite_y(t_game *game, t_sprite *sprite, int x, int tex_x)
 	t_texture	*texture;
 
 	if (sprite->enemy)
-			texture = game->sprite_texture[0];
+			texture = game->enemy_texture[game->current_frame];
 		else
-			texture = game->sprite_texture[1];
+			texture = game->goal_texture[game->current_frame];
 	y = sprite->draw_start[Y];
 	while (y < sprite->draw_end[Y])
 	{
@@ -110,9 +112,9 @@ void    draw_sprites(t_game *game)
 		}
 		get_sprite_coordinates(&game->sprites[i]);
 		if (game->sprites[i].enemy)
-			texture = game->sprite_texture[0];
+			texture = game->enemy_texture[game->current_frame];
 		else
-			texture = game->sprite_texture[1];
+			texture = game->goal_texture[game->current_frame];
 		draw_sprite_x(game, &game->sprites[i], texture);
         i++;
     }

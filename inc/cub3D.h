@@ -65,8 +65,14 @@
 # define ESC_KEY 65307
 # define SPACE_KEY // BONUS
 
-# define TEX_ENEMY "assets/flaviano_1.xpm"
-# define TEX_GOAL "assets/cordao.xpm"
+# define TEX_ENEMY0 "assets/flaviano_0.xpm"
+# define TEX_ENEMY1 "assets/flaviano_1.xpm"
+# define TEX_ENEMY2 "assets/flaviano_2.xpm"
+# define TEX_ENEMY3 "assets/flaviano_3.xpm"
+# define TEX_GOAL0 "assets/cordao_0.xpm"
+# define TEX_GOAL1 "assets/cordao_1.xpm"
+# define TEX_GOAL2 "assets/cordao_2.xpm"
+# define TEX_GOAL3 "assets/cordao_3.xpm"
 
 enum	e_axis
 {
@@ -199,8 +205,12 @@ typedef struct s_game
 	int			num_sprites; //BONUS
 	t_mlx		*mlx;
 	t_texture	*texture[4]; //BONUS: texture[5] (door)
-	t_texture	*sprite_texture[2]; //BONUS
-	char		*sprite_tex_path[2]; //BONUS
+	t_texture	*enemy_texture[4]; //BONUS
+	t_texture	*goal_texture[4]; //BONUS
+	char		*enemy_tex_path[4]; //BONUS
+	char		*goal_tex_path[4]; //BONUS
+	int			frame_count; //BONUS
+	int			current_frame; //BONUS
 	t_keyboard	keys;
 	int			mouse_x;
 	int			mouse_pressed;

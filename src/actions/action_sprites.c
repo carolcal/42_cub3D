@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 10:07:37 by cayamash          #+#    #+#             */
-/*   Updated: 2025/07/03 14:55:51 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:51:52 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ void	update_sprites(t_game *game)
 		return ;
 	i = 0;
 	speed = 0.005;
+	game->current_frame = (int)game->frame_count / 20;
+	if (game->frame_count >= 79)
+		game->frame_count = 0;
+	else
+		game->frame_count++;
 	while (i < game->num_sprites)
 	{
 		sprite = &game->sprites[i];

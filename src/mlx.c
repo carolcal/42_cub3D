@@ -32,6 +32,26 @@ void	init_mlx(t_game *game)
 	return ;
 }
 
+static void	init_texture(t_texture *texture, char *tex_path, t_mlx *mlx)
+{
+	texture->tex_ptr = mlx_xpm_file_to_image(
+			mlx->mlx_ptr,
+			tex_path,
+			&texture->width,
+			&texture->height
+			);
+	if (!texture->tex_ptr)
+		handle_error(MLX_TEX_INIT, NULL);
+	texture->tex_addr = mlx_get_data_addr(
+			texture->tex_ptr,
+			&texture->bpp,
+			&texture->size_line,
+			&texture->endian
+			);
+	if (!texture->tex_addr)
+		handle_error(MLX_TEX_ADDR, NULL);
+}
+
 void	init_textures(t_game *game)
 {
 	int	i;
@@ -39,61 +59,20 @@ void	init_textures(t_game *game)
 	i = 0;
 	while (i < 4)
 	{
-		game->texture[i]->tex_ptr = mlx_xpm_file_to_image(
-				game->mlx->mlx_ptr,
-				game->map->tex_path[i],
-				&game->texture[i]->width,
-				&game->texture[i]->height
-				);
-		if (!game->texture[i]->tex_ptr)
-			handle_error(MLX_TEX_INIT, NULL);
-		game->texture[i]->tex_addr = mlx_get_data_addr(
-				game->texture[i]->tex_ptr,
-				&game->texture[i]->bpp,
-				&game->texture[i]->size_line,
-				&game->texture[i]->endian
-				);
-		if (!game->texture[i]->tex_addr)
-			handle_error(MLX_TEX_ADDR, NULL);
+		init_texture(game->texture[i], game->map->tex_path[i], game->mlx);
+		//BONUS
+		init_texture(game->enemy_texture[i], game->enemy_tex_path[i], game->mlx);
+		init_texture(game->goal_texture[i], game->goal_tex_path[i], game->mlx);
 		i++;
 	}
 }
 
-//BONUS
-void	init_sprite_textures(t_game *game)
-{
-    int	i;
-
-	i = 0;
-	while (i < 2)
-	{
-		game->sprite_texture[i]->tex_ptr = mlx_xpm_file_to_image(
-				game->mlx->mlx_ptr,
-				game->sprite_tex_path[i],
-				&game->sprite_texture[i]->width,
-				&game->sprite_texture[i]->height
-				);
-		if (!game->sprite_texture[i]->tex_ptr)
-			handle_error(MLX_TEX_INIT, NULL);
-		game->sprite_texture[i]->tex_addr = mlx_get_data_addr(
-				game->sprite_texture[i]->tex_ptr,
-				&game->sprite_texture[i]->bpp,
-				&game->sprite_texture[i]->size_line,
-				&game->sprite_texture[i]->endian
-				);
-		if (!game->sprite_texture[i]->tex_addr)
-			handle_error(MLX_TEX_ADDR, NULL);
-		i++;
-	}
-}
 
 static void	free_textures(t_game *game)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
 	while (i < 4)
 	{
 		if (game->texture[i] && game->texture[i]->tex_ptr)
@@ -101,16 +80,17 @@ static void	free_textures(t_game *game)
 			mlx_destroy_image(game->mlx->mlx_ptr, game->texture[i]->tex_ptr);
 			game->texture[i]->tex_ptr = NULL;
 		}
-		i++;
-	}
-	while (j < 2)
-	{
-		if (game->sprite_texture[j] && game->sprite_texture[j]->tex_ptr)
+		if (game->enemy_texture[i] && game->enemy_texture[i]->tex_ptr)
 		{
-			mlx_destroy_image(game->mlx->mlx_ptr, game->sprite_texture[j]->tex_ptr);
-			game->sprite_texture[j]->tex_ptr = NULL;
+			mlx_destroy_image(game->mlx->mlx_ptr, game->enemy_texture[i]->tex_ptr);
+			game->enemy_texture[i]->tex_ptr = NULL;
 		}
-		j++;
+		if (game->goal_texture[i] && game->goal_texture[i]->tex_ptr)
+		{
+			mlx_destroy_image(game->mlx->mlx_ptr, game->goal_texture[i]->tex_ptr);
+			game->goal_texture[i]->tex_ptr = NULL;
+		}
+		i++;
 	}
 }
 
