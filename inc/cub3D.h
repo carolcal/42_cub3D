@@ -47,7 +47,7 @@
 # define MLX_TEX_ADDR "Error: Failed to get texture data.\n"
 
 # define WIN_WIDTH 960
-# define WIN_HEIGHT 512
+# define WIN_HEIGHT 576
 # define TILE_SIZE 64
 # define MINIMAP_MARGIN 10			// BONUS
 # define MINIMAP_WIDTH 150			// BONUS
@@ -55,6 +55,8 @@
 # define MINIMAP_TILE 8				// BONUS
 # define PLAYER_DOT_SIZE 2			// BONUS
 
+# define FOV 70.0
+# define M_PI 3.14159265358979323846
 # define MOVE_SPEED 0.05
 # define ROT_SPEED  0.01
 # define COLLISION_OFFSET 0.3

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:42:54 by cayamash          #+#    #+#             */
-/*   Updated: 2025/07/03 12:24:37 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/03 16:15:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,22 @@ static void parse_player_direction(t_player *player)
 	if (player->start_dir == 'W')
 	{
 		player->dir[X] = -1;
-		player->plane[Y] = -0.66;
+		player->plane[Y] = -tan((FOV * M_PI / 180.0) / 2.0);
 	}
 	else if (player->start_dir == 'E')
 	{
 		player->dir[X] = 1;
-		player->plane[Y] = 0.66;
+		player->plane[Y] = tan((FOV * M_PI / 180.0) / 2.0);
 	}
 	else if (player->start_dir == 'S')
 	{
 		player->dir[Y] = 1;
-		player->plane[X] = -0.66;
+		player->plane[X] = -tan((FOV * M_PI / 180.0) / 2.0);
 	}
 	else if (player->start_dir == 'N')
 	{
 		player->dir[Y] = -1;
-		player->plane[X] = 0.66;
+		player->plane[X] = tan((FOV * M_PI / 180.0) / 2.0);
 	}
 	else
 	handle_error(INVALID_PLAYER, NULL);
