@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:47:57 by cayamash          #+#    #+#             */
-/*   Updated: 2025/07/02 15:41:04 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/02 16:22:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,12 @@ t_game	*init(const char *map_file)
 	get_map_dimensions(game->map, map_file);
 	game->map->ceiling = 422;
 	game->map->floor = 422;
-	game->map->door_tex_path = ft_strdup("assets/door.xpm");
-	game->map->sprite_tex_path = ft_strdup("assets/enemy.xpm");
+	game->map->door_tex_path = ft_strdup("assets/textures/x-block.xpm");	// BONUS
+	game->map->sprite_tex_path = ft_strdup("assets/enemy.xpm");				// BONUS
 	game->player = allocate_mem(1, sizeof(t_player));
 	game->player->player_num = 0;
 	game->mlx = allocate_mem(1, sizeof(t_mlx));
-	while (i < 4)
+	while (i < 5)	// 4 textures + 1 door texture
 	{
 		game->texture[i] = allocate_mem(1, sizeof(t_texture));
 		i++;

@@ -22,6 +22,8 @@
 # include <unistd.h>
 # include "libft.h"
 
+/* ********************************* MACROS ********************************* */
+
 # define EMPTY_FILE "Error: Empty file\n"
 # define INVALID_FORMAT "Error: Invalid file format\n"
 # define INVALID_FILE "Error: Invalid file\n"
@@ -48,10 +50,9 @@
 # define WIN_HEIGHT 512
 # define TILE_SIZE 64
 
-# define FOV 60.0
 # define MOVE_SPEED 0.01
 # define ROT_SPEED  0.005
-# define COLLISION_OFFSET 0.5
+# define COLLISION_OFFSET 0.3
 # define MOUSE_SENSITIVITY 0.002	// BONUS
 
 # define W_KEY 119
@@ -60,10 +61,10 @@
 # define D_KEY 100
 # define LEFT_KEY 65361
 # define RIGHT_KEY 65363
-# define UP_KEY 65362
-# define DOWN_KEY 65364
 # define ESC_KEY 65307
-# define SPACE_KEY		// BONUS
+# define SPACE_KEY 32	// BONUS
+
+/* ******************************* STRUCTS ******************************* */
 
 enum	e_axis
 {
@@ -89,16 +90,16 @@ enum	e_texture
 	SOUTH,
 	WEST,
 	EAST,
-	DOOR, // BONUS
+	DOOR // BONUS
 };
 
 enum	e_map_elements
 {
+	DOOR_OPEN = -1,		// BONUS
 	EMPTY = 0,
 	WALL = 1,
-	VOID = 2,
-	DOOR_OPEN = 3,		// BONUS
-	DOOR_CLOSE = 4		// BONUS
+	DOOR_CLOSE = 2,		// BONUS
+	VOID = 3
 };
 
 typedef struct s_keyboard
@@ -125,22 +126,7 @@ typedef struct s_ray
 	int		line_height;
 	int		line_start;
 	int		line_end;
-	int		hit_type;				// BONUS
 }	t_ray;
-
-typedef struct s_map
-{
-	char		*tex_path[5];
-	char		*door_tex_path;		// BONUS
-	char		*sprite_tex_path;	// BONUS
-    t_sprite	*sprites;
-	int			num_sprites;
-	int			**grid;
-	int			width;
-	int			height;
-	uint32_t	ceiling;
-	uint32_t	floor;
-}	t_map;
 
 typedef struct s_player
 {
@@ -150,17 +136,6 @@ typedef struct s_player
 	int		player_num;
     char    start_dir;
 }	t_player;
-
-typedef struct s_texture
-{
-	void	*tex_ptr;
-	char	*tex_addr;
-	int		width;
-	int		height;
-	int		bpp;
-	int		size_line;
-	int		endian;
-}	t_texture;
 
 //sprite - BONUS
 typedef struct s_sprite
@@ -173,6 +148,31 @@ typedef struct s_sprite
 	int			width;
 	int			height;
 }	t_sprite;
+
+typedef struct s_map
+{
+	char		*tex_path[5];		// 0: north, 1: south, 2: west, 3: east, 4: door (BONUS)
+	char		*door_tex_path;		// BONUS
+	char		*sprite_tex_path;	// BONUS
+    t_sprite	*sprites;
+	int			num_sprites;
+	int			**grid;
+	int			width;
+	int			height;
+	uint32_t	ceiling;
+	uint32_t	floor;
+}	t_map;
+
+typedef struct s_texture
+{
+	void	*tex_ptr;
+	char	*tex_addr;
+	int		width;
+	int		height;
+	int		bpp;
+	int		size_line;
+	int		endian;
+}	t_texture;
 
 typedef struct s_mlx
 {
@@ -201,12 +201,12 @@ typedef struct s_game
 	int			z_buffer[WIN_WIDTH];
 }	t_game;
 
-// Functions
+/* ******************************* FUNCTIONS ******************************** */
 
-//Init
+/* ********************************** Init ********************************** */
 t_game		*init(const char *map_file);
 
-//Parse
+/* ******************************** Parsing ********************************* */
 bool		is_valid_line(char *line);
 bool		is_texture_line(char *line);
 bool		is_color_line(char *line);
@@ -217,7 +217,7 @@ void		parse_color(t_map *map, char *line);
 void		parse_map(t_game *game, int fd, char *line);
 void		parse_file(t_game *game, const char *map_file);
 
-//Validation
+/* ******************************* Validation ******************************* */
 bool		is_void_or_wall(int curr);
 bool		is_empty_or_wall(int curr);
 bool		check_around_space(t_map *map, int y, int x);
@@ -227,13 +227,14 @@ void		validate_map(t_game *game);
 void		validate_player(t_game *game);
 void		validate(t_game *game);
 
-//MLX
+/* ********************************** MLX *********************************** */
 void		init_mlx(t_game *game);
 void	    init_textures(t_game *game);
 int			close_window(t_game *game);
 
-// draw
+/* ********************************** Draw ********************************** */
 int			render_img(t_game *game);
+int			calc_tex_x(t_player *p, t_ray *r, t_texture *t);
 void		put_pixel(t_game *game, int x, int y, int color);
 void		init_ray(t_player *player, t_ray *ray, int x);
 void		dda(t_game *game, t_ray *ray);
@@ -242,22 +243,22 @@ void		draw_texture(t_game *game, t_ray *ray, int x);
 void		draw_ceiling_and_floor(t_game *game, t_ray *ray, int x);
 uint32_t	interpolate_color(uint32_t color1, uint32_t color2, double factor);
 
-// hooks
+/* ******************************** Actions ********************************* */
 int			key_press(int key, t_game *game);
 int			key_release(int key, t_game *game);
+int			handle_keys(t_game *game);
+int			mouse_press(int button, int x, int y, t_game *game);		// BONUS
+int			mouse_release(int button, int x, int y, t_game *game);		// BONUS
+int			mouse_move(int x, int y, t_game *game);						// BONUS
 void		set_hooks(t_game *game);
 void		move_forward(t_player *p, t_map *map);
 void		move_backward(t_player *p, t_map *map);
 void		strafe_left(t_player *p, t_map *map);
 void		strafe_right(t_player *p, t_map *map);
-void		move_forward_backward(t_player *p, t_map *map, int key);
-void		move_left_right(t_player *p, t_map *map, int key);
 void	    rotate_direction(t_player *p, double rot_speed);
+void		try_toggle_door(t_game *game);								// BONUS
 
-//Game
-void		start_game(const char *map_file);
-
-//Error
+/* ********************************* Utils ********************************** */
 void		handle_error(char *error, char *str);
 
 #endif

@@ -57,6 +57,22 @@ void	init_textures(t_game *game)
 			handle_error(MLX_TEX_ADDR, NULL);
 		i++;
 	}
+	game->texture[i]->tex_ptr = mlx_xpm_file_to_image(		// BONUS
+				game->mlx->mlx_ptr,
+				game->map->door_tex_path,			// colocar caminho da porta em tex_path[4] -> aí entra no loop de cima
+				&game->texture[i]->width,
+				&game->texture[i]->height
+				);
+		if (!game->texture[i]->tex_ptr)
+			handle_error(MLX_TEX_INIT, NULL);
+		game->texture[i]->tex_addr = mlx_get_data_addr(
+				game->texture[i]->tex_ptr,
+				&game->texture[i]->bpp,
+				&game->texture[i]->size_line,
+				&game->texture[i]->endian
+				);
+		if (!game->texture[i]->tex_addr)
+			handle_error(MLX_TEX_ADDR, NULL);
 }
 
 static void	free_textures(t_game *game)

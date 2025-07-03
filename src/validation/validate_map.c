@@ -59,7 +59,7 @@ static void	validate_middle_rows(t_map *map, int y)
 	}
 	while (x < map->width && map->grid[y][x])
 	{
-		if (map->grid[y][x] != WALL && (map->grid[y][x] != VOID))
+		if (map->grid[y][x] != WALL && map->grid[y][x] != VOID && map->grid[y][x] != DOOR_CLOSE)	// alterei aqui para bônus
 			handle_error(INVALID_MAP, NULL);
 		x++;
 	}

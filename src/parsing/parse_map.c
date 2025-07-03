@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:42:54 by cayamash          #+#    #+#             */
-/*   Updated: 2025/07/02 15:39:26 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/02 17:34:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ static void    parse_player(t_player *player, char c, int x, int y)
 
 static void parse_sprite(t_sprite *sprite, int x, int y)
 {
-    sprite->pos[X] = x;
-    sprite->pos[Y] = y;
-    sprite->tex_path[0] = "assets/enemy0.xpm";
-    sprite->tex_path[1] = "assets/enemy1.xpm";
-    sprite->width = 30;
-    sprite->height = 30;
+	sprite->pos[X] = x;
+	sprite->pos[Y] = y;
+	sprite->tex_path[0] = "assets/enemy0.xpm";
+	sprite->tex_path[1] = "assets/enemy1.xpm";
+	sprite->width = 30;
+	sprite->height = 30;
 }
 
 static void	parse_map_char(t_game *game, char c, int y, int x)
@@ -71,20 +71,20 @@ static void	parse_map_char(t_game *game, char c, int y, int x)
 		game->map->grid[y][x] = EMPTY;
 	else if (c == ' ')
 		game->map->grid[y][x] = VOID;
-	else if (c == 'D')
+	else if (c == 'D')						// BONUS
 		game->map->grid[y][x] = DOOR_CLOSE;
 	else if (c == 'P')
-    {
+	{
 		game->map->grid[y][x] = EMPTY;
-        parse_sprite(game->sprite, x, y);
-    }
+		parse_sprite(game->sprite, x, y);
+	}
 	else if (ft_strchr("NSEW", c))
 	{
 		game->map->grid[y][x] = EMPTY;
 		parse_player(game->player, c, x, y);
 	}
 	else
-		handle_error(INVALID_MAP, NULL);
+		handle_error("INVALID_MAP", NULL);
 }
 
 void	parse_map(t_game *game, int fd, char *line)

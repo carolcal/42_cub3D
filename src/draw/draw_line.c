@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 10:29:04 by naharumi          #+#    #+#             */
-/*   Updated: 2025/07/02 15:41:38 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/02 20:21:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static t_texture	*get_wall_texture(t_game *game, t_ray *ray)
 {
-	if (ray->hit_type == DOOR_CLOSE)	// BONUS
+	if (ray->hit == DOOR_CLOSE)	// BONUS
 		return (game->texture[DOOR]);
 	if (ray->side == 0)
 	{
@@ -30,7 +30,7 @@ static t_texture	*get_wall_texture(t_game *game, t_ray *ray)
 	}
 }
 
-static int	calc_tex_x(t_player *p, t_ray *r, t_texture *t)
+int	calc_tex_x(t_player *p, t_ray *r, t_texture *t)
 {
 	int		tex_x;
 	double	wall_x;
