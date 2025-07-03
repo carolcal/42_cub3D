@@ -104,7 +104,13 @@ static int	handle_keys(t_game *game)
 static int	game_loop(t_game *game)
 {
 	handle_keys(game);
+	update_sprites(game); //BONUS
 	render_img(game);
+	if (player_touch_sprite(game)) //BOUS
+	{
+		printf("Xiii, ele te pegou no flagra!\n"); //trocar para ingles na aval
+		close_window(game);
+	}
 	return (0);
 }
 

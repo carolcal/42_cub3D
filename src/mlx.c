@@ -90,8 +90,10 @@ void	init_sprite_textures(t_game *game)
 static void	free_textures(t_game *game)
 {
 	int	i;
+	int	j;
 
 	i = 0;
+	j = 0;
 	while (i < 4)
 	{
 		if (game->texture[i] && game->texture[i]->tex_ptr)
@@ -100,6 +102,15 @@ static void	free_textures(t_game *game)
 			game->texture[i]->tex_ptr = NULL;
 		}
 		i++;
+	}
+	while (j < 4)
+	{
+		if (game->texture[j] && game->texture[j]->tex_ptr)
+		{
+			mlx_destroy_image(game->mlx->mlx_ptr, game->texture[j]->tex_ptr);
+			game->texture[j]->tex_ptr = NULL;
+		}
+		j++;
 	}
 }
 

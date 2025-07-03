@@ -146,7 +146,7 @@ typedef struct s_player
 	double	dir[2];
 	double	plane[2];
 	int		player_num;
-    char    start_dir;
+	char	start_dir;
 }	t_player;
 
 typedef struct s_texture
@@ -169,9 +169,11 @@ typedef struct s_sprite
 	double		transform[2];
 	double		draw_start[2];
 	double		draw_end[2];
+	double		radius;
 	int			screen_x;
 	int			width;
 	int			height;
+	int			dir[2];
 }	t_sprite;
 
 typedef struct s_mlx
@@ -195,7 +197,7 @@ typedef struct s_game
 	int			num_sprites; //BONUS
 	t_mlx		*mlx;
 	t_texture	*texture[4]; //BONUS: texture[5] (door)
-    t_texture   *sprite_texture[2]; //BONUS
+	t_texture	*sprite_texture[2]; //BONUS
 	t_keyboard	keys;
 	int			mouse_x;
 	int			mouse_pressed;
@@ -230,7 +232,8 @@ void		validate(t_game *game);
 
 //MLX
 void		init_mlx(t_game *game);
-void	    init_textures(t_game *game);
+void		init_textures(t_game *game);
+void		init_sprite_textures(t_game *game);
 int			close_window(t_game *game);
 
 // draw
@@ -254,10 +257,9 @@ void		strafe_left(t_player *p, t_map *map);
 void		strafe_right(t_player *p, t_map *map);
 void		move_forward_backward(t_player *p, t_map *map, int key);
 void		move_left_right(t_player *p, t_map *map, int key);
-void	    rotate_direction(t_player *p, double rot_speed);
-
-//Game
-void		start_game(const char *map_file);
+void		rotate_direction(t_player *p, double rot_speed);
+void		update_sprites(t_game *game);
+bool		player_touch_sprite(t_game *game);
 
 //Error
 void		handle_error(char *error, char *str);

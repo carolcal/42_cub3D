@@ -47,9 +47,8 @@ void	parse_file(t_game *game, const char *map_file)
 	}
 	get_next_line(-42);
 	validate(game);
-    printf("Init mlx:\n");
 	init_mlx(game);
-    printf("done!\n");
 	init_textures(game);
+	init_sprite_textures(game);
 	close(fd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:47:57 by cayamash          #+#    #+#             */
-/*   Updated: 2025/07/02 20:45:45 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/03 12:15:59 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	get_map_dimensions(t_map *map, const char *map_file)
 	int		height;
 	int		fd;
 	char	*line;
-    int     num_sprites; //BONUS
+    int		num_sprites; //BONUS
 
 	height = 0;
     num_sprites = 0; //BONUS
@@ -43,7 +43,6 @@ static int	get_map_dimensions(t_map *map, const char *map_file)
 		height++;
 	}
 	map->height = height;
-    printf("width:%i, height: %i", map->width, map->height);
 	get_next_line(-42);
 	close(fd);
     return (num_sprites);
@@ -88,9 +87,11 @@ static void	init_grid(t_map *map)
 t_game	*init(const char *map_file)
 {
 	int		i;
+	int		j;
 	t_game	*game;
 
 	i = 0;
+	j = 0;
 	game = allocate_mem(1, sizeof(t_game));
 	game->map = allocate_mem(1, sizeof(t_map));
     //BONUS (sprites);
@@ -108,6 +109,11 @@ t_game	*init(const char *map_file)
 	{
 		game->texture[i] = allocate_mem(1, sizeof(t_texture));
 		i++;
+	}
+	while (j < 2)
+	{
+		game->sprite_texture[j] = allocate_mem(1, sizeof(t_texture));
+		j++;
 	}
 	game->keys.w = false;
 	game->keys.a = false;
