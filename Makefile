@@ -34,10 +34,10 @@ INCLUDES = -I inc/ -I $(LIBFT)
 
 # Source files and object files
 SRC = $(addprefix $(SRC_DIR), main.c init.c mlx.c) \
-	$(addprefix $(PAR_DIR), parse_utils.c parse_properties.c parse_map.c parse.c) \
-	$(addprefix $(VAL_DIR), validate_utils.c validate_map.c validate.c) \
-	$(addprefix $(DRAW_DIR), draw.c draw_line.c raycasting.c) \
-	$(addprefix $(ACT_DIR), hooks.c action_move.c)
+	$(addprefix $(PAR_DIR), parse.c parse_map.c parse_properties.c parse_utils.c) \
+	$(addprefix $(VAL_DIR), validate.c validate_map.c validate_utils.c) \
+	$(addprefix $(DRAW_DIR), draw.c raycasting.c draw_ray.c draw_sprites.c draw_minimap.c draw_utils.c) \
+	$(addprefix $(ACT_DIR), hooks.c handle_keys.c handle_mouse.c actions_player.c actions_sprites.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 # Style

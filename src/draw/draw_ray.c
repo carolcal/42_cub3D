@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_line.c                                        :+:      :+:    :+:   */
+/*   draw_ray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 10:29:04 by naharumi          #+#    #+#             */
-/*   Updated: 2025/06/27 15:58:56 by naharumi         ###   ########.fr       */
+/*   Updated: 2025/07/03 12:12:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static t_texture	*get_wall_texture(t_game *game, t_ray *ray)
 {
+	if (ray->hit == DOOR_CLOSE)	// BONUS
+		return (game->texture[DOOR]);
 	if (ray->side == 0)
 	{
 		if (ray->ray_dir[X] > 0)
@@ -39,8 +41,8 @@ static int	calc_tex_x(t_player *p, t_ray *r, t_texture *t)
 		wall_x = p->pos[X] + r->wall_dist * r->ray_dir[X];
 	wall_x -= floor(wall_x);
 	tex_x = (int)(wall_x * t->width);
-	if ((r->side == 0 && r->ray_dir[X] > 0)
-		|| (r->side == 1 && r->ray_dir[Y] < 0))
+	if ((r->side == 0 && r->ray_dir[X] < 0)
+		|| (r->side == 1 && r->ray_dir[Y] > 0))
 		tex_x = t->width - tex_x - 1;
 	return (tex_x);
 }

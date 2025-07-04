@@ -24,7 +24,7 @@ void	handle_error(char *error, char *str)
 	exit(EXIT_FAILURE);
 }
 
-void	validate_file(char *file_name)
+void	validate_file_extension(char *file_name)
 {
 	int	len;
 
@@ -42,7 +42,7 @@ int	main(int argc, char **argv)
 		fprintf(stderr, "Usage: %s <map_file>\n", argv[0]);
 		return (EXIT_FAILURE);
 	}
-	validate_file(argv[1]);
+	validate_file_extension(argv[1]);
 	game = init(argv[1]);
 	parse_file(game, argv[1]);
 	render_img(game);

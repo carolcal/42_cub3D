@@ -75,8 +75,8 @@ void	dda(t_game *game, t_ray *ray)
 			ray->map_pos[Y] += ray->step[Y];
 			ray->side = 1;
 		}
-		if (game->map->grid[ray->map_pos[Y]][ray->map_pos[X]] == 1)
-			ray->hit = 1;
+		if (game->map->grid[ray->map_pos[Y]][ray->map_pos[X]] > EMPTY)
+			ray->hit = game->map->grid[ray->map_pos[Y]][ray->map_pos[X]];
 	}
 }
 
