@@ -99,7 +99,7 @@ int	player_touch_sprite(t_game *game)
 		d[X] = game->player->pos[X] - game->sprites[i].pos[X];
 		d[Y] = game->player->pos[Y] - game->sprites[i].pos[Y];
 		distance = sqrt(d[X] * d[X] + d[Y] * d[Y]);
-		collision_radius = 1;
+		collision_radius = 0.5;
 		if (distance < collision_radius)
 		{
 			if (game->sprites[i].enemy)

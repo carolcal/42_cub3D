@@ -17,7 +17,7 @@ void	handle_error(char *error, char *str)
 	ft_printf_fd(2, error);
 	if (str)
 	{
-		ft_printf_fd(2, ": ");
+		ft_printf_fd(2, "-> ");
 		ft_printf_fd(2, str);
 	}
 	clear_mem();

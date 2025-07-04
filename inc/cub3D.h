@@ -170,7 +170,6 @@ typedef struct s_player
 typedef struct s_sprite
 {
 	double		pos[2];
-	double		relative_pos[2];
 	double		transform[2];
 	double		draw_start[2];
 	double		draw_end[2];

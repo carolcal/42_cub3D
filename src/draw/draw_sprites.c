@@ -89,7 +89,7 @@ static void	draw_sprite_x(t_game *game, t_sprite *sprite, t_texture *texture)
 		{
 			if (sprite->transform[Y] > 0 && sprite->transform[Y] < 1)
 				sprite->transform[Y] = 1;
-			if (sprite->transform[Y] < game->z_buffer[x])
+			if (sprite->transform[Y] <= game->z_buffer[x] + 0.5)
 				draw_sprite_y(game, sprite, x, tex_x);
 		}
 		x++;

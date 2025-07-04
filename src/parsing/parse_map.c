@@ -55,8 +55,8 @@ static void	parse_player(t_player *player, char c, int x, int y)
 
 static void	parse_sprite(t_sprite *sprite, int **grid, int x, int y)
 {
-	sprite->pos[X] = x;
-	sprite->pos[Y] = y;
+	sprite->pos[X] = x + 0.5;
+	sprite->pos[Y] = y + 0.5;
 	if (grid[y + 1][x] == '1')
 		sprite->dir[Y] = -1.0;
 	else
@@ -65,7 +65,7 @@ static void	parse_sprite(t_sprite *sprite, int **grid, int x, int y)
 		sprite->dir[X] = -1.0;
 	else
 		sprite->dir[X] = 1.0;
-	sprite->radius = 0.8;
+	sprite->radius = 0.5;
 }
 
 static void	parse_map_char(t_game *game, char c, int y, int x)
@@ -94,7 +94,7 @@ static void	parse_map_char(t_game *game, char c, int y, int x)
 		parse_player(game->player, c, x, y);
 	}
 	else
-		handle_error("INVALID_MAP", NULL);
+		handle_error(INVALID_MAP, "Undetected char.");
 }
 
 void	parse_map(t_game *game, int fd, char *line)
