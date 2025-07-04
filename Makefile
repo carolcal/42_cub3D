@@ -37,7 +37,7 @@ SRC = $(addprefix $(SRC_DIR), main.c init.c mlx.c) \
 	$(addprefix $(PAR_DIR), parse.c parse_map.c parse_properties.c parse_utils.c) \
 	$(addprefix $(VAL_DIR), validate.c validate_map.c validate_utils.c) \
 	$(addprefix $(DRAW_DIR), draw.c raycasting.c draw_ray.c draw_sprites.c draw_minimap.c draw_utils.c) \
-	$(addprefix $(ACT_DIR), hooks.c handle_keys.c handle_mouse.c actions.c action_sprites.c)
+	$(addprefix $(ACT_DIR), hooks.c handle_keys.c handle_mouse.c actions_player.c actions_sprites.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 # Style

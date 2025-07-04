@@ -30,7 +30,7 @@ static t_texture	*get_wall_texture(t_game *game, t_ray *ray)
 	}
 }
 
-int	calc_tex_x(t_player *p, t_ray *r, t_texture *t)
+static int	calc_tex_x(t_player *p, t_ray *r, t_texture *t)
 {
 	int		tex_x;
 	double	wall_x;
@@ -41,8 +41,8 @@ int	calc_tex_x(t_player *p, t_ray *r, t_texture *t)
 		wall_x = p->pos[X] + r->wall_dist * r->ray_dir[X];
 	wall_x -= floor(wall_x);
 	tex_x = (int)(wall_x * t->width);
-	if ((r->side == 0 && r->ray_dir[X] > 0)
-		|| (r->side == 1 && r->ray_dir[Y] < 0))
+	if ((r->side == 0 && r->ray_dir[X] < 0)
+		|| (r->side == 1 && r->ray_dir[Y] > 0))
 		tex_x = t->width - tex_x - 1;
 	return (tex_x);
 }

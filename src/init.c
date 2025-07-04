@@ -18,10 +18,10 @@ static int	get_map_dimensions(t_map *map, const char *map_file)
 	int		height;
 	int		fd;
 	char	*line;
-    int		num_sprites; //BONUS
+	int		num_sprites; //BONUS
 
 	height = 0;
-    num_sprites = 0; //BONUS
+	num_sprites = 0; //BONUS
 	fd = open(map_file, O_RDONLY);
 	if (fd < 0)
 		handle_error(INVALID_FILE, (char *)map_file);
@@ -32,11 +32,11 @@ static int	get_map_dimensions(t_map *map, const char *map_file)
 	{
 		width = 0;
 		while (line[width] && line[width] != '\n' && line[width] != '\r')
-        {
-            if (line[width] == 'P' || line[width] == 'G')
-                num_sprites++;
+		{
+			if (line[width] == 'P' || line[width] == 'G')
+				num_sprites++;
 			width++;
-        }
+		}
 		if (map->width <= width)
 			map->width = width;
 		line = get_next_line(fd);
@@ -45,7 +45,7 @@ static int	get_map_dimensions(t_map *map, const char *map_file)
 	map->height = height;
 	get_next_line(-42);
 	close(fd);
-    return (num_sprites);
+	return (num_sprites);
 }
 
 static void	fill_grid(t_map *map)
@@ -96,24 +96,10 @@ static void	init_buttons(t_game *game)
 	game->mouse_pressed = 0;	// BONUS
 }
 
-t_game	*init(const char *map_file)
+static void	alloc_textures(t_game *game)
 {
-	int		i;
-	t_game	*game;
+	int	i;
 
-	i = 0;
-	game = allocate_mem(1, sizeof(t_game));
-	game->mlx = allocate_mem(1, sizeof(t_mlx));
-	game->map = allocate_mem(1, sizeof(t_map));
-	game->map->ceiling = 422;
-	game->map->floor = 422;
-	game->map->door_tex_path = ft_strdup("assets/textures/x-block.xpm");	// BONUS
-	game->player = allocate_mem(1, sizeof(t_player));
-	game->player->player_num = 0;
-    //BONUS (sprites);
-    game->num_sprites = get_map_dimensions(game->map, map_file);
-    game->sprites = allocate_mem(game->num_sprites, sizeof(t_sprite));
-    game->map->parsed_sprites = 0;
 	game->enemy_tex_path[0] = ft_strdup(TEX_ENEMY0);
 	game->enemy_tex_path[1] = ft_strdup(TEX_ENEMY1);
 	game->enemy_tex_path[2] = ft_strdup(TEX_ENEMY2);
@@ -122,6 +108,7 @@ t_game	*init(const char *map_file)
 	game->goal_tex_path[1] = ft_strdup(TEX_GOAL1);
 	game->goal_tex_path[2] = ft_strdup(TEX_GOAL2);
 	game->goal_tex_path[3] = ft_strdup(TEX_GOAL3);
+	i = 0;
 	while (i < 5)	// 4 textures + 1 door texture
 	{
 		game->texture[i] = allocate_mem(1, sizeof(t_texture));
@@ -129,6 +116,24 @@ t_game	*init(const char *map_file)
 		game->goal_texture[i] = allocate_mem(1, sizeof(t_texture));
 		i++;
 	}
+}
+
+t_game	*init(const char *map_file)
+{
+	t_game	*game;
+
+	game = allocate_mem(1, sizeof(t_game));
+	game->mlx = allocate_mem(1, sizeof(t_mlx));
+	game->map = allocate_mem(1, sizeof(t_map));
+	game->map->ceiling = 422;
+	game->map->floor = 422;
+	game->map->door_tex_path = ft_strdup(TEX_DOOR);						// BONUS
+	game->player = allocate_mem(1, sizeof(t_player));
+	game->player->player_num = 0;
+	game->num_sprites = get_map_dimensions(game->map, map_file);		// BONUS
+	game->sprites = allocate_mem(game->num_sprites, sizeof(t_sprite));	// BONUS
+	game->map->parsed_sprites = 0;										// BONUS
+	alloc_textures(game);
 	init_buttons(game);
 	init_grid(game->map);
 	return (game);

@@ -12,7 +12,7 @@
 
 #include "cub3D.h"
 
-static void parse_player_direction(t_player *player)
+static void	parse_player_direction(t_player *player)
 {
 	if (player->start_dir == 'W')
 	{
@@ -38,7 +38,7 @@ static void parse_player_direction(t_player *player)
 		handle_error(INVALID_PLAYER, NULL);
 }
 
-static void    parse_player(t_player *player, char c, int x, int y)
+static void	parse_player(t_player *player, char c, int x, int y)
 {
 	if (player->player_num > 0)
 		handle_error(DUPLICATE_PLAYER, NULL);
@@ -53,10 +53,10 @@ static void    parse_player(t_player *player, char c, int x, int y)
 	parse_player_direction(player);
 }
 
-static void parse_sprite(t_sprite *sprite, int **grid, int x, int y)
+static void	parse_sprite(t_sprite *sprite, int **grid, int x, int y)
 {
-    sprite->pos[X] = x;
-    sprite->pos[Y] = y;
+	sprite->pos[X] = x;
+	sprite->pos[Y] = y;
 	if (grid[y + 1][x] == '1')
 		sprite->dir[Y] = -1.0;
 	else
@@ -79,15 +79,15 @@ static void	parse_map_char(t_game *game, char c, int y, int x)
 	else if (c == 'D')						// BONUS
 		game->map->grid[y][x] = DOOR_CLOSE;
 	else if (ft_strchr("PG", c))			// BONUS
-    {
+	{
 		game->map->grid[y][x] = EMPTY;
-        parse_sprite(&game->sprites[game->map->parsed_sprites], game->map->grid, x, y);
+		parse_sprite(&game->sprites[game->map->parsed_sprites], game->map->grid, x, y);
 		if (c == 'P')
 			game->sprites[game->map->parsed_sprites].enemy = true;
 		else
 			game->sprites[game->map->parsed_sprites].enemy = false;
 		game->map->parsed_sprites++;
-    }
+	}
 	else if (ft_strchr("NSEW", c))
 	{
 		game->map->grid[y][x] = EMPTY;
@@ -103,11 +103,11 @@ void	parse_map(t_game *game, int fd, char *line)
 	int	y;
 
 	y = 0;
-
 	while (line && is_map_line(line))
 	{
 		x = 0;
-		while (line[x] != '\r' && line[x] != '\n' && line[x] != '\0' && x < game->map->width)
+		while (line[x] != '\r' && line[x] != '\n' && line[x] != '\0'
+			&& x < game->map->width)
 		{
 			parse_map_char(game, line[x], y, x);
 			x++;
