@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:42:54 by cayamash          #+#    #+#             */
-/*   Updated: 2025/07/03 16:15:07 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/03 15:26:49 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void parse_player_direction(t_player *player)
 		player->plane[X] = tan((FOV * M_PI / 180.0) / 2.0);
 	}
 	else
-	handle_error(INVALID_PLAYER, NULL);
+		handle_error(INVALID_PLAYER, NULL);
 }
 
 static void    parse_player(t_player *player, char c, int x, int y)
@@ -47,20 +47,25 @@ static void    parse_player(t_player *player, char c, int x, int y)
 	player->pos[X] = x + 0.5;
 	player->pos[Y] = y + 0.5;
 	player->dir[X] = 0;
-	player->dir[y] = 0;
+	player->dir[Y] = 0;
 	player->plane[X] = 0;
 	player->plane[Y] = 0;
 	parse_player_direction(player);
 }
 
-static void parse_sprite(t_sprite *sprite, int x, int y)
+static void parse_sprite(t_sprite *sprite, int **grid, int x, int y)
 {
-	sprite->pos[X] = x;
-	sprite->pos[Y] = y;
-	sprite->tex_path[0] = "assets/enemy0.xpm";
-	sprite->tex_path[1] = "assets/enemy1.xpm";
-	sprite->width = 30;
-	sprite->height = 30;
+    sprite->pos[X] = x;
+    sprite->pos[Y] = y;
+	if (grid[y + 1][x] == '1')
+		sprite->dir[Y] = -1.0;
+	else
+		sprite->dir[Y] = 1.0;
+	if (grid[y][x + 1] == '1')
+		sprite->dir[X] = -1.0;
+	else
+		sprite->dir[X] = 1.0;
+	sprite->radius = 0.8;
 }
 
 static void	parse_map_char(t_game *game, char c, int y, int x)
@@ -73,11 +78,16 @@ static void	parse_map_char(t_game *game, char c, int y, int x)
 		game->map->grid[y][x] = VOID;
 	else if (c == 'D')						// BONUS
 		game->map->grid[y][x] = DOOR_CLOSE;
-	else if (c == 'P')
-	{
+	else if (ft_strchr("PG", c))			// BONUS
+    {
 		game->map->grid[y][x] = EMPTY;
-		parse_sprite(game->sprite, x, y);
-	}
+        parse_sprite(&game->sprites[game->map->parsed_sprites], game->map->grid, x, y);
+		if (c == 'P')
+			game->sprites[game->map->parsed_sprites].enemy = true;
+		else
+			game->sprites[game->map->parsed_sprites].enemy = false;
+		game->map->parsed_sprites++;
+    }
 	else if (ft_strchr("NSEW", c))
 	{
 		game->map->grid[y][x] = EMPTY;
@@ -93,6 +103,7 @@ void	parse_map(t_game *game, int fd, char *line)
 	int	y;
 
 	y = 0;
+
 	while (line && is_map_line(line))
 	{
 		x = 0;

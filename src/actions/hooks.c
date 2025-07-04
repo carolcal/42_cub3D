@@ -32,8 +32,20 @@ void	try_toggle_door(t_game *game)	// BONUS
 
 static int	game_loop(t_game *game)
 {
+	int	touch_sprite;
+
 	handle_keys(game);
+	update_sprites(game); //BONUS
 	render_img(game);
+	touch_sprite = player_touch_sprite(game);
+	if (touch_sprite) //BONUS
+	{
+		if (touch_sprite == 1)
+			printf("You LOST!\n");
+		else
+			printf("You WIN!\n");
+		close_window(game);
+	}
 	return (0);
 }
 

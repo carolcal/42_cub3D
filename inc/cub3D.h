@@ -73,6 +73,15 @@
 
 /* ******************************* STRUCTS ******************************* */
 
+# define TEX_ENEMY0 "assets/flaviano_0.xpm"
+# define TEX_ENEMY1 "assets/flaviano_1.xpm"
+# define TEX_ENEMY2 "assets/flaviano_2.xpm"
+# define TEX_ENEMY3 "assets/flaviano_3.xpm"
+# define TEX_GOAL0 "assets/cordao_0.xpm"
+# define TEX_GOAL1 "assets/cordao_1.xpm"
+# define TEX_GOAL2 "assets/cordao_2.xpm"
+# define TEX_GOAL3 "assets/cordao_3.xpm"
+
 enum	e_axis
 {
 	X,
@@ -135,25 +144,41 @@ typedef struct s_ray
 	int		line_end;
 }	t_ray;
 
+typedef struct s_map
+{
+	char		*tex_path[5];
+	char		*door_tex_path; //BONUS
+	int			parsed_sprites;
+	int			**grid;
+	int			width;
+	int			height;
+	uint32_t	ceiling;
+	uint32_t	floor;
+}	t_map;
+
 typedef struct s_player
 {
 	double	pos[2];
 	double	dir[2];
 	double	plane[2];
 	int		player_num;
-    char    start_dir;
+	char	start_dir;
 }	t_player;
 
 //sprite - BONUS
 typedef struct s_sprite
 {
-	char		*tex_path[2];
 	double		pos[2];
 	double		relative_pos[2];
+	double		transform[2];
 	double		draw_start[2];
 	double		draw_end[2];
+	double		radius;
+	int			screen_x;
 	int			width;
 	int			height;
+	int			dir[2];
+	bool		enemy;
 }	t_sprite;
 
 typedef struct s_map
@@ -196,12 +221,18 @@ typedef struct s_mlx
 
 typedef struct s_game
 {
+	t_mlx		*mlx;
 	t_map		*map;
 	t_player	*player;
-	t_sprite	*sprite;
-	t_mlx		*mlx;
+	t_sprite	*sprites;				//BONUS
+	int			num_sprites;			//BONUS
 	t_texture	*texture[5];			// BONUS: texture[5] (door)
-    t_texture   *sprite_texture[2];		// BONUS
+	t_texture	*enemy_texture[4];		//BONUS
+	t_texture	*goal_texture[4];		//BONUS
+	char		*enemy_tex_path[4];		//BONUS
+	char		*goal_tex_path[4];		//BONUS
+	int			frame_count;			//BONUS
+	int			current_frame;			//BONUS
 	t_keyboard	keys;
 	int			mouse_x;
 	int			mouse_pressed;
@@ -236,7 +267,8 @@ void		validate(t_game *game);
 
 /* ********************************** MLX *********************************** */
 void		init_mlx(t_game *game);
-void	    init_textures(t_game *game);
+void		init_textures(t_game *game);
+void		init_sprite_textures(t_game *game);
 int			close_window(t_game *game);
 
 /* ********************************** Draw ********************************** */
@@ -253,6 +285,7 @@ void		draw_minimap_tiles(t_game *g, int start_pos[2]);					// BONUS
 void		draw_player_dot(t_game *g, int dot_pos[2], int radius, int color);	// BONUS
 void		draw_player_line(t_game *g, int start[2], int end[2], int color);	// BONUS
 uint32_t	interpolate_color(uint32_t color1, uint32_t color2, double factor);
+void		draw_sprites(t_game *game); //BONUS
 
 /* ******************************** Actions ********************************* */
 int			key_press(int key, t_game *game);
@@ -271,5 +304,7 @@ void		try_toggle_door(t_game *game);								// BONUS
 
 /* ********************************* Utils ********************************** */
 void		handle_error(char *error, char *str);
+void		update_sprites(t_game *game);
+int			player_touch_sprite(t_game *game);
 
 #endif

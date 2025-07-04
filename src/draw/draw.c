@@ -25,6 +25,7 @@ static void	draw_3d_map(t_game *game)
 		compute_line(&ray);
 		draw_texture(game, &ray, x);
 		draw_ceiling_and_floor(game, &ray, x);
+        game->z_buffer[x] = ray.wall_dist;
 		x++;
 	}
 }
@@ -59,7 +60,7 @@ int	render_img(t_game *game)
 	ft_bzero(game->mlx->img_addr, WIN_WIDTH * WIN_HEIGHT
 		* (game->mlx->bpp / 8));
 	draw_3d_map(game);
-	// draw_sprites(game);
+    draw_sprites(game);
 	draw_minimap(game);
 	mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win_ptr,
 		game->mlx->img_ptr, 0, 0);
