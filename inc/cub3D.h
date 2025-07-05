@@ -147,7 +147,7 @@ typedef struct s_ray
 
 typedef struct s_map
 {
-	char		*tex_path[5];
+	char		*tex_path[4];
 	char		*door_tex_path; //BONUS
 	int			parsed_sprites;
 	int			**grid;
@@ -181,6 +181,12 @@ typedef struct s_sprite
 	bool		enemy;
 }	t_sprite;
 
+typedef struct s_sprite_order
+{
+	int		index;
+	double	distance;
+}	t_sprite_order;
+
 typedef struct s_texture
 {
 	void	*tex_ptr;
@@ -213,8 +219,8 @@ typedef struct s_game
 	t_sprite	*sprites;				// BONUS
 	int			num_sprites;			// BONUS
 	t_texture	*texture[5];			// BONUS: texture[5] (door)
-	t_texture	*enemy_texture[5];		// BONUS
-	t_texture	*goal_texture[5];		// BONUS
+	t_texture	*enemy_texture[4];		// BONUS
+	t_texture	*goal_texture[4];		// BONUS
 	char		*enemy_tex_path[4];		// BONUS
 	char		*goal_tex_path[4];		// BONUS
 	int			frame_count;			// BONUS
@@ -229,6 +235,12 @@ typedef struct s_game
 
 /* ********************************** Init ********************************** */
 t_game		*init(const char *map_file);
+void		get_map_dimensions(t_game *game, const char *map_file);
+void		init_grid(t_map *map);
+void		init_mlx(t_game *game);
+void		init_textures(t_game *game);
+void		init_sprite_textures(t_game *game);
+int			close_window(t_game *game);
 
 /* ******************************** Parsing ********************************* */
 bool		is_valid_line(char *line);
@@ -242,20 +254,14 @@ void		parse_map(t_game *game, int fd, char *line);
 void		parse_file(t_game *game, const char *map_file);
 
 /* ******************************* Validation ******************************* */
+void		validate(t_game *game);
+void		validate_map(t_game *game);
+void		validate_player(t_game *game);
+void		validate_colors(t_map *map);
+void		validate_textures(char *texture[4]);
 bool		is_void_or_wall(int curr);
 bool		is_empty_or_wall(int curr);
 bool		check_around_space(t_map *map, int y, int x);
-void		validate_textures(char *texture[4]);
-void		validate_colors(t_map *map);
-void		validate_map(t_game *game);
-void		validate_player(t_game *game);
-void		validate(t_game *game);
-
-/* ********************************** MLX *********************************** */
-void		init_mlx(t_game *game);
-void		init_textures(t_game *game);
-void		init_sprite_textures(t_game *game);
-int			close_window(t_game *game);
 
 /* ********************************** Draw ********************************** */
 int			render_img(t_game *game);
@@ -266,19 +272,15 @@ void		compute_line(t_ray *ray);
 void		draw_texture(t_game *game, t_ray *ray, int x);
 void		draw_ceiling_and_floor(t_game *game, t_ray *ray, int x);
 void		draw_sprites(t_game *game); 										// BONUS
+void		order_sprites(t_game *game, t_sprite_order *order);					// BONUS
 void		draw_minimap_bg(t_game *g);											// BONUS
 void		draw_minimap_tiles(t_game *g, int start_pos[2]);					// BONUS
 void		draw_player_dot(t_game *g, int dot_pos[2], int radius, int color);	// BONUS
 void		draw_player_line(t_game *g, int start[2], int end[2], int color);	// BONUS
+void		draw_mini_sprites(t_game *g, int start_pos[2]);						// BONUS
 uint32_t	interpolate_color(uint32_t color1, uint32_t color2, double factor);
 
 /* ******************************** Actions ********************************* */
-int			key_press(int key, t_game *game);
-int			key_release(int key, t_game *game);
-int			handle_keys(t_game *game);
-int			mouse_press(int button, int x, int y, t_game *game);		// BONUS
-int			mouse_release(int button, int x, int y, t_game *game);		// BONUS
-int			mouse_move(int x, int y, t_game *game);						// BONUS
 void		set_hooks(t_game *game);
 void		move_forward(t_player *p, t_map *map);
 void		move_backward(t_player *p, t_map *map);
@@ -286,10 +288,16 @@ void		strafe_left(t_player *p, t_map *map);
 void		strafe_right(t_player *p, t_map *map);
 void	    rotate_direction(t_player *p, double rot_speed);
 void		try_toggle_door(t_game *game);								// BONUS
+void		update_sprites(t_game *game);								// BONUS
+int			key_press(int key, t_game *game);
+int			key_release(int key, t_game *game);
+int			handle_keys(t_game *game);
+int			mouse_press(int button, int x, int y, t_game *game);		// BONUS
+int			mouse_release(int button, int x, int y, t_game *game);		// BONUS
+int			mouse_move(int x, int y, t_game *game);						// BONUS
+int			player_touch_sprite(t_game *game);							// BONUS
 
 /* ********************************* Utils ********************************** */
 void		handle_error(char *error, char *str);
-void		update_sprites(t_game *game);
-int			player_touch_sprite(t_game *game);
 
 #endif

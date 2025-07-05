@@ -72,22 +72,3 @@ bool	check_around_space(t_map *map, int y, int x)
 		return (check_below_space(map, y, x));
 	return (true);
 }
-
-// void	print_map(t_map *map)
-// {
-// 	int	y;
-// 	int	x;
-
-// 	y = 0;
-// 	while (y < map->height)
-// 	{
-// 		x = 0;
-// 		while (x  < map->width)
-// 		{
-// 			printf("%i", map->grid[y][x]);
-// 			x++;
-// 		}
-// 		printf("\n");
-// 		y++;
-// 	}
-// }

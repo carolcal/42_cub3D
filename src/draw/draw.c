@@ -30,7 +30,7 @@ static void	draw_3d_map(t_game *game)
 	}
 }
 
-static void	draw_minimap(t_game *g)
+static void	draw_minimap(t_game *game)
 {
 	int		start_pos[2];
 	int		dot_pos[2];
@@ -38,21 +38,22 @@ static void	draw_minimap(t_game *g)
 	double	rel_pos[2];
 	double	player_angle;
 
-	draw_minimap_bg(g);
-	start_pos[X] = (int)(g->player->pos[X]
+	draw_minimap_bg(game);
+	start_pos[X] = (int)(game->player->pos[X]
 			- (MINIMAP_WIDTH / (2.0 * MINIMAP_TILE)));
-	start_pos[Y] = (int)(g->player->pos[Y]
+	start_pos[Y] = (int)(game->player->pos[Y]
 			- (MINIMAP_HEIGHT / (2.0 * MINIMAP_TILE)));
-	draw_minimap_tiles(g, start_pos);
-	rel_pos[X] = g->player->pos[X] - start_pos[X];
-	rel_pos[Y] = g->player->pos[Y] - start_pos[Y];
+	draw_minimap_tiles(game, start_pos);
+	rel_pos[X] = game->player->pos[X] - start_pos[X];
+	rel_pos[Y] = game->player->pos[Y] - start_pos[Y];
 	dot_pos[X] = MINIMAP_MARGIN + rel_pos[X] * MINIMAP_TILE;
 	dot_pos[Y] = MINIMAP_MARGIN + rel_pos[Y] * MINIMAP_TILE;
-	draw_player_dot(g, dot_pos, 2, 0xFF0000);
-	player_angle = atan2(g->player->dir[Y], g->player->dir[X]);
+	draw_player_dot(game, dot_pos, 2, 0x00FF00);
+	player_angle = atan2(game->player->dir[Y], game->player->dir[X]);
 	end_pos[X] = dot_pos[X] + cos(player_angle) * 5;
 	end_pos[Y] = dot_pos[Y] + sin(player_angle) * 5;
-	draw_player_line(g, dot_pos, end_pos, 0xFF0000);
+	draw_player_line(game, dot_pos, end_pos, 0x00FF00);
+	draw_mini_sprites(game, start_pos);
 }
 
 int	render_img(t_game *game)

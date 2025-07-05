@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx.c                                              :+:      :+:    :+:   */
+/*   init_mlx.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: naharumi <naharumi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -81,12 +81,14 @@ static void	free_textures(t_game *game)
 		}
 		if (game->enemy_texture[i] && game->enemy_texture[i]->tex_ptr)
 		{
-			mlx_destroy_image(game->mlx->mlx_ptr, game->enemy_texture[i]->tex_ptr);
+			mlx_destroy_image(game->mlx->mlx_ptr,
+				game->enemy_texture[i]->tex_ptr);
 			game->enemy_texture[i]->tex_ptr = NULL;
 		}
 		if (game->goal_texture[i] && game->goal_texture[i]->tex_ptr)
 		{
-			mlx_destroy_image(game->mlx->mlx_ptr, game->goal_texture[i]->tex_ptr);
+			mlx_destroy_image(game->mlx->mlx_ptr,
+				game->goal_texture[i]->tex_ptr);
 			game->goal_texture[i]->tex_ptr = NULL;
 		}
 		i++;

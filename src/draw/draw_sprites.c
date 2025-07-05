@@ -85,11 +85,11 @@ static void	draw_sprite_x(t_game *game, t_sprite *sprite, t_texture *texture)
 	{
 		tex_x = (int)((x - (-sprite->width / 2 + sprite->screen_x))
 				* texture->width / sprite->width);
-		if (x > 0 && x < WIN_WIDTH)
+		if (x >= 0 && x < WIN_WIDTH)
 		{
 			if (sprite->transform[Y] > 0 && sprite->transform[Y] < 1)
 				sprite->transform[Y] = 1;
-			if (sprite->transform[Y] <= game->z_buffer[x] + 0.5)
+			if (sprite->transform[Y] <= game->z_buffer[x] + 1.0)
 				draw_sprite_y(game, sprite, x, tex_x);
 		}
 		x++;
@@ -98,23 +98,29 @@ static void	draw_sprite_x(t_game *game, t_sprite *sprite, t_texture *texture)
 
 void	draw_sprites(t_game *game)
 {
-	int			i;
-	t_texture	*texture;
+	int				i;
+	t_texture		*texture;
+	t_sprite		*sprite;
+	t_sprite_order	*order;
 
+	order = allocate_mem(game->num_sprites, sizeof(t_sprite_order));
+	order_sprites(game, order);
 	i = 0;
 	while (i < game->num_sprites)
 	{
-		if (!get_sprite_position(&game->sprites[i], game->player))
+		sprite = &game->sprites[order[i].index];
+		if (!get_sprite_position(sprite, game->player))
 		{
 			i++;
 			continue ;
 		}
-		get_sprite_coordinates(&game->sprites[i]);
-		if (game->sprites[i].enemy)
+		get_sprite_coordinates(sprite);
+		if (sprite->enemy)
 			texture = game->enemy_texture[game->current_frame];
 		else
 			texture = game->goal_texture[game->current_frame];
-		draw_sprite_x(game, &game->sprites[i], texture);
+		draw_sprite_x(game, sprite, texture);
 		i++;
 	}
+	deallocate_mem(order);
 }
