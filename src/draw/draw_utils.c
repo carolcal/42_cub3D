@@ -99,7 +99,7 @@ void	draw_mini_sprites(t_game *g, int start_pos[2])
 		{
 			screen[X] = MINIMAP_MARGIN + rel_pos[X] * MINIMAP_TILE;
 			screen[Y] = MINIMAP_MARGIN + rel_pos[Y] * MINIMAP_TILE;
-			draw_player_dot(g, (int []){screen[X], screen[Y]}, 2, color);
+			draw_player_dot(g, screen, 2, color);
 		}
 		i++;
 	}
