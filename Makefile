@@ -24,13 +24,20 @@ MLX_DIR = minilibx-linux/ #MLX_DIR = usr/local/lib/
 LIBMLX	= -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
 
 # Directories
-SRC_DIR = src/
-INI_DIR = src/init/
-PAR_DIR = src/parsing/
-VAL_DIR = src/validation/
-DRW_DIR = src/draw/
-ACT_DIR = src/actions/
+SRC_DIR = src/mandatory/
+INI_DIR = src/mandatory/init/
+PAR_DIR = src/mandatory/parsing/
+VAL_DIR = src/mandatory/validation/
+DRW_DIR = src/mandatory/draw/
+ACT_DIR = src/mandatory/actions/
+SRC_DIR_BONUS = src/bonus/
+INI_DIR_BONUS = src/bonus/init/
+PAR_DIR_BONUS = src/bonus/parsing/
+VAL_DIR_BONUS = src/bonus/validation/
+DRW_DIR_BONUS = src/bonus/draw/
+ACT_DIR_BONUS = src/bonus/actions/
 OBJ_DIR = obj/
+OBJ_DIR_BONUS = obj_bonus/
 INCLUDES = -I inc/ -I $(LIBFT)
 
 # Source files and object files
@@ -38,9 +45,17 @@ SRC = $(addprefix $(SRC_DIR), main.c) \
 	$(addprefix $(INI_DIR), init.c init_grid.c init_mlx.c) \
 	$(addprefix $(PAR_DIR), parse.c parse_map.c parse_properties.c parse_utils.c) \
 	$(addprefix $(VAL_DIR), validate.c validate_map.c validate_utils.c) \
-	$(addprefix $(DRW_DIR), draw.c raycasting.c draw_ray.c draw_sprites.c draw_minimap.c draw_utils.c) \
-	$(addprefix $(ACT_DIR), hooks.c handle_keys.c handle_mouse.c actions_player.c actions_sprites.c)
+	$(addprefix $(DRW_DIR), draw.c raycasting.c draw_ray.c draw_utils.c) \
+	$(addprefix $(ACT_DIR), hooks.c handle_keys.c actions_player.c)
+SRC_BONUS = $(addprefix $(SRC_DIR_BONUS), main.c) \
+	$(addprefix $(INI_DIR_BONUS), init.c init_grid.c init_mlx.c) \
+	$(addprefix $(PAR_DIR_BONUS), parse.c parse_map.c parse_properties.c parse_utils.c) \
+	$(addprefix $(VAL_DIR_BONUS), validate.c validate_map.c validate_utils.c) \
+	$(addprefix $(DRW_DIR_BONUS), draw.c raycasting.c draw_ray.c draw_sprites.c draw_minimap.c draw_utils.c) \
+	$(addprefix $(ACT_DIR_BONUS), hooks.c handle_keys.c handle_mouse.c actions_player.c actions_sprites.c)
+
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
+OBJ_BONUS = $(SRC_BONUS:$(SRC_DIR_BONUS)%.c=$(OBJ_DIR_BONUS)%.o)
 
 # Style
 NO_PRINT = --no-print-directory
@@ -71,18 +86,23 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
+$(OBJ_DIR_BONUS)%.o: $(SRC_DIR_BONUS)%.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
 # Executable
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) $(LIBMLX) -lft -o $(NAME)
-	@echo "$(GREEN)Cub3D Compiled!$(END)"
+	@$(CC) $(CFLAGS) $(OBJ) -L $(LIBFT) $(LIBMLX) -lft -o $(NAME)
+	@echo "$(GREEN)Cub3D Mandatory Compiled!$(END)"
 
-$(NAME_BONUS): $(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT) $(LIBMLX) -lft -o $(NAME_BONUS)
-	@echo "$(GREEN)Cub3D Compiled!$(END)"
+$(NAME_BONUS): $(OBJ_BONUS)
+	@$(CC) $(CFLAGS) $(OBJ_BONUS) -L $(LIBFT) $(LIBMLX) -lft -o $(NAME_BONUS)
+	@echo "$(GREEN)Cub3D Bonus Compiled!$(END)"
 
 # Clean objects
 clean:
 	@rm -rf $(OBJ_DIR)
+	@rm -rf $(OBJ_DIR_BONUS)
 	@make -C $(LIBFT) clean $(NO_PRINT)
 	@echo "$(GREEN)Cleaned$(END)"
 
@@ -98,9 +118,16 @@ val: re
 	@valgrind -q --leak-check=full \
 				--show-leak-kinds=all \
 				--track-origins=yes \
-				./${NAME}
+				./${NAME} maps/valid/42.cub
+
+val_bonus: re_bonus
+	@valgrind -q --leak-check=full \
+				--show-leak-kinds=all \
+				--track-origins=yes \
+				./${NAME_BONUS} maps/valid/42_bonus.cub
 
 # Recompile everything
 re: fclean all
+re_bonus: fclean bonus
 
-.PHONY: all bonus clean fclean re val norm libft
+.PHONY: all bonus clean fclean re re_bonus val val_bonus norm libft
