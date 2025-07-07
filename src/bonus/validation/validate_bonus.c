@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:53:51 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/26 11:54:14 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/26 11:54:14 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ void	validate_textures(char *texture[4])
 void	validate_colors(t_map *map)
 {
 	if (map->ceiling == 422)
-		handle_error(MISSING_COLOR, "Ceiling.\n");
+		handle_error(MISSING_COLOR, "Ceiling");
 	if (map->floor == 422)
-		handle_error(MISSING_COLOR, "Floor.\n");
+		handle_error(MISSING_COLOR, "Floor");
 }
 
 void	validate_player(t_game *game)

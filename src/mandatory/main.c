@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 16:30:23 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/12 16:30:23 by marvin           ###   ########.fr       */
+/*   Created: 2025/06/12 16:30:23 by cayamash          #+#    #+#             */
+/*   Updated: 2025/06/12 16:30:23 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,16 @@
 
 void	handle_error(char *error, char *str)
 {
+	int	len;
+
 	ft_printf_fd(2, error);
 	if (str)
 	{
+		len = ft_strlen(str);
 		ft_printf_fd(2, "-> ");
 		ft_printf_fd(2, str);
+		if (str[len - 1] != '\n')
+			ft_printf_fd(2, "\n");
 	}
 	clear_mem();
 	exit(EXIT_FAILURE);

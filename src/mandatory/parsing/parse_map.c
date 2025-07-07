@@ -67,7 +67,7 @@ static void	parse_map_char(t_game *game, char c, int y, int x)
 		parse_player(game->player, c, x, y);
 	}
 	else
-		handle_error(INVALID_MAP, "Undetected char.");
+		handle_error(INVALID_MAP, "Undetected char");
 }
 
 void	parse_map(t_game *game, int fd, char *line)

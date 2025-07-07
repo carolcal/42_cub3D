@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:57:57 by cayamash          #+#    #+#             */
-/*   Updated: 2025/06/26 11:53:14 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/26 11:53:14 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ static void	validade_first_last_row(t_map *map, int y)
 		if (map->grid[y][x] == VOID)
 		{
 			if (!check_around_space(map, y, x))
-				handle_error(INVALID_MAP, "Open Map.");
+				handle_error(INVALID_MAP, "Open map");
 		}
 		else if (map->grid[y][x] != WALL)
-			handle_error(INVALID_MAP, "Open Map.");
+			handle_error(INVALID_MAP, "Open map");
 		x++;
 	}
 }
@@ -35,7 +35,7 @@ static void	jump_void(t_map *map, int y, int *x)
 	while (*x < map->width && map->grid[y][*x] == VOID)
 	{
 		if (!check_around_space(map, y, *x))
-			handle_error(INVALID_MAP, "Open Map.");
+			handle_error(INVALID_MAP, "Open map");
 		(*x)++;
 	}
 }
@@ -47,7 +47,7 @@ static void	validate_middle_rows(t_map *map, int y)
 	x = 0;
 	jump_void(map, y, &x);
 	if (map->grid[y][x] != WALL)
-		handle_error(INVALID_MAP, "Open Map.");
+		handle_error(INVALID_MAP, "Open map");
 	while (x < map->width && map->grid[y][x] == WALL)
 		x++;
 	if (map->grid[y][x] == EMPTY)
@@ -56,13 +56,13 @@ static void	validate_middle_rows(t_map *map, int y)
 			x++;
 		if (x < map->width && map->grid[y][x] != WALL)
 		{
-			handle_error(INVALID_MAP, "Open Map.");
+			handle_error(INVALID_MAP, "Open map");
 		}
 	}
 	while (x < map->width && map->grid[y][x])
 	{
 		if (map->grid[y][x] != WALL && map->grid[y][x] != VOID)
-			handle_error(INVALID_MAP, "Open Map.");
+			handle_error(INVALID_MAP, "Open map");
 		x++;
 	}
 }
