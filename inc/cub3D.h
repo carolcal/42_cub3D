@@ -13,7 +13,8 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "../minilibx-linux/mlx.h" // # include <mlx.h>
+//# include "../minilibx-linux/mlx.h" // 
+# include <mlx.h>
 # include <fcntl.h>
 # include <math.h>
 # include <stdbool.h>
@@ -69,10 +70,10 @@
 # define TEX_ENEMY1 "assets/sprites/flaviano_1.xpm"
 # define TEX_ENEMY2 "assets/sprites/flaviano_2.xpm"
 # define TEX_ENEMY3 "assets/sprites/flaviano_3.xpm"
-# define TEX_GOAL0 "assets/sprites/Cordao-0.xpm"
-# define TEX_GOAL1 "assets/sprites/Cordao-1.xpm"
-# define TEX_GOAL2 "assets/sprites/Cordao-2.xpm"
-# define TEX_GOAL3 "assets/sprites/Cordao-3.xpm"
+# define TEX_GOAL0 "assets/sprites/cordao_0.xpm"
+# define TEX_GOAL1 "assets/sprites/cordao_1.xpm"
+# define TEX_GOAL2 "assets/sprites/cordao_2.xpm"
+# define TEX_GOAL3 "assets/sprites/cordao_3.xpm"
 
 /* ******************************* STRUCTS ******************************* */
 
