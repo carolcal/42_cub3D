@@ -15,7 +15,7 @@ NAME = cub3D
 NAME_BONUS = cub3D_bonus
 
 # Compilers and flags
-CC = gcc -g3
+CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 # Library

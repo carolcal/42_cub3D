@@ -122,7 +122,6 @@ void	parse_map(t_game *game, int fd, char *line)
 	}
 	while (line)
 	{
-		printf("line:%s", line);
 		if (!is_empty_line(line))
 			handle_error(INVALID_LINE, line);
 		line = get_next_line(fd);

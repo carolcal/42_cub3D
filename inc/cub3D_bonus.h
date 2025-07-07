@@ -6,7 +6,7 @@
 /*   By: cayamash <cayamash@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:43:06 by cayamash          #+#    #+#             */
-/*   Updated: 2025/07/07 15:11:19 by cayamash         ###   ########.fr       */
+/*   Updated: 2025/07/07 18:08:32 by cayamash         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@
 # define MLX_TEX_INIT "Error: Failed to load texture file.\n"
 # define MLX_TEX_ADDR "Error: Failed to get texture data.\n"
 
-# define WIN_WIDTH 1200
-# define WIN_HEIGHT 800
+# define WIN_WIDTH 1500
+# define WIN_HEIGHT 1000
 # define TILE_SIZE 64
 # define MINIMAP_MARGIN 10
 # define MINIMAP_WIDTH 150
