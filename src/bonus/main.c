@@ -14,11 +14,16 @@
 
 void	handle_error(char *error, char *str)
 {
+	int	len;
+
 	ft_printf_fd(2, error);
 	if (str)
 	{
+		len = ft_strlen(str);
 		ft_printf_fd(2, "-> ");
 		ft_printf_fd(2, str);
+		if (str[len - 1] != '\n')
+			ft_printf_fd(2, "\n");
 	}
 	clear_mem();
 	exit(EXIT_FAILURE);

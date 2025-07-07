@@ -33,6 +33,7 @@ void	parse_file(t_game *game, const char *map_file)
 	int		fd;
 	char	*line;
 
+	get_next_line(-42);
 	fd = open(map_file, O_RDONLY);
 	if (fd < 0)
 		handle_error(INVALID_FILE, (char *)map_file);

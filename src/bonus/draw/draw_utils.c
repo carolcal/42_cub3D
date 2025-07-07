@@ -85,10 +85,10 @@ void	draw_mini_sprites(t_game *g, int start_pos[2])
 	t_sprite	*s;
 
 	i = 0;
-	color = 0xFFFF00;
 	while (i < g->num_sprites)
 	{
 		s = &g->sprites[i];
+		color = 0xFFFF00;
 		if (s->enemy == true)
 			color = 0xFF0000;
 		rel_pos[X] = s->pos[X] - start_pos[X];

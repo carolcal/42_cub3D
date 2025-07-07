@@ -86,6 +86,10 @@ static char	*get_rest(char *line)
 
 static char	*free_buffer(char **buffer)
 {
-	deallocate_mem(*buffer);
+	if (buffer && *buffer)
+	{
+		deallocate_mem(*buffer);
+		*buffer = NULL;
+	}
 	return (NULL);
 }

@@ -22,10 +22,10 @@ static void	validade_first_last_row(t_map *map, int y)
 		if (map->grid[y][x] == VOID)
 		{
 			if (!check_around_space(map, y, x))
-				handle_error(INVALID_MAP, "Open Map");
+				handle_error(INVALID_MAP, "Open Map.");
 		}
 		else if (map->grid[y][x] != WALL)
-			handle_error(INVALID_MAP, "Open Map");
+			handle_error(INVALID_MAP, "Open Map.");
 		x++;
 	}
 }
@@ -35,7 +35,7 @@ static void	jump_void(t_map *map, int y, int *x)
 	while (*x < map->width && map->grid[y][*x] == VOID)
 	{
 		if (!check_around_space(map, y, *x))
-			handle_error(INVALID_MAP, "Open Map");
+			handle_error(INVALID_MAP, "Open Map.");
 		(*x)++;
 	}
 }
@@ -47,7 +47,7 @@ static void	validate_middle_rows(t_map *map, int y)
 	x = 0;
 	jump_void(map, y, &x);
 	if (map->grid[y][x] != WALL)
-		handle_error(INVALID_MAP, "Open Map");
+		handle_error(INVALID_MAP, "Open Map.");
 	while (x < map->width && map->grid[y][x] == WALL)
 		x++;
 	if (map->grid[y][x] == EMPTY)
@@ -57,14 +57,14 @@ static void	validate_middle_rows(t_map *map, int y)
 			x++;
 		if (x < map->width && map->grid[y][x] != WALL)
 		{
-			handle_error(INVALID_MAP, "Open Map1");
+			handle_error(INVALID_MAP, "Open Map.");
 		}
 	}
 	while (x < map->width && map->grid[y][x])
 	{
 		if (map->grid[y][x] != WALL && map->grid[y][x] != VOID
 			&& map->grid[y][x] != DOOR_CLOSE)
-			handle_error(INVALID_MAP, "Open Map");
+			handle_error(INVALID_MAP, "Open Map.");
 		x++;
 	}
 }
