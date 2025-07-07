@@ -47,9 +47,9 @@ void	validate_textures(char *texture[4])
 void	validate_colors(t_map *map)
 {
 	if (map->ceiling == 422)
-		handle_error(MISSING_COLOR, "Ceiling.\n");
+		handle_error(MISSING_COLOR, "Ceiling");
 	if (map->floor == 422)
-		handle_error(MISSING_COLOR, "Floor.\n");
+		handle_error(MISSING_COLOR, "Floor");
 }
 
 void	validate_player(t_game *game)

@@ -99,7 +99,7 @@ static void	parse_map_char(t_game *game, char c, int y, int x)
 		parse_player(game->player, c, x, y);
 	}
 	else
-		handle_error(INVALID_MAP, "Undetected char.");
+		handle_error(INVALID_MAP, "Undetected char");
 }
 
 void	parse_map(t_game *game, int fd, char *line)
@@ -122,7 +122,6 @@ void	parse_map(t_game *game, int fd, char *line)
 	}
 	while (line)
 	{
-		printf("line:%s", line);
 		if (!is_empty_line(line))
 			handle_error(INVALID_LINE, line);
 		line = get_next_line(fd);

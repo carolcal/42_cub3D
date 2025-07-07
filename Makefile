@@ -15,13 +15,12 @@ NAME = cub3D
 NAME_BONUS = cub3D_bonus
 
 # Compilers and flags
-CC = gcc -g3
+CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 # Library
 LIBFT = lib/
-#MLX_DIR = minilibx-linux/ #
-MLX_DIR = usr/local/lib/
+MLX_DIR = minilibx-linux/
 LIBMLX	= -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
 
 # Directories
@@ -48,12 +47,12 @@ SRC = $(addprefix $(SRC_DIR), main.c) \
 	$(addprefix $(VAL_DIR), validate.c validate_map.c validate_utils.c) \
 	$(addprefix $(DRW_DIR), draw.c raycasting.c draw_ray.c draw_utils.c) \
 	$(addprefix $(ACT_DIR), hooks.c handle_keys.c actions_player.c)
-SRC_BONUS = $(addprefix $(SRC_DIR_BONUS), main.c) \
-	$(addprefix $(INI_DIR_BONUS), init.c init_grid.c init_mlx.c) \
-	$(addprefix $(PAR_DIR_BONUS), parse.c parse_map.c parse_properties.c parse_utils.c) \
-	$(addprefix $(VAL_DIR_BONUS), validate.c validate_map.c validate_utils.c) \
-	$(addprefix $(DRW_DIR_BONUS), draw.c raycasting.c draw_ray.c draw_sprites.c draw_minimap.c draw_utils.c) \
-	$(addprefix $(ACT_DIR_BONUS), hooks.c handle_keys.c handle_mouse.c actions_player.c actions_sprites.c)
+SRC_BONUS = $(addprefix $(SRC_DIR_BONUS), main_bonus.c) \
+	$(addprefix $(INI_DIR_BONUS), init_bonus.c init_grid_bonus.c init_mlx_bonus.c) \
+	$(addprefix $(PAR_DIR_BONUS), parse_bonus.c parse_map_bonus.c parse_properties_bonus.c parse_utils_bonus.c) \
+	$(addprefix $(VAL_DIR_BONUS), validate_bonus.c validate_map_bonus.c validate_utils_bonus.c) \
+	$(addprefix $(DRW_DIR_BONUS), draw_bonus.c raycasting_bonus.c draw_ray_bonus.c draw_sprites_bonus.c draw_minimap_bonus.c draw_utils_bonus.c) \
+	$(addprefix $(ACT_DIR_BONUS), hooks_bonus.c handle_keys_bonus.c handle_mouse_bonus.c actions_player_bonus.c actions_sprites_bonus.c)
 
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 OBJ_BONUS = $(SRC_BONUS:$(SRC_DIR_BONUS)%.c=$(OBJ_DIR_BONUS)%.o)
