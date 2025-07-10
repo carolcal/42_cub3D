@@ -3,6 +3,13 @@
 This project is inspired by the classic **Wolfenstein 3D**, which is considered the first-ever first-person shooter (FPS) game.</br>
 It uses raycasting to project a 3D perspective onto a 2D screen, creating an immersive view inside a maze-like environment.
 
+<p align="center"> <img src="gif/cub42.gif" alt="cub3D demo" /> </p>
+
+Our game was inspired by our daily life at school, with textures based on real walls and views from 42 São Paulo.</br>
+In the bonus version, the player must find their lost lanyard before being caught by Flaviano, a beloved and iconic staff member from 42SP.
+
+It was a challenging and creative project, but the result was both fun and thrilling. **We hope everyone have fun playing it :)**
+
 ## 📝 Description
 The program takes a map file as input, which defines the layout of walls, player's starting position, textures, and colors. It then renders a 3D scene where the player can explore using keyboard and mouse controls.
 
