@@ -60,7 +60,7 @@
 # define MOVE_SPEED 0.05
 # define ROT_SPEED  0.01
 # define COLLISION_OFFSET 0.3
-# define MOUSE_SENSITIVITY 0.002	// BONUS
+# define MOUSE_SENSITIVITY 0.002
 
 # define W_KEY 119
 # define S_KEY 115
@@ -69,7 +69,7 @@
 # define LEFT_KEY 65361
 # define RIGHT_KEY 65363
 # define ESC_KEY 65307
-# define SPACE_KEY 32	// BONUS
+# define SPACE_KEY 32
 
 # define TEX_DOOR "assets/textures/door.xpm"
 # define TEX_ENEMY0 "assets/sprites/flaviano_0.xpm"
