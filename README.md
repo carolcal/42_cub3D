@@ -76,12 +76,21 @@ For a more detailed explanation, check out this [tutorial](https://lodev.org/cgt
 
 ## 🕹️ Testing
 
-* Compile the project (try the bonus version for a more playful experience)
+* **Compile the project:**
   ```sh
   make
   ```
-* Run the program providing the path of the selected map as argument
+  Or, for a more playful experience, compile the bonus version:
+  ```sh
+  make bonus
+  ```
+* **Run the program providing the path of the selected map as argument:**
   ```sh
   ./cub3D maps/valid/42.cub
   ```
+  For bonus maps (with _bonus in the name), use the bonus executable:
+  ```sh
+  ./cub3D_bonus maps/valid/42_bonus.cub
+  ```
+  
   > You can explore other map files in the `maps/` directory or create your own following the required format.
