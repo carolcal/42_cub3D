@@ -115,13 +115,13 @@ fclean: clean
 
 # Valgrind
 val: re
-	@valgrind -q --leak-check=full \
+	@valgrind --leak-check=full \
 				--show-leak-kinds=all \
 				--track-origins=yes \
 				./${NAME} maps/valid/42.cub
 
 val_bonus: re_bonus
-	@valgrind -q --leak-check=full \
+	@valgrind --leak-check=full \
 				--show-leak-kinds=all \
 				--track-origins=yes \
 				./${NAME_BONUS} maps/valid/42_bonus.cub

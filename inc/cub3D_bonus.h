@@ -46,8 +46,8 @@
 # define MLX_TEX_INIT "Error: Failed to load texture file.\n"
 # define MLX_TEX_ADDR "Error: Failed to get texture data.\n"
 
-# define WIN_WIDTH 1500
-# define WIN_HEIGHT 1000
+# define WIN_WIDTH 1100
+# define WIN_HEIGHT 600
 # define TILE_SIZE 64
 # define MINIMAP_MARGIN 10
 # define MINIMAP_WIDTH 150
@@ -55,7 +55,7 @@
 # define MINIMAP_TILE 8	
 # define PLAYER_DOT_SIZE 2
 
-# define FOV 70.0
+# define FOV 80.0
 # define M_PI 3.14159265358979323846
 # define MOVE_SPEED 0.05
 # define ROT_SPEED  0.01
