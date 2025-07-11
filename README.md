@@ -3,7 +3,7 @@
 This project is inspired by the classic **Wolfenstein 3D**, which is considered the first-ever first-person shooter (FPS) game.</br>
 It uses raycasting to project a 3D perspective onto a 2D screen, creating an immersive view inside a maze-like environment.
 
-<p align="center"> <img src="gif/cub42.gif" alt="cub3D demo" /> </p>
+<p align="center"> <img src="gif/cub42.gif" alt="cub3d demo" /> </p>
 
 Our game was inspired by our daily life at school, with textures based on real walls and views from 42 São Paulo.</br>
 In the bonus version, the player must find their lost lanyard before being caught by Flaviano, a beloved and iconic staff member from 42SP.
@@ -27,13 +27,13 @@ The program takes a map file as input, which defines the layout of walls, player
   * 🏅 Medal: find the medal to win the game!
 
 ## 🔅 Raycasting
-At the core of this project lies the **raycasting algorithm**, which - combined with the **DDA algorithm** - simulates a 3D environment based on a 2D map layout.</br>
+At the core of this project lies the **raycasting algorithm**, which — combined with the **DDA algorithm** — simulates a 3D environment based on a 2D map layout.</br>
 It works by casting rays from the player’s point of view — one ray for each vertical stripe of the screen — and detecting where each ray hits a wall in the map. Based on the distance to that wall, a vertical slice of the wall is rendered, creating the illusion of depth.
 
 1. For each vertical stripe on the screen:
     * Calculate the direction of the ray using the player’s direction and the camera plane
     * Determine the step direction and calculate delta and initial side distances
-      - `delta_dist` represents how far the ray has to travel in the world to move from one x-side or y-side of a grid square to the next. It is constant for each ray and is based on the direction of the ray
+      - `delta_dist` represents how far the ray has to travel in the world to move from one x-side or y-side of a square grid to the next. It is constant for each ray and is based on the direction of the ray
       - `side_dist` represents the distance from the player's current position to the first x-side or y-side the ray will hit. It depends on the ray's direction and player's current position within the grid
       </br>
     ```c
@@ -83,7 +83,7 @@ For a more detailed explanation, check out this [tutorial](https://lodev.org/cgt
 
 ## 🕹️ Testing
 
-* **Compile the project:**
+* Compile the project:
   ```sh
   make
   ```
@@ -91,11 +91,10 @@ For a more detailed explanation, check out this [tutorial](https://lodev.org/cgt
   ```sh
   make bonus
   ```
-* **Run the program providing the path of the selected map as argument:**
+* Run the program providing the path of the selected map as argument:
   ```sh
   ./cub3D maps/valid/42.cub
   ```
-  For bonus maps (with _bonus in the name), use the bonus executable:
   ```sh
   ./cub3D_bonus maps/valid/42_bonus.cub
   ```
