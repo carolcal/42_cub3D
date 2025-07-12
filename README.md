@@ -69,7 +69,7 @@ It works by casting rays from the player’s point of view — one ray for each 
             map[y] += step[y];
             side = 1; // horizontal wall
         }
-        if (map[map[y]][map[x]] == WALL)
+        if (grid[map[y]][map[x]] == WALL)
             hit = 1;
     }
     ```
